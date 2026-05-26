@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Action;
@@ -31,7 +30,9 @@ import com.dynatrace.openkit.protocol.Beacon;
  */
 public class LeafActionImpl extends BaseActionImpl {
 
-    /** The parent action */
+    /**
+     * The parent action
+     */
     private final Action parentAction;
 
     /**
@@ -49,12 +50,11 @@ public class LeafActionImpl extends BaseActionImpl {
 
     @Override
     protected Action getParentAction() {
-        return parentAction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [sn=" + beacon.getSessionNumber() + ", id=" + id + ", name=" + name
-            + ", pa=" + parentActionID + "] ";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

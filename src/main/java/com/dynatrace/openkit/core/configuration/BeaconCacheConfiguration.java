@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.configuration;
 
 import com.dynatrace.openkit.DynatraceOpenKitBuilder;
@@ -24,7 +23,9 @@ import com.dynatrace.openkit.DynatraceOpenKitBuilder;
 public class BeaconCacheConfiguration {
 
     private final long maxRecordAge;
+
     private final long cacheSizeLowerBound;
+
     private final long cacheSizeUpperBound;
 
     /**
@@ -45,30 +46,27 @@ public class BeaconCacheConfiguration {
      * @return Newly created {@link BeaconCacheConfiguration} or {@code null} if given argument is {@code null}
      */
     public static BeaconCacheConfiguration from(DynatraceOpenKitBuilder builder) {
-        if (builder == null) {
-            return null;
-        }
-        return new BeaconCacheConfiguration(builder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get maximum record age.
      */
     public long getMaxRecordAge() {
-        return maxRecordAge;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get lower memory limit for cache.
      */
     public long getCacheSizeLowerBound() {
-        return cacheSizeLowerBound;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get upper memory limit for cache.
      */
     public long getCacheSizeUpperBound() {
-        return cacheSizeUpperBound;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

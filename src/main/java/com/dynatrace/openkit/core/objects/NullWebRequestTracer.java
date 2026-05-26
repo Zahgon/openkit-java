@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Action;
@@ -33,41 +32,41 @@ public enum NullWebRequestTracer implements WebRequestTracer {
 
     @Override
     public String getTag() {
-        return "";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer setBytesSent(int bytesSent) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer setBytesSent(long bytesSent) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer setBytesReceived(int bytesReceived) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer setBytesReceived(long bytesReceived) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer start() {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void stop(int respondeCode) {
-        // nothing, NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        // nothing, NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

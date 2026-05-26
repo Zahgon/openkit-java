@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.protocol;
 
 import com.dynatrace.openkit.api.LogLevel;
@@ -27,7 +26,6 @@ import com.dynatrace.openkit.protocol.http.HttpRequestHttpURLConnectionAdapter;
 import com.dynatrace.openkit.protocol.http.HttpResponseHttpURLConnectionAdapter;
 import com.dynatrace.openkit.protocol.ssl.SSLStrictTrustManager;
 import com.dynatrace.openkit.providers.HttpURLConnectionWrapper;
-
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -57,9 +55,12 @@ public class HTTPClient {
 
     public enum RequestType {
 
-        STATUS("Status"),                // status check
-        BEACON("Beacon"),                // beacon send
-        NEW_SESSION("NewSession");       // new session request
+        // status check
+        STATUS("Status"),
+        // beacon send
+        BEACON("Beacon"),
+        // new session request
+        NEW_SESSION("NewSession");
 
         private final String requestName;
 
@@ -68,9 +69,8 @@ public class HTTPClient {
         }
 
         public String getRequestName() {
-            return requestName;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
 
     // request type constants
@@ -78,40 +78,54 @@ public class HTTPClient {
 
     // query parameter constants
     private static final String QUERY_KEY_SERVER_ID = "srvid";
+
     private static final String QUERY_KEY_APPLICATION = "app";
+
     private static final String QUERY_KEY_VERSION = "va";
+
     private static final String QUERY_KEY_PLATFORM_TYPE = "pt";
+
     private static final String QUERY_KEY_AGENT_TECHNOLOGY_TYPE = "tt";
+
     private static final String QUERY_KEY_RESPONSE_TYPE = "resp";
+
     private static final String QUERY_KEY_CONFIG_TIMESTAMP = "cts";
+
     private static final String QUERY_KEY_NEW_SESSION = "ns";
+
     private static final String QUERY_KEY_SESSION_IDENTIFIER = "si";
 
     // additional reserved characters for URL encoding
-    private static final char[] QUERY_RESERVED_CHARACTERS = {'_'};
+    private static final char[] QUERY_RESERVED_CHARACTERS = { '_' };
 
     // connection constants
     private static final int MAX_SEND_RETRIES = 3;
-    private static final int RETRY_SLEEP_TIME = 200;        // retry sleep time in ms
+
+    // retry sleep time in ms
+    private static final int RETRY_SLEEP_TIME = 200;
+
     private static final int CONNECT_TIMEOUT = 5000;
+
     private static final int READ_TIMEOUT = 30000;
 
     // URLs for requests
     private final String monitorURL;
+
     private final String newSessionURL;
 
     private final int serverID;
+
     private final long deviceID;
 
     private final SSLTrustManager sslTrustManager;
 
     private final HttpRequestInterceptor httpRequestInterceptor;
+
     private final HttpResponseInterceptor httpResponseInterceptor;
 
     private final Logger logger;
 
     // *** constructors ***
-
     public HTTPClient(Logger logger, HTTPClientConfiguration configuration) {
         this.logger = logger;
         serverID = configuration.getServerID();
@@ -124,106 +138,59 @@ public class HTTPClient {
     }
 
     // *** public methods ***
-
     // sends a status check request and returns a status response
     public StatusResponse sendStatusRequest(AdditionalQueryParameters additionalParameters) {
-        String url = appendAdditionalQueryParameters(monitorURL, additionalParameters);
-        StatusResponse response = sendRequest(RequestType.STATUS, url, null, null, "GET");
-        return response == null
-                ? StatusResponse.createErrorResponse(logger, Integer.MAX_VALUE)
-                : response;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public StatusResponse sendNewSessionRequest(AdditionalQueryParameters additionalParameters) {
-        String url = appendAdditionalQueryParameters(newSessionURL, additionalParameters);
-        StatusResponse response = sendRequest(RequestType.NEW_SESSION, url, null, null, "GET");
-        return response == null
-                ? StatusResponse.createErrorResponse(logger, Integer.MAX_VALUE)
-                : response;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // sends a beacon send request and returns a status response
-    public StatusResponse sendBeaconRequest(
-            String clientIPAddress,
-            byte[] data,
-            AdditionalQueryParameters additionalParameters,
-            int sessionNumber) {
-        String url = appendAdditionalQueryParameters(monitorURL, additionalParameters);
-        url = appendSessionIdentifierParameter(url, String.valueOf(sessionNumber), String.valueOf(deviceID));
-
-        StatusResponse response = sendRequest(RequestType.BEACON, url, clientIPAddress, data, "POST");
-        return response == null
-                ? StatusResponse.createErrorResponse(logger, Integer.MAX_VALUE)
-                : response;
+    public StatusResponse sendBeaconRequest(String clientIPAddress, byte[] data, AdditionalQueryParameters additionalParameters, int sessionNumber) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // *** protected methods ***
-
     // generic request send with some verbose output and exception handling
     // protected because it's overridden by the TestHTTPClient
     StatusResponse sendRequest(RequestType requestType, String url, String clientIPAddress, byte[] data, String method) {
-        try {
-            if (logger.isDebugEnabled()) {
-                logger.debug(getClass().getSimpleName() + " sendRequest() - HTTP " + requestType.getRequestName() + " Request: " + url);
-            }
-            HttpURLConnectionWrapper httpURLConnectionWrapper = new HttpURLConnectionWrapperImpl(url, MAX_SEND_RETRIES);
-            return sendRequestInternal(requestType, httpURLConnectionWrapper, clientIPAddress, data, method);
-        } catch (Exception e) {
-            logger.error(getClass().getSimpleName() + " sendRequest() - ERROR: " + requestType + " Request failed!", e);
-        }
-        return unknownErrorResponse(requestType);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // *** private methods ***
-
     // only for unit testing the HTTPClient
-    StatusResponse sendRequest(RequestType requestType, HttpURLConnectionWrapper httpURLConnectionWrapper, String clientIPAddress, byte[] data,
-                               String method) {
-        try {
-            return sendRequestInternal(requestType, httpURLConnectionWrapper, clientIPAddress, data, method);
-        } catch (Exception e) {
-            logger.error(getClass().getSimpleName() + "sendRequest() - ERROR: " + requestType + " Request failed!", e);
-        }
-        return unknownErrorResponse(requestType);
+    StatusResponse sendRequest(RequestType requestType, HttpURLConnectionWrapper httpURLConnectionWrapper, String clientIPAddress, byte[] data, String method) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     // generic internal request send
-    private StatusResponse sendRequestInternal(RequestType requestType, HttpURLConnectionWrapper httpURLConnectionWrapper, String clientIPAddress,
-                                               byte[] data, String method) throws IOException, GeneralSecurityException {
+    private StatusResponse sendRequestInternal(RequestType requestType, HttpURLConnectionWrapper httpURLConnectionWrapper, String clientIPAddress, byte[] data, String method) throws IOException, GeneralSecurityException {
         while (true) {
             try {
                 HttpURLConnection connection = httpURLConnectionWrapper.getHttpURLConnection();
-
                 // specific handling for HTTPS
                 if (connection instanceof HttpsURLConnection) {
                     applySSLTrustManager((HttpsURLConnection) connection);
                 }
-
                 if (clientIPAddress != null) {
                     connection.addRequestProperty("X-Client-IP", clientIPAddress);
                 }
                 connection.setConnectTimeout(CONNECT_TIMEOUT);
                 connection.setReadTimeout(READ_TIMEOUT);
                 connection.setRequestMethod(method);
-
                 connection.setRequestProperty("User-Agent", "OpenKit/" + ProtocolConstants.OPENKIT_VERSION);
-
                 // invoke request interceptor
                 httpRequestInterceptor.intercept(new HttpRequestHttpURLConnectionAdapter(connection));
-
                 // write the post body data
                 writePostBodyData(connection, data);
-
                 return handleResponse(requestType, connection);
-
-
             } catch (IOException exception) {
                 if (!httpURLConnectionWrapper.isRetryAllowed()) {
                     throw exception;
                 }
-
                 logger.log(LogLevel.INFO, "Exception occurred during connection establishment. Retry in progress.", exception);
-
                 try {
                     Thread.sleep(RETRY_SLEEP_TIME);
                 } catch (InterruptedException e) {
@@ -235,23 +202,18 @@ public class HTTPClient {
     }
 
     private void writePostBodyData(HttpURLConnection connection, byte[] data) throws IOException {
-
         // gzip beacon data, if available
         if (data == null || data.length == 0) {
             return;
         }
-
         byte[] gzippedData = gzip(data);
-
         if (logger.isDebugEnabled()) {
             String decodedData = decodeData(data);
             logger.debug(getClass().getSimpleName() + " sendRequestInternal() - Beacon Payload: " + decodedData);
         }
-
         connection.setRequestProperty("Content-Encoding", "gzip");
         connection.setRequestProperty("Content-Type", "text/plain; charset=utf-8");
         connection.setFixedLengthStreamingMode(gzippedData.length);
-
         connection.setDoOutput(true);
         OutputStream outputStream = null;
         try {
@@ -280,26 +242,17 @@ public class HTTPClient {
     private StatusResponse handleResponse(RequestType requestType, HttpURLConnection connection) throws IOException {
         // get response code
         int responseCode = connection.getResponseCode();
-
-        String response = responseCode >= 400
-                ? null
-                : readResponse(connection.getInputStream()); // input stream is closed in readResponse
-
+        String response = responseCode >= 400 ? null : // input stream is closed in readResponse
+        readResponse(connection.getInputStream());
         if (logger.isDebugEnabled()) {
             logger.debug(getClass().getSimpleName() + " handleResponse() - HTTP Response: " + response);
             logger.debug(getClass().getSimpleName() + " handleResponse() - HTTP Response Code: " + responseCode);
         }
-
         // invoke response interceptor
         httpResponseInterceptor.intercept(new HttpResponseHttpURLConnectionAdapter(connection));
-
         // create typed response based on request type and response content
-        if (requestType == RequestType.BEACON
-                || requestType == RequestType.STATUS
-                || requestType == RequestType.NEW_SESSION) {
-            return responseCode >= 400
-                    ? StatusResponse.createErrorResponse(logger, responseCode, connection.getHeaderFields())
-                    : parseStatusResponse(response, responseCode, connection.getHeaderFields());
+        if (requestType == RequestType.BEACON || requestType == RequestType.STATUS || requestType == RequestType.NEW_SESSION) {
+            return responseCode >= 400 ? StatusResponse.createErrorResponse(logger, responseCode, connection.getHeaderFields()) : parseStatusResponse(response, responseCode, connection.getHeaderFields());
         } else {
             logger.warning(getClass().getSimpleName() + " handleResponse() - Unknown request type " + requestType + " - ignoring response");
             return unknownErrorResponse(requestType);
@@ -309,7 +262,7 @@ public class HTTPClient {
     private StatusResponse parseStatusResponse(String response, int responseCode, Map<String, List<String>> headers) {
         try {
             ResponseAttributes parsedAttributes = ResponseParser.parseResponse(response);
-            return StatusResponse.createSuccessResponse(logger, parsedAttributes,responseCode, headers);
+            return StatusResponse.createSuccessResponse(logger, parsedAttributes, responseCode, headers);
         } catch (Exception e) {
             logger.error(getClass().getSimpleName() + " parseStatusResponse() - Failed to parse StatusResponse", e);
             return StatusResponse.createErrorResponse(logger, Integer.MAX_VALUE);
@@ -319,14 +272,12 @@ public class HTTPClient {
     private void applySSLTrustManager(HttpsURLConnection connection) throws NoSuchAlgorithmException, KeyManagementException {
         String version = System.getProperty("java.version");
         SSLContext context;
-
-        if(version != null && version.startsWith("1.7")) {
+        if (version != null && version.startsWith("1.7")) {
             // With Java 7 we need to use this workaround to get TLS 1.2 support
             context = SSLContext.getInstance("TLSv1.2");
         } else {
             context = SSLContext.getInstance("TLS");
         }
-
         X509TrustManager x509TrustManager;
         if (sslTrustManager == null || sslTrustManager.getX509TrustManager() == null) {
             // if provided trust manager is null use a strict one by default
@@ -334,9 +285,8 @@ public class HTTPClient {
         } else {
             x509TrustManager = sslTrustManager.getX509TrustManager();
         }
-        context.init(null, new TrustManager[]{x509TrustManager}, new SecureRandom());
+        context.init(null, new TrustManager[] { x509TrustManager }, new SecureRandom());
         connection.setSSLSocketFactory(context.getSocketFactory());
-
         if (sslTrustManager != null && sslTrustManager.getHostnameVerifier() != null) {
             connection.setHostnameVerifier(sslTrustManager.getHostnameVerifier());
         }
@@ -345,26 +295,21 @@ public class HTTPClient {
     // build URL used for status check and beacon send requests
     private static String buildMonitorURL(String baseURL, String applicationID, int serverID) {
         StringBuilder monitorURLBuilder = new StringBuilder();
-
         monitorURLBuilder.append(baseURL);
         monitorURLBuilder.append('?');
         monitorURLBuilder.append(REQUEST_TYPE_MOBILE);
-
         appendQueryParam(monitorURLBuilder, QUERY_KEY_SERVER_ID, Integer.toString(serverID));
         appendQueryParam(monitorURLBuilder, QUERY_KEY_APPLICATION, applicationID);
         appendQueryParam(monitorURLBuilder, QUERY_KEY_VERSION, ProtocolConstants.OPENKIT_VERSION);
         appendQueryParam(monitorURLBuilder, QUERY_KEY_PLATFORM_TYPE, String.valueOf(ProtocolConstants.PLATFORM_TYPE_OPENKIT));
         appendQueryParam(monitorURLBuilder, QUERY_KEY_AGENT_TECHNOLOGY_TYPE, ProtocolConstants.AGENT_TECHNOLOGY_TYPE);
         appendQueryParam(monitorURLBuilder, QUERY_KEY_RESPONSE_TYPE, ProtocolConstants.RESPONSE_TYPE);
-
         return monitorURLBuilder.toString();
     }
 
     private static String buildNewSessionURL(String baseURL, String applicationID, int serverID) {
         StringBuilder monitorURLBuilder = new StringBuilder(buildMonitorURL(baseURL, applicationID, serverID));
-
         appendQueryParam(monitorURLBuilder, QUERY_KEY_NEW_SESSION, "1");
-
         return monitorURLBuilder.toString();
     }
 
@@ -372,17 +317,14 @@ public class HTTPClient {
         if (parameters == null) {
             return baseUrl;
         }
-
         StringBuilder builder = new StringBuilder(baseUrl);
         appendQueryParam(builder, QUERY_KEY_CONFIG_TIMESTAMP, Long.toString(parameters.getConfigurationTimestamp()));
-
         return builder.toString();
     }
 
     private static String appendSessionIdentifierParameter(String baseUrl, String sessionNumber, String deviceID) {
         StringBuilder builder = new StringBuilder(baseUrl);
         appendQueryParam(builder, QUERY_KEY_SESSION_IDENTIFIER, deviceID + "_" + sessionNumber);
-
         return builder.toString();
     }
 
@@ -405,18 +347,15 @@ public class HTTPClient {
     }
 
     // *** getter methods ***
-
     int getServerID() {
-        return serverID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static String readResponse(InputStream inputStream) throws IOException {
         if (inputStream == null) {
             return "";
         }
-
         StringBuilder responseBuilder = new StringBuilder();
-
         // reading HTTP response
         try {
             byte[] buffer = new byte[1024];
@@ -427,21 +366,20 @@ public class HTTPClient {
         } finally {
             inputStream.close();
         }
-
         return responseBuilder.toString();
     }
 
     private StatusResponse unknownErrorResponse(RequestType requestType) {
-
         if (requestType == null) {
             return null;
         }
-
-        switch (requestType) {
+        switch(requestType) {
             case STATUS:
-            case BEACON: // fallthrough
-            case NEW_SESSION: // fallthrough
-                return StatusResponse.createErrorResponse(logger,Integer.MAX_VALUE);
+            // fallthrough
+            case BEACON:
+            case // fallthrough
+            NEW_SESSION:
+                return StatusResponse.createErrorResponse(logger, Integer.MAX_VALUE);
             default:
                 // should not be reached
                 return null;
@@ -453,8 +391,11 @@ public class HTTPClient {
      * This allows to generate {@link HttpURLConnection} for failed attempts.
      */
     private static class HttpURLConnectionWrapperImpl implements HttpURLConnectionWrapper {
+
         private final URL httpURL;
+
         private final int maxCount;
+
         private int connectCount;
 
         HttpURLConnectionWrapperImpl(String url, int maxCount) throws MalformedURLException {
@@ -464,13 +405,12 @@ public class HTTPClient {
 
         @Override
         public HttpURLConnection getHttpURLConnection() throws IOException {
-            this.connectCount += 1;
-            return (HttpURLConnection) httpURL.openConnection();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public boolean isRetryAllowed() {
-            return this.maxCount > this.connectCount;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

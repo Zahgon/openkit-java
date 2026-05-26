@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import java.util.LinkedList;
@@ -29,7 +28,9 @@ import java.util.List;
  */
 public abstract class OpenKitComposite implements OpenKitObject {
 
-    /** default value of action id */
+    /**
+     * default value of action id
+     */
     private static final int DEFAULT_ACTION_ID = 0;
 
     /**
@@ -43,7 +44,7 @@ public abstract class OpenKitComposite implements OpenKitObject {
      * @param childObject The child object to add.
      */
     void storeChildInList(OpenKitObject childObject) {
-        children.add(childObject);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -53,7 +54,7 @@ public abstract class OpenKitComposite implements OpenKitObject {
      * @return {@code true} if the given {@code childObject} was successfully removed, {@code false} otherwise.
      */
     boolean removeChildFromList(OpenKitObject childObject) {
-        return children.remove(childObject);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -62,14 +63,14 @@ public abstract class OpenKitComposite implements OpenKitObject {
      * @return Shallow copy of child objects
      */
     List<OpenKitObject> getCopyOfChildObjects() {
-        return new LinkedList<>(children);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the current number of children hold by this composite.
      */
     int getChildCount() {
-        return children.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -93,6 +94,6 @@ public abstract class OpenKitComposite implements OpenKitObject {
      * @return The action id of this composite.
      */
     public int getActionID() {
-        return DEFAULT_ACTION_ID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

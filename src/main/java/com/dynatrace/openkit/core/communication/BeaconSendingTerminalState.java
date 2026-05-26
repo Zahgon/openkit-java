@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 /**
@@ -27,18 +26,16 @@ class BeaconSendingTerminalState extends AbstractBeaconSendingState {
 
     @Override
     void doExecute(BeaconSendingContext context) {
-
-        // set the shutdown request - just to ensure it's set
-        context.requestShutdown();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     AbstractBeaconSendingState getShutdownState() {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "Terminal";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

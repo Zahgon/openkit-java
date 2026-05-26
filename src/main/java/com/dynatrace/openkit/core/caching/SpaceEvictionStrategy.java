@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.caching;
 
 import com.dynatrace.openkit.api.Logger;
 import com.dynatrace.openkit.core.configuration.BeaconCacheConfiguration;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,7 +33,9 @@ import java.util.Set;
 class SpaceEvictionStrategy implements BeaconCacheEvictionStrategy {
 
     private final Logger logger;
+
     private final BeaconCache beaconCache;
+
     private final BeaconCacheConfiguration configuration;
 
     private boolean infoShown = false;
@@ -55,20 +55,7 @@ class SpaceEvictionStrategy implements BeaconCacheEvictionStrategy {
 
     @Override
     public void execute() {
-
-        if (isStrategyDisabled()) {
-            // immediately return if this strategy is disabled
-            if (!infoShown && logger.isInfoEnabled()) {
-                logger.info(getClass().getSimpleName() + " execute() - strategy is disabled");
-                // suppress any further log output
-                infoShown = true;
-            }
-            return;
-        }
-
-        if (shouldRun()) {
-            doExecute();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -83,9 +70,7 @@ class SpaceEvictionStrategy implements BeaconCacheEvictionStrategy {
      * @return {@code true} if strategy is disabled, {@code false} otherwise.
      */
     boolean isStrategyDisabled() {
-        return configuration.getCacheSizeLowerBound() <= 0
-            || configuration.getCacheSizeUpperBound() <= 0
-            || configuration.getCacheSizeUpperBound() < configuration.getCacheSizeLowerBound();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -99,33 +84,22 @@ class SpaceEvictionStrategy implements BeaconCacheEvictionStrategy {
      * @return {@code true} if the strategy should run, {@code false} otherwise.
      */
     boolean shouldRun() {
-
-        return beaconCache.getNumBytesInCache() > configuration.getCacheSizeUpperBound();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Performs execution of strategy.
      */
     private void doExecute() {
-
         Map<BeaconKey, Integer> removedRecordsPerBeacon = new HashMap<>();
-
-        while (!Thread.currentThread().isInterrupted()
-            && beaconCache.getNumBytesInCache() > configuration.getCacheSizeLowerBound()) {
-
+        while (!Thread.currentThread().isInterrupted() && beaconCache.getNumBytesInCache() > configuration.getCacheSizeLowerBound()) {
             Set<BeaconKey> beaconKeys = beaconCache.getBeaconKeys();
-
             Iterator<BeaconKey> iterator = beaconKeys.iterator();
-            while (!Thread.currentThread().isInterrupted()
-                && iterator.hasNext()
-                && beaconCache.getNumBytesInCache() > configuration.getCacheSizeLowerBound()) {
-
+            while (!Thread.currentThread().isInterrupted() && iterator.hasNext() && beaconCache.getNumBytesInCache() > configuration.getCacheSizeLowerBound()) {
                 BeaconKey beaconKey = iterator.next();
-
                 // remove 1 record from Beacon cache for given beaconKey
                 // the result is the number of records removed, which might be in range [0, numRecords=1]
                 int numRecordsRemoved = beaconCache.evictRecordsByNumber(beaconKey, 1);
-
                 if (logger.isDebugEnabled()) {
                     if (!removedRecordsPerBeacon.containsKey(beaconKey)) {
                         removedRecordsPerBeacon.put(beaconKey, numRecordsRemoved);
@@ -135,7 +109,6 @@ class SpaceEvictionStrategy implements BeaconCacheEvictionStrategy {
                 }
             }
         }
-
         if (logger.isDebugEnabled()) {
             for (Map.Entry<BeaconKey, Integer> entries : removedRecordsPerBeacon.entrySet()) {
                 logger.debug(getClass().getSimpleName() + " doExecute()  - Removed " + entries.getValue() + " records from Beacon with key " + entries.getKey());

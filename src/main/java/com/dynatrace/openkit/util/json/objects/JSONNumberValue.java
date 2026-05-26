@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.util.json.objects;
 
 import com.dynatrace.openkit.util.json.constants.JSONLiterals;
-
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 
@@ -32,11 +30,19 @@ import java.util.regex.Matcher;
  */
 public class JSONNumberValue extends JSONValue {
 
-    /** Boolean flag indicating whether this is an integer value {@code true} or a floating point value {@code false}.*/
+    /**
+     * Boolean flag indicating whether this is an integer value {@code true} or a floating point value {@code false}.
+     */
     private final boolean isInteger;
-    /** The number stored as long value. */
+
+    /**
+     * The number stored as long value.
+     */
     private final long longValue;
-    /** The number stored as double value. */
+
+    /**
+     * The number stored as double value.
+     */
     private final double doubleValue;
 
     /**
@@ -77,7 +83,7 @@ public class JSONNumberValue extends JSONValue {
      * @return Newly created {@link JSONNumberValue}
      */
     public static JSONNumberValue fromLong(long longValue) {
-        return new JSONNumberValue(longValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -88,7 +94,7 @@ public class JSONNumberValue extends JSONValue {
      * @return Newly created {@link JSONNumberValue}
      */
     public static JSONNumberValue fromDouble(double doubleValue) {
-        return new JSONNumberValue(doubleValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -100,45 +106,17 @@ public class JSONNumberValue extends JSONValue {
      *      or a newly created {@link JSONNumberValue}.
      */
     public static JSONNumberValue fromNumberLiteral(String literalValue) {
-        if (literalValue == null) {
-            return null;
-        }
-
-        Matcher matcher = JSONLiterals.NUMBER_PATTERN.matcher(literalValue);
-        if (!matcher.matches()) {
-            return null;
-        }
-        MatchResult matchResult = matcher.toMatchResult();
-
-        try {
-            if (matchResult.group(2) == null && matchResult.group(3) == null) {
-                // only the integer part did match
-                return fromLong(Long.parseLong(literalValue));
-            } else {
-                return fromDouble(Double.parseDouble(literalValue));
-            }
-        } catch (NumberFormatException e) {
-            // JSON number is unrepresentable since BigInteger & BigDecimal are not used
-            return null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void writeJSONString(JSONValueWriter writer, JSONOutputConfig config) {
-        if (!isFinite()) {
-            writer.insertValue("null");
-        } else {
-            if (isInteger()) {
-                writer.insertValue(String.valueOf(longValue));
-            } else {
-                writer.insertValue(String.valueOf(doubleValue));
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isNumber() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -147,7 +125,7 @@ public class JSONNumberValue extends JSONValue {
      * @return {@code true} if this instance represents an integer value, {@code false} otherwise.
      */
     public boolean isInteger() {
-        return isInteger;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -156,8 +134,7 @@ public class JSONNumberValue extends JSONValue {
      * @return {@code true} if this instance represents an integer value, {@code false} otherwise.
      */
     public boolean isIntValue() {
-        return isInteger()
-                && longValue >= Integer.MIN_VALUE && longValue <= Integer.MAX_VALUE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -170,7 +147,7 @@ public class JSONNumberValue extends JSONValue {
      * @return 32-bit integer value represented by this instance.
      */
     public int getIntValue() {
-        return (int) longValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -183,7 +160,7 @@ public class JSONNumberValue extends JSONValue {
      * @return 64-bit integer value represented by this instance.
      */
     public long getLongValue() {
-        return longValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -192,7 +169,7 @@ public class JSONNumberValue extends JSONValue {
      * @return 32-bit floating point value represented by this instance.
      */
     public float getFloatValue() {
-        return (float) doubleValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -201,7 +178,7 @@ public class JSONNumberValue extends JSONValue {
      * @return 64-bit floating point value represented by this instance.
      */
     public double getDoubleValue() {
-        return doubleValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -210,6 +187,6 @@ public class JSONNumberValue extends JSONValue {
      * @return True if number is finite.
      */
     public boolean isFinite() {
-        return isInteger || !Double.isNaN(doubleValue) && !Double.isInfinite(doubleValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.util;
 
 import java.io.PrintWriter;
@@ -32,19 +31,15 @@ public class CrashFormatter {
     }
 
     public String getName() {
-        return throwable.getClass().getName();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getReason() {
-        // note: throwable.toString() will also use getLocalizedMessage()
-        return throwable.getLocalizedMessage();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getStackTrace() {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new StackTracePrintWriter(sw);
-        throwable.printStackTrace(pw);
-        return sw.getBuffer().toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static final class StackTracePrintWriter extends PrintWriter {
@@ -57,7 +52,7 @@ public class CrashFormatter {
 
         @Override
         public void println() {
-            write(NEWLINE);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

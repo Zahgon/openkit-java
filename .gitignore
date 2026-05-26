@@ -28,3 +28,8 @@ out/
 #excludes
 !**/src/*/resources/**
 !**/src/*/java/**
+
+.aider*
+logs/
+.commit0_scripts/
+.github/workflows/

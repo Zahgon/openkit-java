@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.util.json.objects;
 
 /**
@@ -27,7 +26,7 @@ public abstract class JSONValue {
      * @return {@code true} for objects representing a null value, {@code false} otherwise.
      */
     public boolean isNull() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -36,7 +35,7 @@ public abstract class JSONValue {
      * @return {@code true} for objects representing a boolean value, {@code false} otherwise.
      */
     public boolean isBoolean() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -45,7 +44,7 @@ public abstract class JSONValue {
      * @return {@code true} for objects representing a numeric value, {@code false} otherwise.
      */
     public boolean isNumber() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -54,7 +53,7 @@ public abstract class JSONValue {
      * @return {@code true} for objects representing a string value, {@code false} otherwise.
      */
     public boolean isString() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -63,7 +62,7 @@ public abstract class JSONValue {
      * @return {@code true} for objects representing an array value, {@code false} otherwise.
      */
     public boolean isArray() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -72,7 +71,7 @@ public abstract class JSONValue {
      * @return {@code true} for objects representing an object value, {@code false} otherwise.
      */
     public boolean isObject() {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,7 +79,7 @@ public abstract class JSONValue {
      * @return json string
      */
     public String toString() {
-        return toString(JSONOutputConfig.DEFAULT);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -89,10 +88,8 @@ public abstract class JSONValue {
      * @param config Configuration which changes the output
      * @return json string
      */
-    public String toString(JSONOutputConfig config){
-        JSONValueWriter jsonValueWriter = new JSONValueWriter();
-        writeJSONString(jsonValueWriter, config);
-        return jsonValueWriter.toString();
+    public String toString(JSONOutputConfig config) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**

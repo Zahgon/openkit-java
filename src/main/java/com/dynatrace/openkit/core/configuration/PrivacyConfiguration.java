@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.configuration;
 
 import com.dynatrace.openkit.CrashReportingLevel;
@@ -26,6 +25,7 @@ import com.dynatrace.openkit.DynatraceOpenKitBuilder;
 public class PrivacyConfiguration {
 
     private final DataCollectionLevel dataCollectionLevel;
+
     private final CrashReportingLevel crashReportingLevel;
 
     /**
@@ -34,7 +34,6 @@ public class PrivacyConfiguration {
      * @param builder Builder class used to configure all configuration related options.
      */
     private PrivacyConfiguration(DynatraceOpenKitBuilder builder) {
-
         this.dataCollectionLevel = builder.getDataCollectionLevel();
         this.crashReportingLevel = builder.getCrashReportLevel();
     }
@@ -46,10 +45,7 @@ public class PrivacyConfiguration {
      * @return Newly created {@link PrivacyConfiguration} or {@code null} if given argument is {@code null}
      */
     public static PrivacyConfiguration from(DynatraceOpenKitBuilder builder) {
-        if (builder == null) {
-            return null;
-        }
-        return new PrivacyConfiguration(builder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -58,7 +54,7 @@ public class PrivacyConfiguration {
      * @return Data collection level, which was set in the constructor.
      */
     public DataCollectionLevel getDataCollectionLevel() {
-        return dataCollectionLevel;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -67,7 +63,7 @@ public class PrivacyConfiguration {
      * @return Crash reporting level, which was set in the constructor.
      */
     public CrashReportingLevel getCrashReportingLevel() {
-        return crashReportingLevel;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -76,7 +72,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if sending device identifier is allowed, {@code false} otherwise.
      */
     public boolean isDeviceIDSendingAllowed() {
-        return dataCollectionLevel == DataCollectionLevel.USER_BEHAVIOR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,7 +81,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if sending the session number is allowed, {@code false} otherwise.
      */
     public boolean isSessionNumberReportingAllowed() {
-        return dataCollectionLevel == DataCollectionLevel.USER_BEHAVIOR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -94,7 +90,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if web request tracing is allowed, {@code false} otherwise.
      */
     public boolean isWebRequestTracingAllowed() {
-        return dataCollectionLevel != DataCollectionLevel.OFF;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -103,7 +99,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if ended sessions can be reported, {@code false} otherwise.
      */
     public boolean isSessionReportingAllowed() {
-        return dataCollectionLevel != DataCollectionLevel.OFF;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,7 +108,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if action reporting is allowed, {@code false} otherwise.
      */
     public boolean isActionReportingAllowed() {
-        return dataCollectionLevel != DataCollectionLevel.OFF;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -121,7 +117,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if value reporting is allowed, {@code false} otherwise.
      */
     public boolean isValueReportingAllowed() {
-        return dataCollectionLevel == DataCollectionLevel.USER_BEHAVIOR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,7 +126,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if event reporting is allowed, {@code false} otherwise.
      */
     public boolean isEventReportingAllowed() {
-        return dataCollectionLevel == DataCollectionLevel.USER_BEHAVIOR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -139,7 +135,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if error reporting is allowed, {@code false} otherwise.
      */
     public boolean isErrorReportingAllowed() {
-        return dataCollectionLevel != DataCollectionLevel.OFF;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -148,7 +144,7 @@ public class PrivacyConfiguration {
      * @return {@code true} if crash reporting is allowed, {@code false} otherwise.
      */
     public boolean isCrashReportingAllowed() {
-        return crashReportingLevel == CrashReportingLevel.OPT_IN_CRASHES;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -157,6 +153,6 @@ public class PrivacyConfiguration {
      * @return {@code true} if user identification is allowed, {@code false} otherwise.
      */
     public boolean isUserIdentificationAllowed() {
-        return dataCollectionLevel == DataCollectionLevel.USER_BEHAVIOR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

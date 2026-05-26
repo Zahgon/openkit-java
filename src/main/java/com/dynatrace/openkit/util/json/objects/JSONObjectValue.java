@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.util.json.objects;
 
 import java.util.Iterator;
@@ -25,7 +24,9 @@ import java.util.Set;
  */
 public class JSONObjectValue extends JSONValue {
 
-    /** Underlying map for this JSON object. */
+    /**
+     * Underlying map for this JSON object.
+     */
     private final Map<String, JSONValue> jsonObjectMap;
 
     /**
@@ -48,12 +49,12 @@ public class JSONObjectValue extends JSONValue {
      * @return Newly created {@link JSONObjectValue} or {@code null} if argument is null.
      */
     public static JSONObjectValue fromMap(Map<String, JSONValue> jsonObjectMap) {
-        return jsonObjectMap == null ? null : new JSONObjectValue(jsonObjectMap);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isObject() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -62,7 +63,7 @@ public class JSONObjectValue extends JSONValue {
      * @return A set view of the keys contained in this map
      */
     public Set<String> keySet() {
-        return jsonObjectMap.keySet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -71,7 +72,7 @@ public class JSONObjectValue extends JSONValue {
      * @return Size of this JSON array.
      */
     public int size() {
-        return jsonObjectMap.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -81,7 +82,7 @@ public class JSONObjectValue extends JSONValue {
      * @return {@code true} if the key is present in this JSON object, {@code false} otherwise.
      */
     public boolean containsKey(String key) {
-        return jsonObjectMap.containsKey(key);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -92,32 +93,11 @@ public class JSONObjectValue extends JSONValue {
      * @return The JSON value this key is associated with or {@code null} if no such key exists.
      */
     public JSONValue get(String key) {
-        return jsonObjectMap.get(key);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void writeJSONString(JSONValueWriter writer, JSONOutputConfig config) {
-        writer.openObject();
-
-        Iterator<Map.Entry<String, JSONValue>> it = jsonObjectMap.entrySet().iterator();
-        int writtenElements = 0;
-
-        while (it.hasNext()) {
-            Map.Entry<String, JSONValue> entry = it.next();
-
-            if (entry.getKey() != null) {
-                if (config != JSONOutputConfig.IGNORE_NULL || !entry.getValue().isNull()) {
-                    if (writtenElements++ > 0) {
-                        writer.insertElementSeperator();
-                    }
-
-                    writer.insertKey(entry.getKey());
-                    writer.insertKeyValueSeperator();
-                    entry.getValue().writeJSONString(writer, config);
-                }
-            }
-        }
-
-        writer.closeObject();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

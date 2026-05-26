@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.ConnectionType;
@@ -22,7 +21,6 @@ import com.dynatrace.openkit.api.RootAction;
 import com.dynatrace.openkit.api.Session;
 import com.dynatrace.openkit.api.WebRequestTracer;
 import com.dynatrace.openkit.util.json.objects.JSONValue;
-
 import java.net.URLConnection;
 import java.util.Map;
 
@@ -39,65 +37,65 @@ public enum NullSession implements Session {
 
     @Override
     public RootAction enterAction(String actionName) {
-        return NullRootAction.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void identifyUser(String userTag) {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCrash(String errorName, String reason, String stacktrace) {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCrash(Throwable throwable) {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportNetworkTechnology(String technology) {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportConnectionType(ConnectionType connectionType) {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCarrier(String carrier) {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(URLConnection connection) {
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(String url) {
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void sendBizEvent(String type, Map<String, JSONValue> attributes) {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     void sendEvent(String name, Map<String, JSONValue> attributes) {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void end() {
-        // intentionally left empty, due to NullObject pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        // nothing
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

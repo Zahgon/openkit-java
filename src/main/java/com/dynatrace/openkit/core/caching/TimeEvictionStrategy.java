@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.caching;
 
 import com.dynatrace.openkit.api.Logger;
 import com.dynatrace.openkit.core.configuration.BeaconCacheConfiguration;
 import com.dynatrace.openkit.providers.TimingProvider;
-
 import java.util.Iterator;
 import java.util.Set;
 
@@ -33,11 +31,15 @@ import java.util.Set;
 class TimeEvictionStrategy implements BeaconCacheEvictionStrategy {
 
     private final Logger logger;
+
     private final BeaconCache beaconCache;
+
     private final BeaconCacheConfiguration configuration;
+
     private final TimingProvider timingProvider;
 
     private long lastRunTimestamp = -1;
+
     private boolean infoShown = false;
 
     /**
@@ -56,25 +58,7 @@ class TimeEvictionStrategy implements BeaconCacheEvictionStrategy {
 
     @Override
     public void execute() {
-
-        if (isStrategyDisabled()) {
-            // immediately return if this strategy is disabled
-            if (!infoShown && logger.isInfoEnabled()) {
-                logger.info(getClass().getSimpleName() + " execute() - strategy is disabled");
-                // suppress any further log output
-                infoShown = true;
-            }
-            return;
-        }
-
-        if (lastRunTimestamp < 0) {
-            // first time execution
-            lastRunTimestamp = timingProvider.provideTimestampInMilliseconds();
-        }
-
-        if (shouldRun()) {
-            doExecute();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -87,7 +71,7 @@ class TimeEvictionStrategy implements BeaconCacheEvictionStrategy {
      * @return {@code true} if strategy is disabled, {@code false} otherwise.
      */
     boolean isStrategyDisabled() {
-        return configuration.getMaxRecordAge() <= 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -96,9 +80,7 @@ class TimeEvictionStrategy implements BeaconCacheEvictionStrategy {
      * @return {@code true} if the strategy shall be executed, {@code false} otherwise.
      */
     boolean shouldRun() {
-        // if delta since we last ran is >= the maximum age, we should run, otherwise this run can be skipped
-        long currentTimestamp = timingProvider.provideTimestampInMilliseconds();
-        return (currentTimestamp - lastRunTimestamp) >= configuration.getMaxRecordAge();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -107,7 +89,7 @@ class TimeEvictionStrategy implements BeaconCacheEvictionStrategy {
      * @return A timestamp (the number of milliseconds elapsed, since 1970-01-01) when this strategy was last time executed.
      */
     long getLastRunTimestamp() {
-        return lastRunTimestamp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -117,14 +99,13 @@ class TimeEvictionStrategy implements BeaconCacheEvictionStrategy {
      *                         when this strategy was last time executed.
      */
     void setLastRunTimestamp(long lastRunTimestamp) {
-        this.lastRunTimestamp = lastRunTimestamp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Real strategy execution.
      */
     private void doExecute() {
-
         // first get a snapshot of all inserted beacons
         Set<BeaconKey> beaconKeys = beaconCache.getBeaconKeys();
         if (beaconKeys.isEmpty()) {
@@ -132,21 +113,18 @@ class TimeEvictionStrategy implements BeaconCacheEvictionStrategy {
             setLastRunTimestamp(timingProvider.provideTimestampInMilliseconds());
             return;
         }
-
         // retrieve the timestamp when we start with execution
         long currentTimestamp = timingProvider.provideTimestampInMilliseconds();
         long smallestAllowedBeaconTimestamp = currentTimestamp - configuration.getMaxRecordAge();
-
         // iterate over the previously obtained set and evict for each beacon
         Iterator<BeaconKey> beaconKeyIterator = beaconKeys.iterator();
         while (!Thread.currentThread().isInterrupted() && beaconKeyIterator.hasNext()) {
             BeaconKey beaconKey = beaconKeyIterator.next();
             int numRecordsRemoved = beaconCache.evictRecordsByAge(beaconKey, smallestAllowedBeaconTimestamp);
-            if (numRecordsRemoved  > 0 && logger.isDebugEnabled()) {
+            if (numRecordsRemoved > 0 && logger.isDebugEnabled()) {
                 logger.debug(getClass().getSimpleName() + " doExecute() - Removed " + numRecordsRemoved + " records from Beacon with key " + beaconKey);
             }
         }
-
         // last but not least update the last runtime
         setLastRunTimestamp(currentTimestamp);
     }

@@ -38,81 +38,86 @@ import com.dynatrace.openkit.providers.TimingProvider;
 public class OpenKitInitializerImpl implements OpenKitInitializer {
 
     private final Logger logger;
+
     private final PrivacyConfiguration privacyConfiguration;
+
     private final OpenKitConfiguration openKitConfiguration;
+
     private final TimingProvider timingProvider;
+
     private final ThreadIDProvider threadIdProvider;
+
     private final SessionIDProvider sessionIdProvider;
+
     private final BeaconCache beaconCache;
+
     private final BeaconCacheEvictor beaconCacheEvictor;
+
     private final BeaconSender beaconSender;
+
     private final SessionWatchdog sessionWatchdog;
 
     public OpenKitInitializerImpl(DynatraceOpenKitBuilder builder) {
         logger = builder.getLogger();
         privacyConfiguration = PrivacyConfiguration.from(builder);
         openKitConfiguration = OpenKitConfiguration.from(builder);
-
         timingProvider = new DefaultTimingProvider();
         threadIdProvider = new DefaultThreadIDProvider();
         sessionIdProvider = new DefaultSessionIDProvider();
-
         beaconCache = new BeaconCacheImpl(logger);
         beaconCacheEvictor = new BeaconCacheEvictor(logger, beaconCache, BeaconCacheConfiguration.from(builder), timingProvider);
-
         HTTPClientConfiguration httpClientConfig = HTTPClientConfiguration.from(openKitConfiguration);
         beaconSender = new BeaconSender(logger, httpClientConfig, new DefaultHTTPClientProvider(logger), timingProvider);
         sessionWatchdog = new SessionWatchdog(logger, new SessionWatchdogContext(timingProvider));
     }
 
-
     @Override
     public Logger getLogger() {
-        return logger;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public PrivacyConfiguration getPrivacyConfiguration() {
-        return privacyConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public OpenKitConfiguration getOpenKitConfiguration() {
-        return openKitConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public TimingProvider getTimingProvider() {
-        return timingProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ThreadIDProvider getThreadIdProvider() {
-        return threadIdProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public SessionIDProvider getSessionIdProvider() {
-        return sessionIdProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BeaconCache getBeaconCache() {
-        return beaconCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BeaconCacheEvictor getBeaconCacheEvictor() {
-        return beaconCacheEvictor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BeaconSender getBeaconSender() {
-        return beaconSender;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public SessionWatchdog getSessionWatchdog() {
-        return sessionWatchdog;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

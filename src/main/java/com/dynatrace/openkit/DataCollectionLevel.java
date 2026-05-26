@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit;
 
 import com.dynatrace.openkit.protocol.SerializableBeaconValue;
@@ -22,6 +21,7 @@ import com.dynatrace.openkit.protocol.SerializableBeaconValue;
  * Specifies the granularity of which/how much data is collected/sent.
  */
 public enum DataCollectionLevel implements SerializableBeaconValue {
+
     /**
      * No data will be collected at all
      */
@@ -37,21 +37,20 @@ public enum DataCollectionLevel implements SerializableBeaconValue {
 
     private final int intValue;
 
-    DataCollectionLevel(int intValue){
+    DataCollectionLevel(int intValue) {
         this.intValue = intValue;
     }
 
     public int getIntValue() {
-        return intValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String asBeaconValue() {
-        return String.valueOf(intValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static DataCollectionLevel defaultValue() {
-        return USER_BEHAVIOR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

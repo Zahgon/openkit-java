@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Action;
 import com.dynatrace.openkit.api.Logger;
 import com.dynatrace.openkit.api.WebRequestTracer;
 import com.dynatrace.openkit.protocol.Beacon;
-
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.List;
@@ -30,35 +28,64 @@ import java.util.List;
  */
 public abstract class BaseActionImpl extends OpenKitComposite implements CancelableOpenKitObject, Action {
 
-    /** {@link Logger} for tracing log message */
+    /**
+     * {@link Logger} for tracing log message
+     */
     final Logger logger;
 
-    /** Parent object of this {@link Action} */
+    /**
+     * Parent object of this {@link Action}
+     */
     private OpenKitComposite parent;
-    /** The parent action id */
+
+    /**
+     * The parent action id
+     */
     final int parentActionID;
 
-    /** object for synchronization, internal for derived classes within this package */
+    /**
+     * object for synchronization, internal for derived classes within this package
+     */
     final Object lockObject = new Object();
 
-    /** Unique identifier of this {@link Action} */
+    /**
+     * Unique identifier of this {@link Action}
+     */
     final int id;
-    /** Name of this {@link Action} */
+
+    /**
+     * Name of this {@link Action}
+     */
     final String name;
 
-    /** start time when this {@link Action} has been started */
+    /**
+     * start time when this {@link Action} has been started
+     */
     private final long startTime;
-    /** end time when this {@link Action} has been ended */
+
+    /**
+     * end time when this {@link Action} has been ended
+     */
     private long endTime = -1;
-    /** Start sequence number of this {@link Action} */
+
+    /**
+     * Start sequence number of this {@link Action}
+     */
     private final int startSequenceNo;
-    /** End sequence number of this {@link Action} */
+
+    /**
+     * End sequence number of this {@link Action}
+     */
     private int endSequenceNo = -1;
 
-    /** boolean indicating whether this action has been left or not */
+    /**
+     * boolean indicating whether this action has been left or not
+     */
     private boolean isActionLeft;
 
-    /** Beacon for sending data */
+    /**
+     * Beacon for sending data
+     */
     final Beacon beacon;
 
     /**
@@ -73,227 +100,82 @@ public abstract class BaseActionImpl extends OpenKitComposite implements Cancela
         this.logger = logger;
         this.parent = parent;
         parentActionID = parent.getActionID();
-
-
         id = beacon.createID();
         this.name = name;
-
         startTime = beacon.getCurrentTimestamp();
         startSequenceNo = beacon.createSequenceNumber();
-
         isActionLeft = false;
-
         this.beacon = beacon;
     }
 
     @Override
     public void cancel() {
-        cancelAction();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        leaveAction();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportEvent(String eventName) {
-        if (eventName == null || eventName.isEmpty()) {
-            logger.warning(this + "reportEvent: eventName must not be null or empty");
-            return this;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportEvent(" + eventName + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                beacon.reportEvent(getID(), eventName);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportValue(String valueName, int value) {
-        if (valueName == null || valueName.isEmpty()) {
-            logger.warning(this + "reportValue (int): valueName must not be null or empty");
-            return this;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportValue (int) (" + valueName + ", " + value + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                beacon.reportValue(getID(), valueName, value);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportValue(String valueName, long value) {
-        if (valueName == null || valueName.isEmpty()) {
-            logger.warning(this + "reportValue (long): valueName must not be null or empty");
-            return this;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportValue (long) (" + valueName + ", " + value + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                beacon.reportValue(getID(), valueName, value);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportValue(String valueName, double value) {
-        if (valueName == null || valueName.isEmpty()) {
-            logger.warning(this + "reportValue (double): valueName must not be null or empty");
-            return this;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportValue (double) (" + valueName + ", " + value + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                beacon.reportValue(getID(), valueName, value);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportValue(String valueName, String value) {
-        if (valueName == null || valueName.isEmpty()) {
-            logger.warning(this + "reportValue (String): valueName must not be null or empty");
-            return this;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportValue (String) (" + valueName + ", " + value + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                beacon.reportValue(getID(), valueName, value);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportError(String errorName, int errorCode) {
-        if (errorName == null || errorName.isEmpty()) {
-            logger.warning(this + "reportError: errorName must not be null or empty");
-            return this;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportError(" + errorName + ", " + errorCode + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                beacon.reportError(getID(), errorName, errorCode);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportError(String errorName, String causeName, String causeDescription, String causeStackTrace) {
-        if (errorName == null || errorName.isEmpty()) {
-            logger.warning(this + "reportError: errorName must not be null or empty");
-            return this;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportError(" + errorName + ", " + causeName + ", " + causeDescription + ", " + causeStackTrace + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                beacon.reportError(getID(), errorName, causeName, causeDescription, causeStackTrace);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportError(String errorName, Throwable throwable) {
-        if (errorName == null || errorName.isEmpty()) {
-            logger.warning(this + "reportError: errorName must not be null or empty");
-            return this;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportError(" + errorName + ", " + throwable + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                beacon.reportError(getID(), errorName, throwable);
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(URLConnection connection) {
-        if (connection == null) {
-            logger.warning(this + "traceWebRequest (URLConnection): connection must not be null");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "traceWebRequest (URLConnection) (" + connection + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                WebRequestTracerBaseImpl webRequestTracer = new WebRequestTracerURLConnection(logger, this, beacon, connection);
-                storeChildInList(webRequestTracer);
-
-                return webRequestTracer;
-            }
-        }
-
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(String url) {
-        if (url == null || url.isEmpty()) {
-            logger.warning(this + "traceWebRequest (String): url must not be null or empty");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (!WebRequestTracerStringURL.isValidURLScheme(url)) {
-            logger.warning(this + "traceWebRequest (String): url \"" + url + "\" does not have a valid scheme");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "traceWebRequest(" + url + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                WebRequestTracerBaseImpl webRequestTracer = new WebRequestTracerStringURL(logger, this, beacon, url);
-                storeChildInList(webRequestTracer);
-
-                return webRequestTracer;
-            }
-        }
-
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action leaveAction() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "leaveAction(" + name + ")");
-        }
-
-        return doLeaveAction(false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action cancelAction() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "cancelAction(" + name + ")");
-        }
-
-        return doLeaveAction(true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private Action doLeaveAction(boolean discardData) {
@@ -304,7 +186,6 @@ public abstract class BaseActionImpl extends OpenKitComposite implements Cancela
             }
             isActionLeft = true;
         }
-
         // close all child object
         // Note: at this point it's save to do any further operations outside a synchronized block
         // after the endTime has been set, no further child objects must be added
@@ -326,30 +207,22 @@ public abstract class BaseActionImpl extends OpenKitComposite implements Cancela
                 logger.error(this + "Caught IOException while closing OpenKitObject (" + childObject + ")", e);
             }
         }
-
         // set end time and end sequence number
         endTime = beacon.getCurrentTimestamp();
         endSequenceNo = beacon.createSequenceNumber();
-
         // handle this object
         if (!discardData) {
             beacon.addAction(this);
         }
-
         // detach from parent
         parent.onChildClosed(this);
         parent = null;
-
         return getParentAction();
     }
 
     @Override
     public long getDurationInMilliseconds() {
-        synchronized (lockObject) {
-            return isActionLeft()
-                ? endTime - startTime
-                : beacon.getCurrentTimestamp() - startTime;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -361,45 +234,43 @@ public abstract class BaseActionImpl extends OpenKitComposite implements Cancela
 
     @Override
     void onChildClosed(OpenKitObject childObject) {
-        synchronized (lockObject) {
-            removeChildFromList(childObject);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getActionID() {
-        return getID();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getID() {
-        return id;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getName() {
-        return name;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getParentID() {
-        return parentActionID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getStartTime() {
-        return startTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getEndTime() {
-        return endTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getStartSequenceNo() {
-        return startSequenceNo;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getEndSequenceNo() {
-        return endSequenceNo;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     boolean isActionLeft() {
-        return isActionLeft;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

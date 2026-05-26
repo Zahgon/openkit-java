@@ -12,7 +12,6 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 package com.dynatrace.openkit.providers;
 
@@ -26,6 +25,6 @@ public class FixedSessionIdProvider implements SessionIDProvider {
 
     @Override
     public int getNextSessionID() {
-        return sessionId;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

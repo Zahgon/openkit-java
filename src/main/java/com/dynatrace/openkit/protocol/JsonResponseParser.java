@@ -15,36 +15,48 @@
  */
 package com.dynatrace.openkit.protocol;
 
-
 import com.dynatrace.openkit.util.json.JSONParser;
 import com.dynatrace.openkit.util.json.objects.JSONNumberValue;
 import com.dynatrace.openkit.util.json.objects.JSONObjectValue;
 import com.dynatrace.openkit.util.json.objects.JSONStringValue;
 import com.dynatrace.openkit.util.json.objects.JSONValue;
 import com.dynatrace.openkit.util.json.parser.ParserException;
-
 import java.util.concurrent.TimeUnit;
 
 public class JsonResponseParser {
 
     static final String RESPONSE_KEY_AGENT_CONFIG = "mobileAgentConfig";
+
     static final String RESPONSE_KEY_MAX_BEACON_SIZE_IN_KB = "maxBeaconSizeKb";
+
     static final String RESPONSE_KEY_MAX_SESSION_DURATION_IN_MIN = "maxSessionDurationMins";
+
     static final String RESPONSE_KEY_MAX_EVENTS_PER_SESSION = "maxEventsPerSession";
+
     static final String RESPONSE_KEY_SESSION_TIMEOUT_IN_SEC = "sessionTimeoutSec";
+
     static final String RESPONSE_KEY_SEND_INTERVAL_IN_SEC = "sendIntervalSec";
+
     static final String RESPONSE_KEY_VISIT_STORE_VERSION = "visitStoreVersion";
 
     static final String RESPONSE_KEY_APP_CONFIG = "appConfig";
+
     static final String RESPONSE_KEY_CAPTURE = "capture";
+
     static final String RESPONSE_KEY_REPORT_CRASHES = "reportCrashes";
+
     static final String RESPONSE_KEY_REPORT_ERRORS = "reportErrors";
+
     static final String RESPONSE_KEY_TRAFFIC_CONTROL_PERCENTAGE = "trafficControlPercentage";
+
     static final String RESPONSE_KEY_APPLICATION_ID = "applicationId";
 
     static final String RESPONSE_KEY_DYNAMIC_CONFIG = "dynamicConfig";
+
     static final String RESPONSE_KEY_MULTIPLICITY = "multiplicity";
+
     static final String RESPONSE_KEY_SERVER_ID = "serverId";
+
     static final String RESPONSE_KEY_STATUS = "status";
 
     static final String RESPONSE_KEY_TIMESTAMP_IN_MILLIS = "timestamp";
@@ -53,31 +65,17 @@ public class JsonResponseParser {
     }
 
     public static ResponseAttributes parse(String jsonResponse) throws ParserException {
-        JSONParser parser = new JSONParser(jsonResponse);
-
-        JSONValue parsedValue = parser.parse();
-
-        JSONObjectValue rootObject = (JSONObjectValue) parsedValue;
-
-        ResponseAttributesImpl.Builder builder = ResponseAttributesImpl.withJsonDefaults();
-        applyAgentConfiguration(builder, rootObject);
-        applyApplicationConfiguration(builder, rootObject);
-        applyDynamicConfiguration(builder, rootObject);
-        applyRootAttributes(builder, rootObject);
-
-        return builder.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Agent configuration
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     private static void applyAgentConfiguration(ResponseAttributesImpl.Builder builder, JSONObjectValue rootObject) {
         JSONValue agentConfigValue = rootObject.get(RESPONSE_KEY_AGENT_CONFIG);
         if (agentConfigValue == null) {
             return;
         }
-
         JSONObjectValue agentConfigObject = (JSONObjectValue) agentConfigValue;
         applyBeaconSizeInKb(builder, agentConfigObject);
         applyMaxSessionDurationInMin(builder, agentConfigObject);
@@ -92,7 +90,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int beaconSizeInKb = numberValue.getIntValue();
         builder.withMaxBeaconSizeInBytes(beaconSizeInKb * 1024);
@@ -103,7 +100,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int sessionDurationInMin = numberValue.getIntValue();
         builder.withMaxSessionDurationInMilliseconds((int) TimeUnit.MINUTES.toMillis(sessionDurationInMin));
@@ -114,7 +110,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int eventsPerSession = numberValue.getIntValue();
         builder.withMaxEventsPerSession(eventsPerSession);
@@ -125,7 +120,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int sessionTimeoutInSec = numberValue.getIntValue();
         builder.withSessionTimeoutInMilliseconds((int) TimeUnit.SECONDS.toMillis(sessionTimeoutInSec));
@@ -136,7 +130,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int sendIntervalInSec = numberValue.getIntValue();
         builder.withSendIntervalInMilliseconds((int) TimeUnit.SECONDS.toMillis(sendIntervalInSec));
@@ -147,7 +140,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int visitStoreVersion = numberValue.getIntValue();
         builder.withVisitStoreVersion(visitStoreVersion);
@@ -156,13 +148,11 @@ public class JsonResponseParser {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Application configuration
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     private static void applyApplicationConfiguration(ResponseAttributesImpl.Builder builder, JSONObjectValue rootObject) {
         JSONValue appConfigValue = rootObject.get(RESPONSE_KEY_APP_CONFIG);
         if (appConfigValue == null) {
             return;
         }
-
         JSONObjectValue appConfigObject = (JSONObjectValue) appConfigValue;
         applyCapture(builder, appConfigObject);
         applyReportCrashes(builder, appConfigObject);
@@ -176,7 +166,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int capture = numberValue.getIntValue();
         builder.withCapture(capture == 1);
@@ -187,7 +176,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int reportCrashes = numberValue.getIntValue();
         builder.withCaptureCrashes(reportCrashes != 0);
@@ -198,7 +186,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int reportErrors = numberValue.getIntValue();
         builder.withCaptureErrors(reportErrors != 0);
@@ -209,7 +196,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int trafficControlPercentage = numberValue.getIntValue();
         builder.withTrafficControlPercentage(trafficControlPercentage);
@@ -220,7 +206,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONStringValue stringValue = (JSONStringValue) value;
         builder.withApplicationId(stringValue.getValue());
     }
@@ -228,13 +213,11 @@ public class JsonResponseParser {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Dynamic configuration
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     private static void applyDynamicConfiguration(ResponseAttributesImpl.Builder builder, JSONObjectValue rootObject) {
         JSONValue dynConfigValue = rootObject.get(RESPONSE_KEY_DYNAMIC_CONFIG);
         if (dynConfigValue == null) {
             return;
         }
-
         JSONObjectValue dynConfigObject = (JSONObjectValue) dynConfigValue;
         applyMultiplicity(builder, dynConfigObject);
         applyServerId(builder, dynConfigObject);
@@ -246,7 +229,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int multiplicity = numberValue.getIntValue();
         builder.withMultiplicity(multiplicity);
@@ -257,7 +239,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         int serverId = numberValue.getIntValue();
         builder.withServerId(serverId);
@@ -268,7 +249,6 @@ public class JsonResponseParser {
         if (value == null) {
             return;
         }
-
         JSONStringValue stringValue = (JSONStringValue) value;
         builder.withStatus(stringValue.getValue());
     }
@@ -276,13 +256,11 @@ public class JsonResponseParser {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Root attributes
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     private static void applyRootAttributes(ResponseAttributesImpl.Builder builder, JSONObjectValue rootObject) {
         JSONValue value = rootObject.get(RESPONSE_KEY_TIMESTAMP_IN_MILLIS);
         if (value == null) {
             return;
         }
-
         JSONNumberValue numberValue = (JSONNumberValue) value;
         long timestampInMillis = numberValue.getLongValue();
         builder.withTimestampInMilliseconds(timestampInMillis);

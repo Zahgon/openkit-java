@@ -20,109 +20,138 @@ import java.util.concurrent.TimeUnit;
 public enum ResponseAttributesDefaults implements ResponseAttributes {
 
     JSON_RESPONSE {
-        private final int DEFAULT_BEACON_SIZE_IN_BYTES = 150 * 1024; // 150 kB
-        private final int DEFAULT_SESSION_DURATION_IN_MILLIS = (int) TimeUnit.MINUTES.toMillis(360); // 360 minutes
+
+        // 150 kB
+        private final int DEFAULT_BEACON_SIZE_IN_BYTES = 150 * 1024;
+
+        // 360 minutes
+        private final int DEFAULT_SESSION_DURATION_IN_MILLIS = (int) TimeUnit.MINUTES.toMillis(360);
+
         private final int DEFAULT_EVENTS_PER_SESSION = 200;
-        private final int DEFAULT_SESSION_TIMEOUT_IN_MILLIS = (int) TimeUnit.SECONDS.toMillis(600); // 600 seconds
+
+        // 600 seconds
+        private final int DEFAULT_SESSION_TIMEOUT_IN_MILLIS = (int) TimeUnit.SECONDS.toMillis(600);
 
         @Override
         public int getMaxBeaconSizeInBytes() {
-            return DEFAULT_BEACON_SIZE_IN_BYTES;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getMaxSessionDurationInMilliseconds() {
-            return DEFAULT_SESSION_DURATION_IN_MILLIS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getMaxEventsPerSession() {
-            return DEFAULT_EVENTS_PER_SESSION;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getSessionTimeoutInMilliseconds() {
-            return DEFAULT_SESSION_TIMEOUT_IN_MILLIS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-    },
+    }
+    , KEY_VALUE_RESPONSE {
 
-    KEY_VALUE_RESPONSE {
-        private final int DEFAULT_BEACON_SIZE_IN_BYTES = 30 * 1024; // 30 kB
+        // 30 kB
+        private final int DEFAULT_BEACON_SIZE_IN_BYTES = 30 * 1024;
+
         private final int DEFAULT_SESSION_DURATION_IN_MILLIS = -1;
+
         private final int DEFAULT_EVENTS_PER_SESSION = -1;
+
         private final int DEFAULT_SESSION_TIMEOUT_IN_MILLIS = -1;
-        private final int DEFAULT_SEND_INTERVAL_IN_MILLIS = (int)TimeUnit.SECONDS.toMillis(120);
+
+        private final int DEFAULT_SEND_INTERVAL_IN_MILLIS = (int) TimeUnit.SECONDS.toMillis(120);
 
         @Override
         public int getMaxBeaconSizeInBytes() {
-            return DEFAULT_BEACON_SIZE_IN_BYTES;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getMaxSessionDurationInMilliseconds() {
-            return DEFAULT_SESSION_DURATION_IN_MILLIS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getMaxEventsPerSession() {
-            return DEFAULT_EVENTS_PER_SESSION;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getSessionTimeoutInMilliseconds() {
-            return DEFAULT_SESSION_TIMEOUT_IN_MILLIS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getSendIntervalInMilliseconds() {
-            return DEFAULT_SEND_INTERVAL_IN_MILLIS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-    },
+    }
+    , UNDEFINED {
 
-    UNDEFINED {
-        private final int DEFAULT_BEACON_SIZE_IN_BYTES = 30 * 1024; // 30 kB
+        // 30 kB
+        private final int DEFAULT_BEACON_SIZE_IN_BYTES = 30 * 1024;
+
         private final int DEFAULT_SESSION_DURATION_IN_MILLIS = -1;
+
         private final int DEFAULT_EVENTS_PER_SESSION = -1;
+
         private final int DEFAULT_SESSION_TIMEOUT_IN_MILLIS = -1;
+
         private final int DEFAULT_SERVER_ID = -1;
 
         @Override
         public int getMaxBeaconSizeInBytes() {
-            return DEFAULT_BEACON_SIZE_IN_BYTES;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getMaxSessionDurationInMilliseconds() {
-            return DEFAULT_SESSION_DURATION_IN_MILLIS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getMaxEventsPerSession() {
-            return DEFAULT_EVENTS_PER_SESSION;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getSessionTimeoutInMilliseconds() {
-            return DEFAULT_SESSION_TIMEOUT_IN_MILLIS;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int getServerId() {
-            return DEFAULT_SERVER_ID;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-    };
+    }
+    ;
 
     private static final int DEFAULT_VISIT_STORE_VERSION = 1;
+
     private static final boolean DEFAULT_CAPTURE = true;
+
     private static final boolean DEFAULT_CAPTURE_CRASHES = true;
+
     private static final boolean DEFAULT_CAPTURE_ERRORS = true;
+
     private static final int DEFAULT_TRAFFIC_CONTROL_PERCENTAGE = 100;
+
     private static final String DEFAULT_APPLICATION_ID = null;
+
     private static final int DEFAULT_MULTIPLICITY = 1;
+
     private static final int DEFAULT_SERVER_ID = 1;
+
     private static final String DEFAULT_STATUS = null;
+
     private static final int DEFAULT_TIMESTAMP = 0;
-    private final int DEFAULT_SEND_INTERVAL_IN_MILLIS = (int) TimeUnit.SECONDS.toMillis(120); // 120 seconds
+
+    // 120 seconds
+    private final int DEFAULT_SEND_INTERVAL_IN_MILLIS = (int) TimeUnit.SECONDS.toMillis(120);
 
     public abstract int getMaxBeaconSizeInBytes();
 
@@ -133,56 +162,56 @@ public enum ResponseAttributesDefaults implements ResponseAttributes {
     public abstract int getSessionTimeoutInMilliseconds();
 
     public int getSendIntervalInMilliseconds() {
-        return DEFAULT_SEND_INTERVAL_IN_MILLIS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getVisitStoreVersion() {
-        return DEFAULT_VISIT_STORE_VERSION;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isCapture() {
-        return DEFAULT_CAPTURE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isCaptureCrashes() {
-        return DEFAULT_CAPTURE_CRASHES;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isCaptureErrors() {
-        return DEFAULT_CAPTURE_ERRORS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getTrafficControlPercentage() {
-        return DEFAULT_TRAFFIC_CONTROL_PERCENTAGE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getApplicationId() {
-        return DEFAULT_APPLICATION_ID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getMultiplicity() {
-        return DEFAULT_MULTIPLICITY;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getServerId() {
-        return DEFAULT_SERVER_ID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getStatus() {
-        return DEFAULT_STATUS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getTimestampInMilliseconds() {
-        return DEFAULT_TIMESTAMP;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isAttributeSet(ResponseAttribute attribute) {
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ResponseAttributes merge(ResponseAttributes responseAttributes) {
-        return responseAttributes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.util.json.objects;
 
 import com.dynatrace.openkit.util.json.constants.JSONLiterals;
@@ -40,11 +39,11 @@ public class JSONNullValue extends JSONValue {
 
     @Override
     public boolean isNull() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void writeJSONString(JSONValueWriter writer, JSONOutputConfig config) {
-        writer.insertValue(JSONLiterals.NULL_LITERAL);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

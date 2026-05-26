@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.util.json.lexer;
 
 import com.dynatrace.openkit.util.json.constants.JSONLiterals;
@@ -27,40 +26,82 @@ public final class JSONToken {
      * Token's type.
      */
     public enum TokenType {
-        VALUE_NUMBER,         // numeric value, the value is the number text
-        VALUE_STRING,         // string value, value does not include leading and trailing " characters
-        LITERAL_BOOLEAN,      // boolean literal, value is either true or false
-        LITERAL_NULL,         // null literal, value will be null (as string)
-        LEFT_BRACE,           // {
-        RIGHT_BRACE,          // }
-        LEFT_SQUARE_BRACKET,  // [
-        RIGHT_SQUARE_BRACKET, // ]
-        COMMA,                // ,
-        COLON                 // :
+
+        // numeric value, the value is the number text
+        VALUE_NUMBER,
+        // string value, value does not include leading and trailing " characters
+        VALUE_STRING,
+        // boolean literal, value is either true or false
+        LITERAL_BOOLEAN,
+        // null literal, value will be null (as string)
+        LITERAL_NULL,
+        // {
+        LEFT_BRACE,
+        // }
+        RIGHT_BRACE,
+        // [
+        LEFT_SQUARE_BRACKET,
+        // ]
+        RIGHT_SQUARE_BRACKET,
+        // ,
+        COMMA,
+        // :
+        COLON
     }
 
-    /** {@link JSONToken} to be used for boolean {@code true} literal */
+    /**
+     * {@link JSONToken} to be used for boolean {@code true} literal
+     */
     static final JSONToken BOOLEAN_TRUE_TOKEN = new JSONToken(TokenType.LITERAL_BOOLEAN, JSONLiterals.BOOLEAN_TRUE_LITERAL);
-    /** {@link JSONToken} to be used for boolean {@code false} literal */
+
+    /**
+     * {@link JSONToken} to be used for boolean {@code false} literal
+     */
     static final JSONToken BOOLEAN_FALSE_TOKEN = new JSONToken(TokenType.LITERAL_BOOLEAN, JSONLiterals.BOOLEAN_FALSE_LITERAL);
-    /** {@link JSONToken} to be used for null literal */
+
+    /**
+     * {@link JSONToken} to be used for null literal
+     */
     static final JSONToken NULL_TOKEN = new JSONToken(TokenType.LITERAL_NULL, JSONLiterals.NULL_LITERAL);
-    /** {@link JSONToken} to be used for left brace */
+
+    /**
+     * {@link JSONToken} to be used for left brace
+     */
     static final JSONToken LEFT_BRACE_TOKEN = new JSONToken(TokenType.LEFT_BRACE);
-    /** {@link JSONToken} to be used for right brace */
+
+    /**
+     * {@link JSONToken} to be used for right brace
+     */
     static final JSONToken RIGHT_BRACE_TOKEN = new JSONToken(TokenType.RIGHT_BRACE);
-    /** {@link JSONToken} to be used for left square bracket */
+
+    /**
+     * {@link JSONToken} to be used for left square bracket
+     */
     static final JSONToken LEFT_SQUARE_BRACKET_TOKEN = new JSONToken(TokenType.LEFT_SQUARE_BRACKET);
-    /** {@link JSONToken} to be used for right square bracket */
+
+    /**
+     * {@link JSONToken} to be used for right square bracket
+     */
     static final JSONToken RIGHT_SQUARE_BRACKET_TOKEN = new JSONToken(TokenType.RIGHT_SQUARE_BRACKET);
-    /** {@link JSONToken} to be used for comma */
+
+    /**
+     * {@link JSONToken} to be used for comma
+     */
     static final JSONToken COMMA_TOKEN = new JSONToken(TokenType.COMMA);
-    /** {@link JSONToken} to be used for colon */
+
+    /**
+     * {@link JSONToken} to be used for colon
+     */
     static final JSONToken COLON_TOKEN = new JSONToken(TokenType.COLON);
 
-    /** Type of this token */
+    /**
+     * Type of this token
+     */
     private final TokenType tokenType;
-    /** Token value for primitive tokens */
+
+    /**
+     * Token value for primitive tokens
+     */
     private final String value;
 
     /**
@@ -98,7 +139,7 @@ public final class JSONToken {
      * @return The newly created token
      */
     static JSONToken createStringToken(String stringValue) {
-        return new JSONToken(TokenType.VALUE_STRING, stringValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,7 +149,7 @@ public final class JSONToken {
      * @return The newly created token
      */
     static JSONToken createNumberToken(String numericValue) {
-        return new JSONToken(TokenType.VALUE_NUMBER, numericValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -117,7 +158,7 @@ public final class JSONToken {
      * @return Token's type.
      */
     public TokenType getTokenType() {
-        return tokenType;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -130,12 +171,12 @@ public final class JSONToken {
      * @return Token value as string.
      */
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "JSONToken {" + "tokenType=" + tokenTypeToString(tokenType) + ", value=" + value + "}";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -145,29 +186,6 @@ public final class JSONToken {
      * @return String representation of tokenType
      */
     static String tokenTypeToString(TokenType tokenType) {
-        switch (tokenType) {
-            case VALUE_NUMBER:
-                return "NUMBER";
-            case VALUE_STRING:
-                return "STRING";
-            case LITERAL_BOOLEAN:
-                return "BOOLEAN";
-            case LITERAL_NULL:
-                return JSONLiterals.NULL_LITERAL;
-            case LEFT_BRACE:
-                return "{";
-            case RIGHT_BRACE:
-                return "}";
-            case LEFT_SQUARE_BRACKET:
-                return "[";
-            case RIGHT_SQUARE_BRACKET:
-                return "]";
-            case COMMA:
-                return ",";
-            case COLON:
-                return ":";
-            default:
-                throw new IllegalStateException("Unknown token type " + tokenType);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

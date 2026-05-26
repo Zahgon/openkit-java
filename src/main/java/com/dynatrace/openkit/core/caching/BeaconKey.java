@@ -12,13 +12,13 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 package com.dynatrace.openkit.core.caching;
 
 public class BeaconKey {
 
     public final int beaconId;
+
     public final int beaconSeqNo;
 
     public BeaconKey(int beaconId, int beaconSeqNo) {
@@ -28,30 +28,16 @@ public class BeaconKey {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        BeaconKey beaconKey = (BeaconKey) o;
-
-        if (beaconId != beaconKey.beaconId) {
-            return false;
-        }
-        return beaconSeqNo == beaconKey.beaconSeqNo;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        int result = beaconId;
-        result = 31 * result + beaconSeqNo;
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "[sn=" + beaconId + ", seq=" + beaconSeqNo + "]";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

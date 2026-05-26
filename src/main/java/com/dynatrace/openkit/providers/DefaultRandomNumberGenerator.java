@@ -12,7 +12,6 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 package com.dynatrace.openkit.providers;
 
@@ -27,11 +26,11 @@ public class DefaultRandomNumberGenerator implements RandomNumberGenerator {
 
     @Override
     public long nextPositiveLong() {
-        return random.nextLong() & Long.MAX_VALUE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int nextPercentageValue() {
-        return random.nextInt(100);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

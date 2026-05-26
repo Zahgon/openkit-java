@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.util.json.objects;
 
 /**
@@ -21,7 +20,9 @@ package com.dynatrace.openkit.util.json.objects;
  */
 public class JSONStringValue extends JSONValue {
 
-    /** The underlying string value */
+    /**
+     * The underlying string value
+     */
     private final String stringValue;
 
     /**
@@ -45,12 +46,12 @@ public class JSONStringValue extends JSONValue {
      * @return Newly created {@link JSONStringValue} or {@code null} if argument is {@code null}.
      */
     public static JSONStringValue fromString(String stringValue) {
-        return stringValue == null ? null : new JSONStringValue(stringValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isString() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -59,11 +60,11 @@ public class JSONStringValue extends JSONValue {
      * @return String value.
      */
     public String getValue() {
-        return stringValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void writeJSONString(JSONValueWriter writer, JSONOutputConfig config) {
-        writer.insertStringValue(getValue());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -12,9 +12,7 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
-
 package com.dynatrace.openkit.protocol.http;
 
 import com.dynatrace.openkit.api.http.HttpRequest;
@@ -35,6 +33,6 @@ public class NullHttpRequestInterceptor implements HttpRequestInterceptor {
 
     @Override
     public void intercept(HttpRequest httpRequest) {
-        // intentionally empty, due to null object pattern
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 import com.dynatrace.openkit.protocol.StatusResponse;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,18 +39,13 @@ class BeaconSendingInitState extends AbstractBeaconSendingState {
     /**
      * Times to use as delay between consecutive re-executions of this state, when no state transition is performed.
      */
-    static final long[] REINIT_DELAY_MILLISECONDS = {
-        TimeUnit.MINUTES.toMillis(1),
-        TimeUnit.MINUTES.toMillis(5),
-        TimeUnit.MINUTES.toMillis(15),
-        TimeUnit.HOURS.toMillis(1),
-        TimeUnit.HOURS.toMillis(2),
-    };
+    static final long[] REINIT_DELAY_MILLISECONDS = { TimeUnit.MINUTES.toMillis(1), TimeUnit.MINUTES.toMillis(5), TimeUnit.MINUTES.toMillis(15), TimeUnit.HOURS.toMillis(1), TimeUnit.HOURS.toMillis(2) };
 
     /**
      * Maximum number of retries
      */
     private static final int MAX_INITIAL_STATUS_REQUEST_RETRIES = 5;
+
     static final long INITIAL_RETRY_SLEEP_TIME_MILLISECONDS = TimeUnit.SECONDS.toMillis(1);
 
     /**
@@ -66,37 +59,22 @@ class BeaconSendingInitState extends AbstractBeaconSendingState {
 
     @Override
     void doExecute(BeaconSendingContext context) throws InterruptedException {
-
-        // execute the status request until we get a response
-        StatusResponse statusResponse = executeStatusRequest(context);
-
-        if (context.isShutdownRequested()) {
-            // shutdown was requested -> abort init with failure
-            // transition to shutdown state is handled by base class
-            context.initCompleted(false);
-        } else if (BeaconSendingResponseUtil.isSuccessfulResponse(statusResponse)) {
-            // success -> continue with capture on/off depending on context
-            context.handleStatusResponse(statusResponse);
-            context.setNextState(context.isCaptureOn()
-                    ? new BeaconSendingCaptureOnState()
-                    : new BeaconSendingCaptureOffState());
-            context.initCompleted(true);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     AbstractBeaconSendingState getShutdownState() {
-        return new BeaconSendingTerminalState();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void onInterrupted(BeaconSendingContext context) {
-        context.initCompleted(false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "Initial";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -108,35 +86,28 @@ class BeaconSendingInitState extends AbstractBeaconSendingState {
      * @throws InterruptedException Thrown if the current thread has been interrupted.
      */
     private StatusResponse executeStatusRequest(BeaconSendingContext context) throws InterruptedException {
-
         StatusResponse statusResponse;
-
         while (true) {
             long currentTimestamp = context.getCurrentTimestamp();
             context.setLastOpenSessionBeaconSendTime(currentTimestamp);
             context.setLastStatusCheckTime(currentTimestamp);
-
             statusResponse = BeaconSendingRequestUtil.sendStatusRequest(context, MAX_INITIAL_STATUS_REQUEST_RETRIES, INITIAL_RETRY_SLEEP_TIME_MILLISECONDS);
             if (context.isShutdownRequested() || BeaconSendingResponseUtil.isSuccessfulResponse(statusResponse)) {
                 // shutdown was requested or a successful status response was received
                 break;
             }
-
             long sleepTime = REINIT_DELAY_MILLISECONDS[reinitializeDelayIndex];
             if (BeaconSendingResponseUtil.isTooManyRequestsResponse(statusResponse)) {
                 // in case of too many requests the server might send us a retry-after
                 sleepTime = statusResponse.getRetryAfterInMilliseconds();
-
                 // also temporarily disable capturing to avoid further server overloading
                 context.disableCaptureAndClear();
             }
-
             // status request needs to be sent again after some delay
             context.sleep(sleepTime);
-
-            reinitializeDelayIndex = Math.min(reinitializeDelayIndex + 1, REINIT_DELAY_MILLISECONDS.length - 1); // ensure no out of bounds
+            // ensure no out of bounds
+            reinitializeDelayIndex = Math.min(reinitializeDelayIndex + 1, REINIT_DELAY_MILLISECONDS.length - 1);
         }
-
         return statusResponse;
     }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit;
 
 import com.dynatrace.openkit.api.LogLevel;
@@ -39,7 +38,9 @@ public class DynatraceOpenKitBuilder {
 
     // immutable fields
     private final String endpointURL;
+
     private final long deviceID;
+
     private final String origDeviceID;
 
     /**
@@ -54,18 +55,31 @@ public class DynatraceOpenKitBuilder {
 
     // mutable fields
     private Logger logger;
+
     private SSLTrustManager trustManager = new SSLStrictTrustManager();
+
     private LogLevel logLevel = LogLevel.WARN;
+
     private String operatingSystem = OpenKitConstants.DEFAULT_OPERATING_SYSTEM;
+
     private String manufacturer = OpenKitConstants.DEFAULT_MANUFACTURER;
+
     private String modelID = OpenKitConstants.DEFAULT_MODEL_ID;
+
     private String applicationVersion = OpenKitConstants.DEFAULT_APPLICATION_VERSION;
+
     private long beaconCacheMaxRecordAge = ConfigurationDefaults.DEFAULT_MAX_RECORD_AGE_IN_MILLIS;
+
     private long beaconCacheLowerMemoryBoundary = ConfigurationDefaults.DEFAULT_LOWER_MEMORY_BOUNDARY_IN_BYTES;
+
     private long beaconCacheUpperMemoryBoundary = ConfigurationDefaults.DEFAULT_UPPER_MEMORY_BOUNDARY_IN_BYTES;
+
     private DataCollectionLevel dataCollectionLevel = ConfigurationDefaults.DEFAULT_DATA_COLLECTION_LEVEL;
+
     private CrashReportingLevel crashReportLevel = ConfigurationDefaults.DEFAULT_CRASH_REPORTING_LEVEL;
+
     private HttpRequestInterceptor httpRequestInterceptor = NullHttpRequestInterceptor.INSTANCE;
+
     private HttpResponseInterceptor httpResponseInterceptor = NullHttpResponseInterceptor.INSTANCE;
 
     private final String applicationID;
@@ -93,10 +107,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@link DynatraceOpenKitBuilder}
      */
     public DynatraceOpenKitBuilder withLogLevel(LogLevel level) {
-        if (level != null) {
-            logLevel = level;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -107,8 +118,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withLogger(Logger logger) {
-        this.logger = logger;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -118,10 +128,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withApplicationVersion(String applicationVersion) {
-        if (applicationVersion != null && !applicationVersion.isEmpty()) {
-            this.applicationVersion = applicationVersion;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -131,8 +138,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withTrustManager(SSLTrustManager trustManager) {
-        this.trustManager = trustManager == null ? new SSLStrictTrustManager() : trustManager;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -142,10 +148,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withOperatingSystem(String operatingSystem) {
-        if (operatingSystem != null && !operatingSystem.isEmpty()) {
-            this.operatingSystem = operatingSystem;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -155,10 +158,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withManufacturer(String manufacturer) {
-        if (manufacturer != null && !manufacturer.isEmpty()) {
-            this.manufacturer = manufacturer;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -168,10 +168,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withModelID(String modelID) {
-        if (modelID != null && !modelID.isEmpty()) {
-            this.modelID = modelID;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -181,8 +178,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withBeaconCacheMaxRecordAge(long maxRecordAgeInMilliseconds) {
-        this.beaconCacheMaxRecordAge = maxRecordAgeInMilliseconds;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -197,8 +193,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withBeaconCacheLowerMemoryBoundary(long lowerMemoryBoundaryInBytes) {
-        this.beaconCacheLowerMemoryBoundary = lowerMemoryBoundaryInBytes;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -213,8 +208,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withBeaconCacheUpperMemoryBoundary(long upperMemoryBoundaryInBytes) {
-        this.beaconCacheUpperMemoryBoundary = upperMemoryBoundaryInBytes;
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -231,10 +225,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withDataCollectionLevel(DataCollectionLevel dataCollectionLevel) {
-        if(dataCollectionLevel != null) {
-            this.dataCollectionLevel = dataCollectionLevel;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -250,10 +241,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withCrashReportingLevel(CrashReportingLevel crashReportLevel) {
-        if(crashReportLevel != null) {
-            this.crashReportLevel = crashReportLevel;
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -263,11 +251,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withHttpRequestInterceptor(HttpRequestInterceptor httpRequestInterceptor) {
-        if (httpRequestInterceptor != null) {
-            this.httpRequestInterceptor = httpRequestInterceptor;
-        }
-
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -277,11 +261,7 @@ public class DynatraceOpenKitBuilder {
      * @return {@code this}
      */
     public DynatraceOpenKitBuilder withHttpResponseInterceptor(HttpResponseInterceptor httpResponseInterceptor) {
-        if (httpResponseInterceptor != null) {
-            this.httpResponseInterceptor = httpResponseInterceptor;
-        }
-
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -290,12 +270,7 @@ public class DynatraceOpenKitBuilder {
      * @return returns an {@code OpenKit} instance
      */
     public OpenKit build() {
-        // create and initialize OpenKit instance
-        OpenKitInitializerImpl initializer = new OpenKitInitializerImpl(this);
-        OpenKitImpl openKit = new OpenKitImpl(initializer);
-        openKit.initialize();
-
-        return openKit;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -308,7 +283,7 @@ public class DynatraceOpenKitBuilder {
      * @return Some identification string identifying the OpenKit's type.
      */
     public String getOpenKitType() {
-        return OPENKIT_TYPE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -317,7 +292,7 @@ public class DynatraceOpenKitBuilder {
      * @return Application id for which data will be reported.
      */
     public String getApplicationID() {
-        return applicationID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -326,7 +301,7 @@ public class DynatraceOpenKitBuilder {
      * @return Default server id to communicate with.
      */
     public int getDefaultServerID() {
-        return DEFAULT_SERVER_ID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -336,7 +311,7 @@ public class DynatraceOpenKitBuilder {
      *         has been set.
      */
     public String getApplicationVersion() {
-        return applicationVersion;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -346,7 +321,7 @@ public class DynatraceOpenKitBuilder {
      *         has been set.
      */
     public String getOperatingSystem() {
-        return operatingSystem;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -356,7 +331,7 @@ public class DynatraceOpenKitBuilder {
      *         has been set.
      */
     public String getManufacturer() {
-        return manufacturer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -366,7 +341,7 @@ public class DynatraceOpenKitBuilder {
      *         has been set.
      */
     public String getModelID() {
-        return modelID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -379,7 +354,7 @@ public class DynatraceOpenKitBuilder {
      * @return Endpoint URL that has been configured in constructor.
      */
     public String getEndpointURL() {
-        return endpointURL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -394,7 +369,7 @@ public class DynatraceOpenKitBuilder {
      * @return Device identifier set in the constructor.
      */
     public long getDeviceID() {
-        return deviceID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -404,7 +379,7 @@ public class DynatraceOpenKitBuilder {
      * @return Device identifier in the representation as it was originally passed to the constructor.
      */
     public String getOrigDeviceID() {
-        return origDeviceID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -419,7 +394,7 @@ public class DynatraceOpenKitBuilder {
      * @return Previously set SSL trust manager or a default implementation.
      */
     public SSLTrustManager getTrustManager() {
-        return trustManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -429,7 +404,7 @@ public class DynatraceOpenKitBuilder {
      *         {@link ConfigurationDefaults#DEFAULT_MAX_RECORD_AGE_IN_MILLIS} if none has been set.
      */
     public long getBeaconCacheMaxRecordAge() {
-        return beaconCacheMaxRecordAge;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -440,7 +415,7 @@ public class DynatraceOpenKitBuilder {
      *         {@link ConfigurationDefaults#DEFAULT_LOWER_MEMORY_BOUNDARY_IN_BYTES} if none has been set.
      */
     public long getBeaconCacheLowerMemoryBoundary() {
-        return beaconCacheLowerMemoryBoundary;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -451,7 +426,7 @@ public class DynatraceOpenKitBuilder {
      *         {@link ConfigurationDefaults#DEFAULT_UPPER_MEMORY_BOUNDARY_IN_BYTES} if none has been set.
      */
     public long getBeaconCacheUpperMemoryBoundary() {
-        return beaconCacheUpperMemoryBoundary;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -461,7 +436,7 @@ public class DynatraceOpenKitBuilder {
      *         if nothing has been set.
      */
     public DataCollectionLevel getDataCollectionLevel() {
-        return dataCollectionLevel;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -471,7 +446,7 @@ public class DynatraceOpenKitBuilder {
      *         if nothing has been set.
      */
     public CrashReportingLevel getCrashReportLevel() {
-        return crashReportLevel;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -481,7 +456,7 @@ public class DynatraceOpenKitBuilder {
      *         if nothing has been set.
      */
     public HttpRequestInterceptor getHttpRequestInterceptor() {
-        return httpRequestInterceptor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -491,7 +466,7 @@ public class DynatraceOpenKitBuilder {
      *         if nothing has been set.
      */
     public HttpResponseInterceptor getHttpResponseInterceptor() {
-        return httpResponseInterceptor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -500,21 +475,16 @@ public class DynatraceOpenKitBuilder {
      * @return Previously set logger or {@link DefaultLogger} if none has been set.
      */
     public Logger getLogger() {
-        if (logger != null) {
-            return logger;
-        }
-
-        return new DefaultLogger(logLevel);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static long deviceIdFromString(String deviceId) {
         if (deviceId != null) {
             deviceId = deviceId.trim();
         }
-
         try {
             return Long.parseLong(deviceId);
-        } catch(NumberFormatException nex) {
+        } catch (NumberFormatException nex) {
             // given ID is not a valid number, calculate a corresponding hash
             return StringUtil.to64BitHash(deviceId);
         }

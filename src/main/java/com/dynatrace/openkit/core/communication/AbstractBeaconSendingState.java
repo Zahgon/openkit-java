@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 /**
@@ -46,18 +45,7 @@ abstract class AbstractBeaconSendingState {
      * </p>
      */
     void execute(BeaconSendingContext context) {
-
-        try {
-            doExecute(context);
-        } catch (InterruptedException e) {
-            onInterrupted(context);
-            context.requestShutdown();
-            Thread.currentThread().interrupt();
-        }
-
-        if (context.isShutdownRequested()) {
-            context.setNextState(getShutdownState());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -66,7 +54,7 @@ abstract class AbstractBeaconSendingState {
      * @param context State's context.
      */
     void onInterrupted(BeaconSendingContext context) {
-        // default -> do nothing
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,6 +73,6 @@ abstract class AbstractBeaconSendingState {
      * Get {@code true} if this state is a terminal state, {@code false} otherwise.
      */
     boolean isTerminalState() {
-        return isTerminalState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -12,13 +12,10 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
-
 package com.dynatrace.openkit.protocol.http;
 
 import com.dynatrace.openkit.api.http.HttpResponse;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -35,39 +32,31 @@ public class HttpResponseHttpURLConnectionAdapter implements HttpResponse {
 
     @Override
     public URL getRequestUrl() {
-        return httpURLConnection.getURL();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getRequestMethod() {
-        return httpURLConnection.getRequestMethod();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getResponseCode() {
-        try {
-            return httpURLConnection.getResponseCode();
-        } catch (IOException e) {
-            return Integer.MIN_VALUE;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getResponseMessage() {
-        try {
-            return httpURLConnection.getResponseMessage();
-        } catch (IOException e) {
-            return null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Map<String, List<String>> getHeaders() {
-        return httpURLConnection.getHeaderFields();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getHeader(String name) {
-        return httpURLConnection.getHeaderField(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.providers;
 
 import java.util.Random;
@@ -32,12 +31,6 @@ public class DefaultSessionIDProvider implements SessionIDProvider {
 
     @Override
     public synchronized int getNextSessionID() {
-        if (initialIntegerOffset == Integer.MAX_VALUE) {
-            initialIntegerOffset = 0;
-        }
-        initialIntegerOffset = initialIntegerOffset + 1;
-        return initialIntegerOffset;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
-
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.providers;
 
 /**
@@ -23,8 +22,7 @@ public class DefaultThreadIDProvider implements ThreadIDProvider {
 
     @Override
     public int getThreadID() {
-        long threadID64 = Thread.currentThread().getId();
-        return convertNativeThreadIDToPositiveInteger(threadID64);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -43,6 +41,6 @@ public class DefaultThreadIDProvider implements ThreadIDProvider {
      * @return a positive integer value calculated from the native thread id
      */
     public static int convertNativeThreadIDToPositiveInteger(long nativeThreadID) {
-        return (int)((nativeThreadID ^ (nativeThreadID >>> 32)) & 0x7fffffff );
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

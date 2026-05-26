@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.ConnectionType;
@@ -27,7 +26,6 @@ import com.dynatrace.openkit.protocol.Beacon;
 import com.dynatrace.openkit.protocol.StatusResponse;
 import com.dynatrace.openkit.providers.HTTPClientProvider;
 import com.dynatrace.openkit.util.json.objects.JSONValue;
-
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -45,24 +43,39 @@ public class SessionImpl extends OpenKitComposite implements Session {
      */
     public static final int MAX_NEW_SESSION_REQUESTS = 4;
 
-    /** {@link Logger} for tracing log message */
+    /**
+     * {@link Logger} for tracing log message
+     */
     private final Logger logger;
 
-    /** Parent object of this {@link Session} */
+    /**
+     * Parent object of this {@link Session}
+     */
     private OpenKitComposite parent;
 
-    /** Beacon reference */
+    /**
+     * Beacon reference
+     */
     private final Beacon beacon;
 
-    /** current state of the session (also used for synchronization  */
+    /**
+     * current state of the session (also used for synchronization
+     */
     private final SessionStateImpl state;
 
-    /** the number of tries for new session requests */
+    /**
+     * the number of tries for new session requests
+     */
     private int numRemainingNewSessionRequests = MAX_NEW_SESSION_REQUESTS;
-    /** the time when the session is to be ended (including a grace period from when the session was split by events) */
+
+    /**
+     * the time when the session is to be ended (including a grace period from when the session was split by events)
+     */
     private final AtomicLong splitByEventsGracePeriodEndTimeInMillis = new AtomicLong(-1);
 
-    /** Container for additional mutable basic data which can be set via session */
+    /**
+     * Container for additional mutable basic data which can be set via session
+     */
     private final SupplementaryBasicData supplementaryBasicData;
 
     SessionImpl(Logger logger, OpenKitComposite parent, Beacon beacon, SupplementaryBasicData supplementaryBasicData) {
@@ -71,240 +84,75 @@ public class SessionImpl extends OpenKitComposite implements Session {
         this.parent = parent;
         this.beacon = beacon;
         this.supplementaryBasicData = supplementaryBasicData;
-
         beacon.startSession();
     }
 
     @Override
     public void close() {
-        end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public RootAction enterAction(String actionName) {
-        if (actionName == null || actionName.isEmpty()) {
-            logger.warning(this + "enterAction: actionName must not be null or empty");
-            return NullRootAction.INSTANCE;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "enterAction(" + actionName + ")");
-        }
-        synchronized (state) {
-            if (!state.isFinishingOrFinished()) {
-                RootActionImpl result = new RootActionImpl(logger, this, actionName, beacon);
-                storeChildInList(result);
-                return result;
-            }
-        }
-
-        return NullRootAction.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void identifyUser(String userTag) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "identifyUser(" + userTag + ")");
-        }
-        synchronized (state) {
-            if (!state.isFinishingOrFinished()) {
-                beacon.identifyUser(userTag);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCrash(String errorName, String reason, String stacktrace) {
-        if (errorName == null || errorName.isEmpty()) {
-            logger.warning(this + "reportCrash: errorName must not be null or empty");
-            return;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportCrash(" + errorName + ", " + reason + ", " + stacktrace + ")");
-        }
-        synchronized (state) {
-            if (!state.isFinishingOrFinished()) {
-                beacon.reportCrash(errorName, reason, stacktrace);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCrash(Throwable throwable) {
-        if (throwable == null) {
-            logger.warning(this + "reportCrash: throwable must not be null");
-            return;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportCrash(" + throwable + ")");
-        }
-        synchronized (state) {
-            if (!state.isFinishingOrFinished()) {
-                beacon.reportCrash(throwable);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportNetworkTechnology(String technology) {
-        if (technology != null && technology.isEmpty()) {
-            logger.warning(this + "reportNetworkTechnology (String): technology must be null or non-empty string");
-            return;
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportNetworkTechnology (String) (" + technology + ")");
-        }
-
-        supplementaryBasicData.setNetworkTechnology(technology);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportConnectionType(ConnectionType connectionType) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportConnectionType (ConnectionType) (" + connectionType + ")");
-        }
-
-        supplementaryBasicData.setConnectionType(connectionType);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCarrier(String carrier) {
-        if (carrier != null && carrier.isEmpty()) {
-            logger.warning(this + "reportCarrier (String): carrier must be null or non-empty string");
-            return;
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "reportCarrier (String) (" + carrier + ")");
-        }
-
-        supplementaryBasicData.setCarrier(carrier);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(URLConnection connection) {
-        if (connection == null) {
-            logger.warning(this + "traceWebRequest (URLConnection): connection must not be null");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "traceWebRequest (URLConnection) (" + connection + ")");
-        }
-        synchronized (state) {
-            if (!state.isFinishingOrFinished()) {
-                WebRequestTracerBaseImpl webRequestTracer = new WebRequestTracerURLConnection(logger, this, beacon, connection);
-                storeChildInList(webRequestTracer);
-                return webRequestTracer;
-            }
-        }
-
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(String url) {
-        if (url == null || url.isEmpty()) {
-            logger.warning(this + "traceWebRequest (String): url must not be null or empty");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (!WebRequestTracerStringURL.isValidURLScheme(url)) {
-            logger.warning(this + "traceWebRequest (String): url \"" + url + "\" does not have a valid scheme");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "traceWebRequest (String) (" + url + ")");
-        }
-        synchronized (state) {
-            if (!state.isFinishingOrFinished()) {
-                WebRequestTracerBaseImpl webRequestTracer = new WebRequestTracerStringURL(logger, this, beacon, url);
-                storeChildInList(webRequestTracer);
-                return webRequestTracer;
-            }
-        }
-
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void sendBizEvent(String type, Map<String, JSONValue> attributes) {
-        if (type == null || type.isEmpty()) {
-            logger.warning(this + "sendBizEvent (String, Map): type must not be null or empty");
-            return;
-        }
-
-        if (attributes == null) {
-            attributes = new HashMap<>();
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "sendBizEvent(" + type + ", " + attributes.toString() + ")");
-        }
-
-        synchronized (state) {
-            if (!state.isFinishingOrFinished()) {
-                beacon.sendBizEvent(type, attributes);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     void sendEvent(String name, Map<String, JSONValue> attributes) {
-        if (name == null || name.isEmpty()) {
-            logger.warning(this + "sendEvent (String, Map): name must not be null or empty");
-            return;
-        }
-
-        if (attributes == null) {
-            attributes = new HashMap<>();
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "sendEvent(" + name + ", " + attributes.toString() + ")");
-        }
-
-        synchronized (state) {
-            if (!state.isFinishingOrFinished()) {
-                beacon.sendEvent(name, attributes);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void end() {
-        end(true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void end(boolean sendSessionEndEvent) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "end()");
-        }
-
-        if (!state.markAsIsFinishing()) {
-            return; // end() was already called before
-        }
-
-        // forcefully leave all child elements
-        // Since the end time was set, no further child objects are added to the internal list
-        // so the following operations are safe outside the synchronized block
-        List<OpenKitObject> childObjects = getCopyOfChildObjects();
-        for (OpenKitObject childObject : childObjects) {
-            try {
-                childObject.close();
-            } catch (IOException e) {
-                // should not happen, nevertheless let's log an error
-                logger.error(this + "Caught IOException while closing OpenKitObject (" + childObject + ")", e);
-            }
-        }
-
-        // send the end event, only if a session is explicitly ended
-        if (sendSessionEndEvent) {
-            beacon.endSession();
-        }
-
-        state.markAsFinished();
-
-        // last but not least update parent relation
-        parent.onChildClosed(this);
-        parent = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -315,19 +163,7 @@ public class SessionImpl extends OpenKitComposite implements Session {
      *  there are / were still open child objects (actions / web request tracers).
      */
     public boolean tryEnd() {
-        synchronized (state) {
-            if (state.isFinishingOrFinished()) {
-                return true;
-            }
-
-            if (getChildCount() == 0) {
-                end(false);
-                return true;
-            }
-
-            state.markAsWasTriedForEnding();
-            return false;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -339,7 +175,7 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * @param endTime the time when the session is to be closed for good.
      */
     public void setSplitByEventsGracePeriodEndTimeInMillis(long endTime) {
-        splitByEventsGracePeriodEndTimeInMillis.compareAndSet(-1, endTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -347,7 +183,7 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * events e.g. due to actions still being open). The returned time already includes a grace period.
      */
     public long getSplitByEventsGracePeriodEndTimeInMillis() {
-        return splitByEventsGracePeriodEndTimeInMillis.get();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -359,7 +195,7 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * @return Response from client.
      */
     public StatusResponse sendBeacon(HTTPClientProvider clientProvider, AdditionalQueryParameters additionalParameters) {
-        return beacon.send(clientProvider, additionalParameters);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -370,7 +206,7 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * </p>
      */
     public void clearCapturedData() {
-        beacon.clearData();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -383,43 +219,37 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * @return {@code true} if the session is empty, {@code false} otherwise.
      */
     public boolean isEmpty() {
-        return beacon.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Initializes the {@link Beacon} with the given {@link ServerConfiguration}
      */
     public void initializeServerConfiguration(ServerConfiguration initialServerConfig) {
-        beacon.initializeServerConfiguration(initialServerConfig);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Update the {@link Beacon} with the given {@link ServerConfiguration}
      */
     public void updateServerConfiguration(ServerConfiguration serverConfiguration) {
-        beacon.updateServerConfiguration(serverConfiguration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public SessionState getState() {
-        return state;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void onChildClosed(OpenKitObject childObject) {
-        synchronized (state) {
-            removeChildFromList(childObject);
-
-            if (state.wasTriedForEnding() && getChildCount() == 0) {
-                end(false);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Indicates whether sending data for this session is allowed or not.
      */
     public boolean isDataSendingAllowed() {
-        return state.isConfigured() && beacon.isDataCapturingEnabled();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -430,7 +260,7 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * </p>
      */
     public void enableCapture() {
-        beacon.enableCapture();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -441,7 +271,7 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * </p>
      */
     public void disableCapture() {
-        beacon.disableCapture();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -452,7 +282,7 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * </p>
      */
     public boolean canSendNewSessionRequest() {
-        return numRemainingNewSessionRequests > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -463,19 +293,19 @@ public class SessionImpl extends OpenKitComposite implements Session {
      * </p>
      */
     public void decreaseNumRemainingSessionRequests() {
-        numRemainingNewSessionRequests--;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the beacon of this session.
      */
     Beacon getBeacon() {
-        return beacon;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [sn=" + beacon.getSessionNumber() + "] ";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -484,8 +314,11 @@ public class SessionImpl extends OpenKitComposite implements Session {
     private static class SessionStateImpl implements SessionState {
 
         private final SessionImpl session;
+
         private boolean isFinishing = false;
+
         private boolean isFinished = false;
+
         private boolean wasTriedForEnding = false;
 
         private SessionStateImpl(SessionImpl session) {
@@ -494,27 +327,27 @@ public class SessionImpl extends OpenKitComposite implements Session {
 
         @Override
         public synchronized boolean wasTriedForEnding() {
-            return wasTriedForEnding;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public synchronized boolean isConfigured() {
-            return session.beacon.isServerConfigurationSet();
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public synchronized boolean isConfiguredAndFinished() {
-            return isConfigured() && isFinished;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public synchronized boolean isConfiguredAndOpen() {
-            return isConfigured() && !isFinished;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public synchronized boolean isFinished() {
-            return isFinished;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private synchronized boolean isFinishingOrFinished() {
@@ -525,7 +358,6 @@ public class SessionImpl extends OpenKitComposite implements Session {
             if (isFinishingOrFinished()) {
                 return false;
             }
-
             isFinishing = true;
             return true;
         }

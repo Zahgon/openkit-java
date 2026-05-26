@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Logger;
@@ -30,7 +29,6 @@ import com.dynatrace.openkit.protocol.Beacon;
 import com.dynatrace.openkit.providers.SessionIDProvider;
 import com.dynatrace.openkit.providers.ThreadIDProvider;
 import com.dynatrace.openkit.providers.TimingProvider;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -39,33 +37,64 @@ import java.util.List;
  */
 public class OpenKitImpl extends OpenKitComposite implements OpenKit, SessionCreatorInput {
 
-    /** {@link Logger} for tracing log message */
+    /**
+     * {@link Logger} for tracing log message
+     */
     private final Logger logger;
 
-    /** Provider responsible to provide the thread id. */
+    /**
+     * Provider responsible to provide the thread id.
+     */
     private final ThreadIDProvider threadIDProvider;
-    /** Provider responsible to provide time related functions */
+
+    /**
+     * Provider responsible to provide time related functions
+     */
     private final TimingProvider timingProvider;
-    /** Provider responsible to provide Session IDs */
+
+    /**
+     * Provider responsible to provide Session IDs
+     */
     private final SessionIDProvider sessionIDProvider;
 
-    /** Configuration object storing privacy related configuration */
+    /**
+     * Configuration object storing privacy related configuration
+     */
     private final PrivacyConfiguration privacyConfiguration;
-    /** Configuration object storing OpenKit configuration */
+
+    /**
+     * Configuration object storing OpenKit configuration
+     */
     private final OpenKitConfiguration openKitConfiguration;
 
-    /** Cache class used to store serialized {@link Beacon} data */
+    /**
+     * Cache class used to store serialized {@link Beacon} data
+     */
     private final BeaconCache beaconCache;
-    /** Cache eviction thread */
+
+    /**
+     * Cache eviction thread
+     */
     private final BeaconCacheEvictor beaconCacheEvictor;
-    /** BeaconSender reference */
+
+    /**
+     * BeaconSender reference
+     */
     private final BeaconSender beaconSender;
-    /** watchdog thread to perform certain actions on a session after a specific time */
+
+    /**
+     * watchdog thread to perform certain actions on a session after a specific time
+     */
     private final SessionWatchdog sessionWatchdog;
 
-    /** Boolean value, indicating whether this {@link OpenKit} instance is shutdown or not */
+    /**
+     * Boolean value, indicating whether this {@link OpenKit} instance is shutdown or not
+     */
     private boolean isShutdown = false;
-    /** Object for synchronizing access */
+
+    /**
+     * Object for synchronizing access
+     */
     private final Object lockObject = new Object();
 
     /**
@@ -84,7 +113,6 @@ public class OpenKitImpl extends OpenKitComposite implements OpenKit, SessionCre
         this.beaconSender = initializer.getBeaconSender();
         this.beaconCacheEvictor = initializer.getBeaconCacheEvictor();
         this.sessionWatchdog = initializer.getSessionWatchdog();
-
         logOpenKitInstanceCreation(this.logger, this.openKitConfiguration);
     }
 
@@ -96,17 +124,10 @@ public class OpenKitImpl extends OpenKitComposite implements OpenKit, SessionCre
      */
     private static void logOpenKitInstanceCreation(Logger logger, OpenKitConfiguration openKitConfiguration) {
         if (logger.isInfoEnabled()) {
-            logger.info(OpenKitImpl.class.getSimpleName()
-                    + " - " + openKitConfiguration.getOpenKitType()
-                    + " OpenKit " + OpenKitConstants.DEFAULT_APPLICATION_VERSION
-                    + " instantiated");
+            logger.info(OpenKitImpl.class.getSimpleName() + " - " + openKitConfiguration.getOpenKitType() + " OpenKit " + OpenKitConstants.DEFAULT_APPLICATION_VERSION + " instantiated");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug(OpenKitImpl.class.getSimpleName()
-                    + ", applicationID=" + openKitConfiguration.getApplicationID()
-                    + ", deviceID=" + openKitConfiguration.getDeviceID()
-                    + ", origDeviceID=" + openKitConfiguration.getOrigDeviceID()
-                    + ", endpointURL=" + openKitConfiguration.getEndpointURL());
+            logger.debug(OpenKitImpl.class.getSimpleName() + ", applicationID=" + openKitConfiguration.getApplicationID() + ", deviceID=" + openKitConfiguration.getDeviceID() + ", origDeviceID=" + openKitConfiguration.getOrigDeviceID() + ", endpointURL=" + openKitConfiguration.getEndpointURL());
         }
     }
 
@@ -119,139 +140,89 @@ public class OpenKitImpl extends OpenKitComposite implements OpenKit, SessionCre
      * </p>
      */
     public void initialize() {
-        beaconCacheEvictor.start();
-        sessionWatchdog.initialize();
-        beaconSender.initialize();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        shutdown();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean waitForInitCompletion() {
-        return beaconSender.waitForInit();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean waitForInitCompletion(long timeoutMillis) {
-        return beaconSender.waitForInit(timeoutMillis);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isInitialized() {
-        return beaconSender.isInitialized();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Session createSession(String clientIPAddress) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName() + " createSession(" + clientIPAddress + ")");
-        }
-        synchronized (lockObject) {
-            if (!isShutdown) {
-                SessionCreator sessionCreator = new SessionCreatorImpl(this, clientIPAddress);
-                SessionProxyImpl sessionProxy = new SessionProxyImpl(
-                        logger,
-                        this,
-                        sessionCreator,
-                        timingProvider,
-                        beaconSender,
-                        sessionWatchdog
-                );
-
-                storeChildInList(sessionProxy);
-
-                return sessionProxy;
-            }
-        }
-
-        return NullSession.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Session createSession() {
-        return createSession(null);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void shutdown() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName() + " shutdown() - shutdown requested");
-        }
-        synchronized (lockObject) {
-            if (isShutdown) {
-                // shutdown has been called before
-                return;
-            }
-            isShutdown = true;
-        }
-
-        // close all open children
-        List<OpenKitObject> childObjects = getCopyOfChildObjects();
-        for (OpenKitObject childObject : childObjects) {
-            try {
-                childObject.close();
-            } catch (IOException e) {
-                // should not happen, nevertheless let's log an error
-                logger.error(this + "Caught IOException while closing OpenKitObject (" + childObject + ")", e);
-            }
-        }
-
-        beaconCacheEvictor.stop();
-        sessionWatchdog.shutdown();
-        beaconSender.shutdown();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void onChildClosed(OpenKitObject childObject) {
-        synchronized (lockObject) {
-            removeChildFromList(childObject);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Session creator input
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
     public Logger getLogger() {
-        return logger;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public OpenKitConfiguration getOpenKitConfiguration() {
-        return openKitConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public PrivacyConfiguration getPrivacyConfiguration() {
-        return privacyConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BeaconCache getBeaconCache() {
-        return beaconCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public SessionIDProvider getSessionIdProvider() {
-        return sessionIDProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ThreadIDProvider getThreadIdProvider() {
-        return threadIDProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public TimingProvider getTimingProvider() {
-        return timingProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getCurrentServerId() {
-        return beaconSender.getCurrentServerId();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

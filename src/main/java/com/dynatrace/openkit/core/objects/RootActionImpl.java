@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Action;
@@ -40,32 +39,16 @@ public class RootActionImpl extends BaseActionImpl implements RootAction {
 
     @Override
     public Action enterAction(String actionName) {
-        if (actionName == null || actionName.isEmpty()) {
-            logger.warning(this + "enterAction: actionName must not be null or empty");
-            return new NullAction(this);
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "enterAction(" + actionName + ")");
-        }
-        synchronized (lockObject) {
-            if (!isActionLeft()) {
-                LeafActionImpl childAction = new LeafActionImpl(logger, this, actionName, beacon);
-                storeChildInList(childAction);
-                return childAction;
-            }
-        }
-
-        return new NullAction(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     protected Action getParentAction() {
-        // NOTE: root actions do not have a parent action
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [sn=" + beacon.getSessionNumber() + ", id=" + id + ", name=" + name + "] ";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

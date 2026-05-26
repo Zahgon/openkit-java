@@ -27,7 +27,6 @@ import com.dynatrace.openkit.core.configuration.ServerConfigurationUpdateCallbac
 import com.dynatrace.openkit.protocol.Beacon;
 import com.dynatrace.openkit.providers.TimingProvider;
 import com.dynatrace.openkit.util.json.objects.JSONValue;
-
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -46,308 +45,118 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
 
     // object used for synchronization.
     private final Object lockObject = new Object();
+
     // log message reporter
     private final Logger logger;
+
     // Parent object of this session proxy
     private final OpenKitComposite parent;
+
     // creator for split sessions
     private final SessionCreator sessionCreator;
+
     // provider to obtain the current time
     private final TimingProvider timingProvider;
+
     // sender of beacon data
     private final BeaconSender beaconSender;
+
     // watchdog to split sessions after idle/max timeout or to close split off sessions which were not closable on split
     private final SessionWatchdog sessionWatchdog;
+
     // the current session instance
     private SessionImpl currentSession;
+
     // holds the number of received calls to enterAction
     private int topLevelActionCount = 0;
+
     // specifies the timestamp when the last top level event happened
     private long lastInteractionTime;
+
     // the server configuration of the first session (will be initialized when first session is updated with server config)
     private ServerConfiguration serverConfiguration;
+
     // indicates if this session proxy was already finished
     private boolean isFinished;
+
     // last user tag reported via identifyUser
     private String lastUserTag = null;
 
-    SessionProxyImpl(
-            Logger logger,
-            OpenKitComposite parent,
-            SessionCreator sessionCreator,
-            TimingProvider timingProvider,
-            BeaconSender beaconSender,
-            SessionWatchdog sessionWatchdog
-    ) {
+    SessionProxyImpl(Logger logger, OpenKitComposite parent, SessionCreator sessionCreator, TimingProvider timingProvider, BeaconSender beaconSender, SessionWatchdog sessionWatchdog) {
         this.logger = logger;
         this.parent = parent;
         this.sessionCreator = sessionCreator;
         this.timingProvider = timingProvider;
         this.beaconSender = beaconSender;
         this.sessionWatchdog = sessionWatchdog;
-
         ServerConfiguration currentServerConfig = beaconSender.getLastServerConfiguration();
         createInitialSessionAndMakeCurrent(currentServerConfig);
     }
 
     @Override
     public RootAction enterAction(String actionName) {
-        if (actionName == null || actionName.isEmpty()) {
-            logger.warning(this + " enterAction: actionName must not be null or empty");
-            return NullRootAction.INSTANCE;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " enterAction(" + actionName + ")");
-        }
-        synchronized (lockObject) {
-            if (!isFinished) {
-                SessionImpl session = getOrSplitCurrentSessionByEvents();
-                if (session.getBeacon().isActionReportingAllowedByPrivacySettings()) {
-                    // avoid session splitting by action count, if user opted out of action collection
-                    recordTopActionEvent();
-                } else {
-                    recordTopLevelEventInteraction();
-                }
-                return session.enterAction(actionName);
-            }
-        }
-
-        return NullRootAction.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void identifyUser(String userTag) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " identifyUser(" + userTag + ")");
-        }
-        synchronized (lockObject) {
-            if (!isFinished) {
-                SessionImpl session = getOrSplitCurrentSessionByEvents();
-                recordTopLevelEventInteraction();
-                session.identifyUser(userTag);
-                lastUserTag = userTag;
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCrash(String errorName, String reason, String stacktrace) {
-        if (errorName == null || errorName.isEmpty()) {
-            logger.warning(this + " reportCrash: errorName must not be null or empty");
-            return;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " reportCrash(" + errorName + ", " + reason + ", " + stacktrace + ")");
-        }
-        synchronized (lockObject) {
-            if (!isFinished) {
-                SessionImpl session = getOrSplitCurrentSessionByEvents();
-                recordTopLevelEventInteraction();
-                session.reportCrash(errorName, reason, stacktrace);
-
-                // create new session after crash report
-                splitAndCreateNewInitialSession();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCrash(Throwable throwable) {
-        if (throwable == null) {
-            logger.warning(this + " reportCrash: throwable must not be null");
-            return;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " reportCrash(" + throwable + ")");
-        }
-        synchronized (lockObject) {
-            if (!isFinished) {
-                SessionImpl session = getOrSplitCurrentSessionByEvents();
-                recordTopLevelEventInteraction();
-                session.reportCrash(throwable);
-
-                // create new session after crash report
-                splitAndCreateNewInitialSession();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportNetworkTechnology(String technology) {
-        if (technology != null && technology.isEmpty()) {
-            logger.warning(this + " reportNetworkTechnology (String): technology must be null or non-empty string");
-            return;
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " reportNetworkTechnology (String) (" + technology + ")");
-        }
-
-        synchronized (lockObject) {
-            if (!isFinished) {
-                currentSession.reportNetworkTechnology(technology);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportConnectionType(ConnectionType connectionType) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " reportConnectionType (ConnectionType) (" + connectionType + ")");
-        }
-
-        synchronized (lockObject) {
-            if (!isFinished) {
-                currentSession.reportConnectionType(connectionType);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reportCarrier(String carrier) {
-        if (carrier != null && carrier.isEmpty()) {
-            logger.warning(this + " reportCarrier (String): carrier must be null or non-empty string");
-            return;
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " reportCarrier (String) (" + carrier + ")");
-        }
-
-        synchronized (lockObject) {
-            if (!isFinished) {
-                currentSession.reportCarrier(carrier);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(URLConnection connection) {
-        if (connection == null) {
-            logger.warning(this + " traceWebRequest (URLConnection): connection must not be null");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " traceWebRequest (URLConnection) (" + connection + ")");
-        }
-        synchronized (lockObject) {
-            if (!isFinished) {
-                SessionImpl session = getOrSplitCurrentSessionByEvents();
-                recordTopLevelEventInteraction();
-                return session.traceWebRequest(connection);
-            }
-        }
-
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(String url) {
-        if (url == null || url.isEmpty()) {
-            logger.warning(this + " traceWebRequest (String): url must not be null or empty");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (!WebRequestTracerStringURL.isValidURLScheme(url)) {
-            logger.warning(this + " traceWebRequest (String): url \"" + url + "\" does not have a valid scheme");
-            return NullWebRequestTracer.INSTANCE;
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " traceWebRequest (String) (" + url + ")");
-        }
-        synchronized (lockObject) {
-            if (!isFinished) {
-                Session session = getOrSplitCurrentSessionByEvents();
-                recordTopLevelEventInteraction();
-                return session.traceWebRequest(url);
-            }
-        }
-
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void sendBizEvent(String type, Map<String, JSONValue> attributes) {
-        if (type == null || type.isEmpty()) {
-            logger.warning(this + " sendBizEvent (String, Map): type must not be null or empty");
-            return;
-        }
-
-        if (attributes == null) {
-            attributes = new HashMap<>();
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " sendBizEvent(" + type + ", " + attributes.toString() + ")");
-        }
-
-        synchronized (lockObject) {
-            if (!isFinished) {
-                SessionImpl session = getOrSplitCurrentSessionByEvents();
-                recordTopLevelEventInteraction();
-                session.sendBizEvent(type, attributes);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     void sendEvent(String name, Map<String, JSONValue> attributes) {
-        if (name == null || name.isEmpty()) {
-            logger.warning(this + " sendEvent (String, Map): name must not be null or empty");
-            return;
-        }
-
-        if (attributes == null) {
-            attributes = new HashMap<>();
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " sendEvent(" + name + ", " + attributes.toString() + ")");
-        }
-
-        synchronized (lockObject) {
-            if (!isFinished) {
-                SessionImpl session = getOrSplitCurrentSessionByEvents();
-                recordTopLevelEventInteraction();
-                session.sendEvent(name, attributes);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void end() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + " end()");
-        }
-
-        synchronized (lockObject) {
-            if (isFinished) {
-                return;
-            }
-            isFinished = true;
-        }
-
-        closeChildObjects();
-
-        parent.onChildClosed(this);
-        sessionWatchdog.removeFromSplitByTimeout(this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Close all child objects of this {@link SessionProxyImpl} which are still open.
      */
     void closeChildObjects() {
-        List<OpenKitObject> childObjects = getCopyOfChildObjects();
-
-        for (OpenKitObject childObject : childObjects) {
-            if (childObject instanceof SessionImpl) {
-                // child object is a session - special treatment is needed for sessions
-                SessionImpl childSession = (SessionImpl) childObject;
-                // end the child session and send the end session event
-                // if the child session is the current session
-                childSession.end(childSession == currentSession);
-            } else {
-                closeChildObject(childObject);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -368,24 +177,17 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
      * Indicates whether this session proxy was finished or is still open.
      */
     public boolean isFinished() {
-        synchronized (lockObject) {
-            return isFinished;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        end();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void onChildClosed(OpenKitObject childObject) {
-        synchronized (lockObject) {
-            removeChildFromList(childObject);
-            if (childObject instanceof SessionImpl) {
-                sessionWatchdog.dequeueFromClosing((SessionImpl) childObject);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -393,25 +195,21 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
      * tests only.
      */
     int getTopLevelActionCount() {
-        synchronized (lockObject) {
-            return topLevelActionCount;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the time when the last top level event was called. Intended to be used by unit tests only.
      */
     long getLastInteractionTime() {
-        synchronized (lockObject) {
-            return lastInteractionTime;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the server configuration of this session proxy. Intended to be used by unit tests only.
      */
     ServerConfiguration getServerConfiguration() {
-        return serverConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -434,7 +232,6 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
         if (serverConfiguration == null || !serverConfiguration.isSessionSplitByEventsEnabled()) {
             return false;
         }
-
         return serverConfiguration.getMaxEventsPerSession() <= topLevelActionCount;
     }
 
@@ -451,7 +248,6 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
      */
     private void splitAndCreateNewInitialSession() {
         closeOrEnqueueCurrentSessionForClosing();
-
         // create a completely new SessionImpl
         sessionCreator.reset();
         createInitialSessionAndMakeCurrent(serverConfiguration);
@@ -461,13 +257,9 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
     private void closeOrEnqueueCurrentSessionForClosing() {
         // for grace period use half of the idle timeout
         // or fallback to session interval if not configured
-        int closeGracePeriodInMillis = serverConfiguration.getSessionTimeoutInMilliseconds() > 0
-                ? serverConfiguration.getSessionTimeoutInMilliseconds() / 2
-                : serverConfiguration.getSendIntervalInMilliseconds();
-
+        int closeGracePeriodInMillis = serverConfiguration.getSessionTimeoutInMilliseconds() > 0 ? serverConfiguration.getSessionTimeoutInMilliseconds() / 2 : serverConfiguration.getSendIntervalInMilliseconds();
         sessionWatchdog.closeOrEnqueueForClosing(currentSession, closeGracePeriodInMillis);
     }
-
 
     /**
      * Will end the current active session and start a new one but only if the following conditions are met:
@@ -488,21 +280,7 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
      * is returned.
      */
     public long splitSessionByTime() {
-        synchronized (lockObject) {
-            if (isFinished()) {
-                return -1;
-            }
-
-            long nextSplitTime = calculateNextSplitTime();
-            long now = timingProvider.provideTimestampInMilliseconds();
-            if (nextSplitTime < 0 || now < nextSplitTime) {
-                return nextSplitTime;
-            }
-
-            splitAndCreateNewInitialSession();
-
-            return calculateNextSplitTime();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -517,14 +295,10 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
         if (serverConfiguration == null) {
             return -1;
         }
-
         boolean splitByIdleTimeout = serverConfiguration.isSessionSplitByIdleTimeoutEnabled();
         boolean splitBySessionDuration = serverConfiguration.isSessionSplitBySessionDurationEnabled();
-
         long idleTimeOut = lastInteractionTime + serverConfiguration.getSessionTimeoutInMilliseconds();
-        long sessionMaxTime = currentSession.getBeacon().getSessionStartTime()
-                + serverConfiguration.getMaxSessionDurationInMilliseconds();
-
+        long sessionMaxTime = currentSession.getBeacon().getSessionStartTime() + serverConfiguration.getMaxSessionDurationInMilliseconds();
         if (splitByIdleTimeout && splitBySessionDuration) {
             return Math.min(idleTimeOut, sessionMaxTime);
         } else if (splitByIdleTimeout) {
@@ -532,7 +306,6 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
         } else if (splitBySessionDuration) {
             return sessionMaxTime;
         }
-
         return -1;
     }
 
@@ -567,23 +340,18 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
         Beacon beacon = session.getBeacon();
         beacon.setServerConfigurationUpdateCallback(this);
         storeChildInList(session);
-
         lastInteractionTime = beacon.getSessionStartTime();
         topLevelActionCount = 0;
-
         if (initialServerConfig != null) {
             session.initializeServerConfiguration(initialServerConfig);
         }
-
         if (updatedServerConfig != null) {
             session.updateServerConfiguration(updatedServerConfig);
         }
-
         synchronized (lockObject) {
             // synchronize access
             currentSession = session;
         }
-
         this.beaconSender.addSession(session);
     }
 
@@ -600,35 +368,16 @@ public class SessionProxyImpl extends OpenKitComposite implements Session, Serve
         if (lastUserTag == null || lastUserTag.length() == 0 || currentSession == null) {
             return;
         }
-
         currentSession.identifyUser(lastUserTag);
     }
 
     @Override
     public void onServerConfigurationUpdate(ServerConfiguration serverConfig) {
-        synchronized (lockObject) {
-            if (serverConfiguration != null) {
-                serverConfiguration = serverConfiguration.merge(serverConfig);
-                return;
-            }
-
-            serverConfiguration = serverConfig;
-
-            if (isFinished()) {
-                return;
-            }
-
-            if (serverConfiguration.isSessionSplitBySessionDurationEnabled() ||
-                    serverConfiguration.isSessionSplitByIdleTimeoutEnabled()) {
-                sessionWatchdog.addToSplitByTimeout(this);
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        Beacon beacon = currentSession.getBeacon();
-        return getClass().getSimpleName()
-                + " [sn=" + beacon.getSessionNumber() + ", seq=" + beacon.getSessionSequenceNumber() + "]";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

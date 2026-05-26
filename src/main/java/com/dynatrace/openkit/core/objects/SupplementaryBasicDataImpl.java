@@ -13,40 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.ConnectionType;
 
 public class SupplementaryBasicDataImpl implements SupplementaryBasicData {
-	private String networkTechnology;
-	private ConnectionType connectionType;
-	private String carrier;
 
-	@Override
-	public synchronized void setNetworkTechnology(String technology) {
-		this.networkTechnology = technology;
-	}
+    private String networkTechnology;
 
-	public synchronized String getNetworkTechnology() {
-		return networkTechnology;
-	}
+    private ConnectionType connectionType;
 
-	@Override
-	public synchronized void setConnectionType(ConnectionType connectionType) {
-		this.connectionType = connectionType;
-	}
+    private String carrier;
 
-	public synchronized ConnectionType getConnectionType() {
-		return connectionType;
-	}
+    @Override
+    public synchronized void setNetworkTechnology(String technology) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-	@Override
-	public synchronized void setCarrier(String carrier) {
-		this.carrier = carrier;
-	}
+    public synchronized String getNetworkTechnology() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
-	public synchronized String getCarrier() {
-		return carrier;
-	}
+    @Override
+    public synchronized void setConnectionType(ConnectionType connectionType) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public synchronized ConnectionType getConnectionType() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    @Override
+    public synchronized void setCarrier(String carrier) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    public synchronized String getCarrier() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 }

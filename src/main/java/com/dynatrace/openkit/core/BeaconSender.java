@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core;
 
 import com.dynatrace.openkit.api.Logger;
@@ -23,7 +22,6 @@ import com.dynatrace.openkit.core.configuration.ServerConfiguration;
 import com.dynatrace.openkit.core.objects.SessionImpl;
 import com.dynatrace.openkit.providers.HTTPClientProvider;
 import com.dynatrace.openkit.providers.TimingProvider;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class BeaconSender {
 
     private static final String THREAD_NAME = BeaconSender.class.getSimpleName();
+
     private static final long SHUTDOWN_TIMEOUT = TimeUnit.SECONDS.toMillis(10);
 
     private final Logger logger;
@@ -43,6 +42,7 @@ public class BeaconSender {
      * Thread used to send the beacons in the background
      */
     private Thread beaconSenderThread;
+
     /**
      * Context in terms of the State Design Pattern
      */
@@ -73,23 +73,7 @@ public class BeaconSender {
      * </p>
      */
     public synchronized void initialize() {
-        final String className = getClass().getSimpleName();
-        // create and start the sending thread
-        beaconSenderThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // run the loop as long as OpenKit does not get shutdown or ends itself.
-                if (logger.isDebugEnabled()) {
-                    logger.debug(className + " initialize() - thread started");
-                }
-                while (!context.isInTerminalState()) {
-                    context.executeCurrentState();
-                }
-            }
-        });
-        beaconSenderThread.setDaemon(true);
-        beaconSenderThread.setName(THREAD_NAME);
-        beaconSenderThread.start();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -101,7 +85,7 @@ public class BeaconSender {
      * @return {@code true} if OpenKit is fully initialized, or {@code false} if shutdown has been requested during init phase.
      */
     public boolean waitForInit() {
-        return context.waitForInit();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -111,7 +95,7 @@ public class BeaconSender {
      * @return {@code true} if OpenKit is fully initialized, or {@code false} if shutdown has been requested during init phase.
      */
     public boolean waitForInit(long timeoutMillis) {
-        return context.waitForInit(timeoutMillis);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -120,47 +104,28 @@ public class BeaconSender {
      * @return {@code true} if OpenKit has been initialized, {@code false} otherwise.
      */
     public boolean isInitialized() {
-        return context.isInitialized();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Shutdown the BeaconSender and wait until it's shutdown (at most {@link BeaconSender#SHUTDOWN_TIMEOUT} milliseconds.
      */
     public synchronized void shutdown() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName() + " shutdown() - thread request shutdown");
-        }
-        context.requestShutdown();
-
-        if (beaconSenderThread != null) {
-            beaconSenderThread.interrupt();
-            try {
-                beaconSenderThread.join(SHUTDOWN_TIMEOUT);
-                if (logger.isDebugEnabled()) {
-                    logger.debug(getClass().getSimpleName() + " shutdown() - thread stopped");
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                if (logger.isDebugEnabled()) {
-                    logger.debug(getClass().getSimpleName() + " shutdown() - Thread interrupted while waiting for BeaconSender thread to join");
-                }
-            }
-            beaconSenderThread = null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the last known server configuration.
      */
     public ServerConfiguration getLastServerConfiguration() {
-        return context.getLastServerConfiguration();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the current server ID to be used for creating new sessions
      */
     public int getCurrentServerId() {
-        return context.getCurrentServerId();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -173,9 +138,6 @@ public class BeaconSender {
      * @param session the session to start.
      */
     public void addSession(SessionImpl session) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName() + " addSession()");
-        }
-        context.addSession(session);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

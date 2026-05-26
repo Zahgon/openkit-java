@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.configuration;
 
 import com.dynatrace.openkit.DynatraceOpenKitBuilder;
@@ -28,17 +27,31 @@ import com.dynatrace.openkit.core.util.PercentEncoder;
  */
 public class OpenKitConfiguration {
 
-    /** Character set used to encode application & device ID */
+    /**
+     * Character set used to encode application & device ID
+     */
     private static final String ENCODING_CHARSET = "UTF-8";
-    /** Underscore is a reserved character in the server, therefore it also needs to be encoded */
-    private static final char[] RESERVED_CHARACTERS = {'_'};
 
-    /** The endpoint URL to send data to. */
+    /**
+     * Underscore is a reserved character in the server, therefore it also needs to be encoded
+     */
+    private static final char[] RESERVED_CHARACTERS = { '_' };
+
+    /**
+     * The endpoint URL to send data to.
+     */
     private final String endpointURL;
-    /** Unique device/installation identifier */
+
+    /**
+     * Unique device/installation identifier
+     */
     private final long deviceID;
-    /** Unique device/installation identifier in an not-hashed representation as it as passed to the OpenKit builder */
+
+    /**
+     * Unique device/installation identifier in an not-hashed representation as it as passed to the OpenKit builder
+     */
     private final String origDeviceID;
+
     /**
      * OpenKit's type string
      *
@@ -47,25 +60,55 @@ public class OpenKitConfiguration {
      * </p>
      */
     private final String openKitType;
-    /** Application identifier for which to report data */
+
+    /**
+     * Application identifier for which to report data
+     */
     private final String applicationID;
-    /** Percent encoded {@link #applicationID} */
+
+    /**
+     * Percent encoded {@link #applicationID}
+     */
     private final String percentEncodedApplicationID;
-    /** Application's version */
+
+    /**
+     * Application's version
+     */
     private final String applicationVersion;
-    /** Operating system */
+
+    /**
+     * Operating system
+     */
     private final String operatingSystem;
-    /** Device's manufacturer */
+
+    /**
+     * Device's manufacturer
+     */
     private final String manufacturer;
-    /** Model identifier */
+
+    /**
+     * Model identifier
+     */
     private final String modelID;
-    /** Default server id to communicate with */
+
+    /**
+     * Default server id to communicate with
+     */
     private final int defaultServerID;
-    /** SSL trust manager configured in OpenKit builder */
+
+    /**
+     * SSL trust manager configured in OpenKit builder
+     */
     private final SSLTrustManager sslTrustManager;
-    /** HTTP request interceptor configured in OpenKit builder */
+
+    /**
+     * HTTP request interceptor configured in OpenKit builder
+     */
     private final HttpRequestInterceptor httpRequestInterceptor;
-    /** HTTP response interceptor configured in OpenKit builder */
+
+    /**
+     * HTTP response interceptor configured in OpenKit builder
+     */
     private final HttpResponseInterceptor httpResponseInterceptor;
 
     /**
@@ -97,10 +140,7 @@ public class OpenKitConfiguration {
      * @return Newly created {@link PrivacyConfiguration} or {@code null} if given argument is {@code null}
      */
     public static OpenKitConfiguration from(DynatraceOpenKitBuilder builder) {
-        if (builder == null) {
-            return null;
-        }
-        return new OpenKitConfiguration(builder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -109,7 +149,7 @@ public class OpenKitConfiguration {
      * @return Beacon endpoint URL
      */
     public String getEndpointURL() {
-        return endpointURL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -118,7 +158,7 @@ public class OpenKitConfiguration {
      * @return Unique device identifier.
      */
     public long getDeviceID() {
-        return deviceID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -127,7 +167,7 @@ public class OpenKitConfiguration {
      * @return the device identifier as it was originally passed to OpenKit.
      */
     public String getOrigDeviceID() {
-        return origDeviceID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -136,7 +176,7 @@ public class OpenKitConfiguration {
      * @return OpenKit type.
      */
     public String getOpenKitType() {
-        return openKitType;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -145,7 +185,7 @@ public class OpenKitConfiguration {
      * @return Custom application identifier.
      */
     public String getApplicationID() {
-        return applicationID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -154,7 +194,7 @@ public class OpenKitConfiguration {
      * @return Custom application identifier, percent encoded.
      */
     public String getPercentEncodedApplicationID() {
-        return percentEncodedApplicationID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -163,7 +203,7 @@ public class OpenKitConfiguration {
      * @return Application version.
      */
     public String getApplicationVersion() {
-        return applicationVersion;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -172,7 +212,7 @@ public class OpenKitConfiguration {
      * @return Device's operating system.
      */
     public String getOperatingSystem() {
-        return operatingSystem;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -181,7 +221,7 @@ public class OpenKitConfiguration {
      * @return Device's manufacturer
      */
     public String getManufacturer() {
-        return manufacturer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -190,7 +230,7 @@ public class OpenKitConfiguration {
      * @return Device's model identifier.
      */
     public String getModelID() {
-        return modelID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -199,7 +239,7 @@ public class OpenKitConfiguration {
      * @return Default Dynatrace server id.
      */
     public int getDefaultServerID() {
-        return defaultServerID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -208,7 +248,7 @@ public class OpenKitConfiguration {
      * @return {@link SSLTrustManager}.
      */
     public SSLTrustManager getSSLTrustManager() {
-        return sslTrustManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -217,7 +257,7 @@ public class OpenKitConfiguration {
      * @return {@link HttpRequestInterceptor}.
      */
     public HttpRequestInterceptor getHttpRequestInterceptor() {
-        return httpRequestInterceptor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -226,6 +266,6 @@ public class OpenKitConfiguration {
      * @return {@link HttpResponseInterceptor}.
      */
     public HttpResponseInterceptor getHttpResponseInterceptor() {
-        return httpResponseInterceptor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

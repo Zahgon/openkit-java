@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.util.json.objects;
 
 import com.dynatrace.openkit.util.json.constants.JSONLiterals;
@@ -23,13 +22,19 @@ import com.dynatrace.openkit.util.json.constants.JSONLiterals;
  */
 public class JSONBooleanValue extends JSONValue {
 
-    /** singleton instance representing true. */
+    /**
+     * singleton instance representing true.
+     */
     public static final JSONBooleanValue TRUE = new JSONBooleanValue(true);
 
-    /** singleton instance representing false. */
+    /**
+     * singleton instance representing false.
+     */
     public static final JSONBooleanValue FALSE = new JSONBooleanValue(false);
 
-    /** The boolean value represented by this instance. */
+    /**
+     * The boolean value represented by this instance.
+     */
     private final boolean value;
 
     /**
@@ -56,7 +61,7 @@ public class JSONBooleanValue extends JSONValue {
      * @return Returns either {@link #FALSE} or {@link #TRUE}.
      */
     public static JSONBooleanValue fromValue(boolean value) {
-        return value ? TRUE : FALSE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -68,25 +73,17 @@ public class JSONBooleanValue extends JSONValue {
      *      is {@link JSONLiterals#BOOLEAN_FALSE_LITERAL} and {@code null} in every other case.
      */
     public static JSONBooleanValue fromLiteral(String literal) {
-        if (literal == null) {
-            return null;
-        } else if (literal.equals(JSONLiterals.BOOLEAN_TRUE_LITERAL)) {
-            return TRUE;
-        } else if (literal.equals(JSONLiterals.BOOLEAN_FALSE_LITERAL)) {
-            return FALSE;
-        } else {
-            return null;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isBoolean() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void writeJSONString(JSONValueWriter writer, JSONOutputConfig config) {
-        writer.insertValue(getValue() ? JSONLiterals.BOOLEAN_TRUE_LITERAL : JSONLiterals.BOOLEAN_FALSE_LITERAL);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -95,6 +92,6 @@ public class JSONBooleanValue extends JSONValue {
      * @return Boolean value represented by this instance.
      */
     public boolean getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Logger;
 import com.dynatrace.openkit.api.OpenKitConstants;
 import com.dynatrace.openkit.protocol.Beacon;
-
 import java.util.regex.Pattern;
 
 /**
@@ -41,10 +39,7 @@ public class WebRequestTracerStringURL extends WebRequestTracerBaseImpl {
      * @param beacon {@link Beacon} for data sending and tag creation
      * @param url The URL to trace
      */
-    public WebRequestTracerStringURL(Logger logger,
-                                     OpenKitComposite parent,
-                                     Beacon beacon,
-                                     String url) {
+    public WebRequestTracerStringURL(Logger logger, OpenKitComposite parent, Beacon beacon, String url) {
         super(logger, parent, extractURLParts(url), beacon);
     }
 
@@ -69,7 +64,6 @@ public class WebRequestTracerStringURL extends WebRequestTracerBaseImpl {
         if (isValidURLScheme(url)) {
             return url.split("\\?", 2)[0];
         }
-
         return WebRequestTracerBaseImpl.UNKNOWN_URL;
     }
 
@@ -80,6 +74,6 @@ public class WebRequestTracerStringURL extends WebRequestTracerBaseImpl {
      * @return {@code true} if the URL scheme is valid, {@code false} otherwise.
      */
     static boolean isValidURLScheme(String url) {
-        return url != null && SCHEMA_VALIDATION_PATTERN.matcher(url).matches();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.util.json.objects;
 
 import java.util.Iterator;
@@ -28,7 +27,9 @@ import java.util.List;
  */
 public class JSONArrayValue extends JSONValue {
 
-    /** They underlying array storing the values */
+    /**
+     * They underlying array storing the values
+     */
     private final List<JSONValue> jsonValues;
 
     /**
@@ -52,36 +53,17 @@ public class JSONArrayValue extends JSONValue {
      * @return Newly created {@link JSONArrayValue} or {@code null} if argument is null.
      */
     public static JSONArrayValue fromList(List<JSONValue> jsonValues) {
-        return jsonValues == null ? null : new JSONArrayValue(jsonValues);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isArray() {
-        return true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     void writeJSONString(JSONValueWriter writer, JSONOutputConfig config) {
-        if (size() > 0) {
-            writer.openArray();
-
-            Iterator<JSONValue> it = jsonValues.iterator();
-            int writtenElements = 0;
-
-            while (it.hasNext()) {
-                JSONValue value = it.next();
-
-                if (config != JSONOutputConfig.IGNORE_NULL || !value.isNull()) {
-                    if (writtenElements++ > 0) {
-                        writer.insertElementSeperator();
-                    }
-
-                    value.writeJSONString(writer, config);
-                }
-            }
-
-            writer.closeArray();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -90,7 +72,7 @@ public class JSONArrayValue extends JSONValue {
      * @return Size of this JSON array.
      */
     public int size() {
-        return jsonValues.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -103,7 +85,7 @@ public class JSONArrayValue extends JSONValue {
      * @throws IndexOutOfBoundsException If given {@code index} is out of bounds.
      */
     public JSONValue get(int index) {
-        return jsonValues.get(index);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,6 +94,6 @@ public class JSONArrayValue extends JSONValue {
      * @return An iterator over the elements in this JSON array in proper sequence
      */
     public Iterator<JSONValue> iterator() {
-        return jsonValues.iterator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

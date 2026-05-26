@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit;
 
 import com.dynatrace.openkit.protocol.SerializableBeaconValue;
@@ -22,6 +21,7 @@ import com.dynatrace.openkit.protocol.SerializableBeaconValue;
  * Specifies the level at which crashes are reported to the server.
  */
 public enum CrashReportingLevel implements SerializableBeaconValue {
+
     /**
      * Crashes are not sent to the server
      */
@@ -42,15 +42,15 @@ public enum CrashReportingLevel implements SerializableBeaconValue {
     }
 
     public int getIntValue() {
-        return intValue;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String asBeaconValue() {
-        return String.valueOf(intValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static CrashReportingLevel defaultValue() {
-        return OPT_IN_CRASHES;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

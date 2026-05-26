@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.providers;
 
 public class DefaultTimingProvider implements TimingProvider {
@@ -34,17 +33,16 @@ public class DefaultTimingProvider implements TimingProvider {
 
     @Override
     public long provideTimestampInMilliseconds() {
-        return (referenceTimestampNanos + System.nanoTime()) / MILLIS_TO_NANOS_FACTOR;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long provideTimestampInNanoseconds() {
-        return referenceTimestampNanos + System.nanoTime();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void sleep(long milliseconds) throws InterruptedException {
-
-        Thread.sleep(milliseconds);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

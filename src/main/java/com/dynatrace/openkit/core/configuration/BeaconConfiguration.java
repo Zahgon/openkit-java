@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.configuration;
 
 /**
@@ -21,30 +20,47 @@ package com.dynatrace.openkit.core.configuration;
  */
 public class BeaconConfiguration {
 
-    /** OpenKit related configuration, that has been configured using the builder */
+    /**
+     * OpenKit related configuration, that has been configured using the builder
+     */
     private final OpenKitConfiguration openKitConfiguration;
-    /** Privacy configuration, which has also been configured via the builder */
+
+    /**
+     * Privacy configuration, which has also been configured via the builder
+     */
     private final PrivacyConfiguration privacyConfiguration;
-    /** HTTP client configuration */
+
+    /**
+     * HTTP client configuration
+     */
     private final HTTPClientConfiguration httpClientConfiguration;
-    /** Server configuration, which can be updated by the server. */
+
+    /**
+     * Server configuration, which can be updated by the server.
+     */
     private ServerConfiguration serverConfiguration;
-    /** indicator if the {@link ServerConfiguration} was set or not */
+
+    /**
+     * indicator if the {@link ServerConfiguration} was set or not
+     */
     private boolean isServerConfigurationSet;
 
-    /** callback when the server configuration is updated. */
+    /**
+     * callback when the server configuration is updated.
+     */
     private ServerConfigurationUpdateCallback serverConfigUpdateCallback;
-    /** Object for synchronization */
+
+    /**
+     * Object for synchronization
+     */
     private final Object lockObject = new Object();
 
-    private BeaconConfiguration(OpenKitConfiguration openKitConfiguration,
-                                PrivacyConfiguration privacyConfiguration, int serverId) {
+    private BeaconConfiguration(OpenKitConfiguration openKitConfiguration, PrivacyConfiguration privacyConfiguration, int serverId) {
         this.openKitConfiguration = openKitConfiguration;
         this.privacyConfiguration = privacyConfiguration;
-        this.httpClientConfiguration = HTTPClientConfiguration.modifyWith(openKitConfiguration)
-                .withServerID(serverId)
-                .build();
-        this.serverConfiguration = null; // not set for the first time
+        this.httpClientConfiguration = HTTPClientConfiguration.modifyWith(openKitConfiguration).withServerID(serverId).build();
+        // not set for the first time
+        this.serverConfiguration = null;
     }
 
     /**
@@ -55,13 +71,8 @@ public class BeaconConfiguration {
      *
      * @return {@code null} if any of the given argument is {@code null}, otherwise a new {@link BeaconConfiguration}.
      */
-    public static BeaconConfiguration from(OpenKitConfiguration openKitConfiguration,
-                                           PrivacyConfiguration privacyConfiguration, int serverId) {
-        if (openKitConfiguration == null || privacyConfiguration == null) {
-            return null;
-        }
-
-        return new BeaconConfiguration(openKitConfiguration, privacyConfiguration, serverId);
+    public static BeaconConfiguration from(OpenKitConfiguration openKitConfiguration, PrivacyConfiguration privacyConfiguration, int serverId) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -70,7 +81,7 @@ public class BeaconConfiguration {
      * @return OpenKit related configuration.
      */
     public OpenKitConfiguration getOpenKitConfiguration() {
-        return openKitConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -79,7 +90,7 @@ public class BeaconConfiguration {
      * @return Privacy related configuration.
      */
     public PrivacyConfiguration getPrivacyConfiguration() {
-        return privacyConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -92,25 +103,21 @@ public class BeaconConfiguration {
      * @return A {@link ServerConfiguration} object.
      */
     public ServerConfiguration getServerConfiguration() {
-        synchronized (lockObject) {
-            return serverConfiguration != null
-                ? serverConfiguration
-                : ServerConfiguration.DEFAULT;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Enables the capturing and sets {@link #isServerConfigurationSet()}
      */
     public void enableCapture() {
-        updateCaptureWith(true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Disables capturing and sets {@link #isServerConfigurationSet()}
      */
     public void disableCapture() {
-        updateCaptureWith(false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -121,10 +128,7 @@ public class BeaconConfiguration {
     private void updateCaptureWith(boolean captureState) {
         synchronized (lockObject) {
             ServerConfiguration currentServerConfig = getServerConfiguration();
-            serverConfiguration = new ServerConfiguration.Builder(currentServerConfig)
-                    .withCapture(captureState)
-                    .build();
-
+            serverConfiguration = new ServerConfiguration.Builder(currentServerConfig).withCapture(captureState).build();
             isServerConfigurationSet = true;
         }
     }
@@ -138,21 +142,7 @@ public class BeaconConfiguration {
      * @param initialServerConfiguration the server configuration to initialize this beacon configuration with.
      */
     public void initializeServerConfiguration(ServerConfiguration initialServerConfiguration) {
-        if (initialServerConfiguration == null || initialServerConfiguration.equals(ServerConfiguration.DEFAULT)) {
-            // ignore DEFAULT configuration since server configuration update does not take over certain attributes
-            // when merging and the configuration already exists.
-            return;
-        }
-
-        synchronized (lockObject) {
-            if (isServerConfigurationSet) {
-                return;
-            }
-
-            serverConfiguration = initialServerConfiguration;
-        }
-
-        notifyServerConfigurationUpdate(initialServerConfiguration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -166,23 +156,7 @@ public class BeaconConfiguration {
      * @param newServerConfiguration New server configuration, as received from the server.
      */
     public void updateServerConfiguration(ServerConfiguration newServerConfiguration) {
-        if (newServerConfiguration == null) {
-            return;
-        }
-
-        synchronized (lockObject) {
-            if (isServerConfigurationSet) {
-                // server configuration already exists,
-                // therefore merge new one with the existing one.
-                newServerConfiguration = serverConfiguration.merge(newServerConfiguration);
-            }
-            serverConfiguration = newServerConfiguration;
-            isServerConfigurationSet = true;
-        }
-
-        // notify has to be called outside of the synchronized block
-        // to avoid deadlock situations with SessionProxyImpl
-        notifyServerConfigurationUpdate(newServerConfiguration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void notifyServerConfigurationUpdate(ServerConfiguration serverConfig) {
@@ -197,9 +171,7 @@ public class BeaconConfiguration {
      * @return {@code true} if the {@link ServerConfiguration} has been set before, {@code false} otherwise.
      */
     public boolean isServerConfigurationSet() {
-        synchronized (lockObject) {
-            return isServerConfigurationSet;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -207,9 +179,7 @@ public class BeaconConfiguration {
      * @param updateCallback the callback to be called on server configuration updates.
      */
     public void setServerConfigurationUpdateCallback(ServerConfigurationUpdateCallback updateCallback) {
-        synchronized (lockObject) {
-            serverConfigUpdateCallback = updateCallback;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -218,6 +188,6 @@ public class BeaconConfiguration {
      * @return HTTP client configuration.
      */
     public HTTPClientConfiguration getHTTPClientConfiguration() {
-        return httpClientConfiguration;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

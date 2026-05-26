@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 import com.dynatrace.openkit.protocol.StatusResponse;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,6 +36,7 @@ class BeaconSendingCaptureOffState extends AbstractBeaconSendingState {
      * number of retries for the status request
      */
     private static final int STATUS_REQUEST_RETRIES = 5;
+
     private static final long INITIAL_RETRY_SLEEP_TIME_MILLISECONDS = TimeUnit.SECONDS.toMillis(1);
 
     /**
@@ -69,38 +68,20 @@ class BeaconSendingCaptureOffState extends AbstractBeaconSendingState {
 
     @Override
     void doExecute(BeaconSendingContext context) throws InterruptedException {
-
-        // disable capturing - avoid collecting further data
-        context.disableCaptureAndClear();
-
-        long currentTime = context.getCurrentTimestamp();
-
-        long delta = sleepTimeInMilliseconds > 0
-            ? sleepTimeInMilliseconds
-            : STATUS_CHECK_INTERVAL - (currentTime - context.getLastStatusCheckTime());
-        if (delta > 0 && !context.isShutdownRequested()) {
-            context.sleep(delta);
-        }
-        StatusResponse statusResponse = BeaconSendingRequestUtil.sendStatusRequest(context, STATUS_REQUEST_RETRIES, INITIAL_RETRY_SLEEP_TIME_MILLISECONDS);
-        handleStatusResponse(context, statusResponse);
-
-        // update the last status check time in any case
-        context.setLastStatusCheckTime(currentTime);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     AbstractBeaconSendingState getShutdownState() {
-        return new BeaconSendingFlushSessionsState();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static void handleStatusResponse(BeaconSendingContext context, StatusResponse statusResponse) {
-
         if (statusResponse != null) {
             // handle status response, even if it's erroneous
             // if it's an erroneous response capturing is disabled
             context.handleStatusResponse(statusResponse);
         }
-
         if (BeaconSendingResponseUtil.isTooManyRequestsResponse(statusResponse)) {
             // received "too many requests" response
             // in this case stay in capture off state and use the retry-after delay for sleeping
@@ -113,7 +94,6 @@ class BeaconSendingCaptureOffState extends AbstractBeaconSendingState {
 
     @Override
     public String toString() {
-        return "CaptureOff";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

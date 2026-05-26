@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.util;
 
 import com.dynatrace.openkit.core.objects.EventPayloadBuilder;
@@ -21,7 +20,6 @@ import com.dynatrace.openkit.util.json.objects.JSONArrayValue;
 import com.dynatrace.openkit.util.json.objects.JSONNumberValue;
 import com.dynatrace.openkit.util.json.objects.JSONObjectValue;
 import com.dynatrace.openkit.util.json.objects.JSONValue;
-
 import java.util.Iterator;
 
 public class EventPayloadBuilderUtil {
@@ -30,31 +28,25 @@ public class EventPayloadBuilderUtil {
     }
 
     private static boolean isObjectContainingNonFiniteNumericValues(JSONObjectValue jsonObject) {
-        for(String key: jsonObject.keySet()) {
-            if(isItemContainingNonFiniteNumericValues(jsonObject.get(key))) {
+        for (String key : jsonObject.keySet()) {
+            if (isItemContainingNonFiniteNumericValues(jsonObject.get(key))) {
                 return true;
             }
         }
-
         return false;
     }
 
     private static boolean isArrayContainingNonFiniteNumericValues(JSONArrayValue jsonArrayValue) {
         Iterator<JSONValue> it = jsonArrayValue.iterator();
-
-        while(it.hasNext()) {
-            if(isItemContainingNonFiniteNumericValues(it.next())) {
+        while (it.hasNext()) {
+            if (isItemContainingNonFiniteNumericValues(it.next())) {
                 return true;
             }
         }
-
         return false;
     }
 
     public static boolean isItemContainingNonFiniteNumericValues(JSONValue jsonValue) {
-        return (jsonValue.isObject() && isObjectContainingNonFiniteNumericValues((JSONObjectValue) jsonValue))
-                || (jsonValue.isArray() && isArrayContainingNonFiniteNumericValues((JSONArrayValue) jsonValue))
-                || (jsonValue.isNumber() && !((JSONNumberValue) jsonValue).isFinite());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

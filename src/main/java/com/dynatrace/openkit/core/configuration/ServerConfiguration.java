@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.configuration;
 
 import com.dynatrace.openkit.protocol.ResponseAttribute;
@@ -36,58 +35,72 @@ public class ServerConfiguration {
      * Boolean indicating whether capturing is enabled by the backend or not
      */
     private final boolean isCaptureEnabled;
+
     /**
      * Boolean indicating whether crash reporting is enabled by the backend or not
      */
     private final boolean isCrashReportingEnabled;
+
     /**
      * Boolean indicating whether error reporting is enabled by the backend or not
      */
     private final boolean isErrorReportingEnabled;
+
     /**
      * The server ID to send future requests to
      */
     private final int serverID;
+
     /**
      * The maximum allowed beacon size (post body size) in bytes
      */
     private final int beaconSizeInBytes;
+
     /**
      * The multiplicity value
      */
     private final int multiplicity;
+
     /**
      * The send interval in milliseconds.
      */
     private final int sendIntervalInMilliseconds;
+
     /**
      * the maximum duration of a session
      */
     private final int maxSessionDurationInMilliseconds;
+
     /**
      * indicator whether session splitting by exceeding the max session duration is enabled or not.
      */
     private final boolean isSessionSplitBySessionDurationEnabled;
+
     /**
      * the maximum number of events per session
      */
     private final int maxEventsPerSession;
+
     /**
      * indicator whether session splitting by events is enabled or not
      */
     private final boolean isSessionSplitByEventsEnabled;
+
     /**
      * the session idle timeout in milliseconds
      */
     private final int sessionTimeoutInMilliseconds;
+
     /**
      * indicator whether session splitting by exceeding the idle timeout is enabled or not.
      */
     private final boolean isSessionSplitByIdleTimeoutEnabled;
+
     /**
      * version of the visit store that should be used
      */
     private final int visitStoreVersion;
+
     /**
      * session rate limiting percentage
      */
@@ -123,10 +136,7 @@ public class ServerConfiguration {
      * @return the newly created server configuration.
      */
     public static ServerConfiguration from(ResponseAttributes responseAttributes) {
-        if (responseAttributes == null) {
-            return null;
-        }
-        return new ServerConfiguration.Builder(responseAttributes).build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -135,7 +145,7 @@ public class ServerConfiguration {
      * @return {@code true} if capturing is enabled, {@code false} otherwise.
      */
     public boolean isCaptureEnabled() {
-        return isCaptureEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -144,7 +154,7 @@ public class ServerConfiguration {
      * @return {@code true} if crash reporting is enabled, {@code false} otherwise.
      */
     public boolean isCrashReportingEnabled() {
-        return isCrashReportingEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -153,7 +163,7 @@ public class ServerConfiguration {
      * @return {@code true} if error reporting is enabled, {@code false} otherwise.
      */
     public boolean isErrorReportingEnabled() {
-        return isErrorReportingEnabled;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -162,7 +172,7 @@ public class ServerConfiguration {
      * @return Server ID to communicate with
      */
     public int getServerID() {
-        return serverID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -171,7 +181,7 @@ public class ServerConfiguration {
      * @return Maximum beacon size in bytes.
      */
     public int getBeaconSizeInBytes() {
-        return beaconSizeInBytes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -185,7 +195,7 @@ public class ServerConfiguration {
      * @return Multiplicity factor
      */
     public int getMultiplicity() {
-        return multiplicity;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -194,7 +204,7 @@ public class ServerConfiguration {
      * @return send interval in milliseconds.
      */
     public int getSendIntervalInMilliseconds() {
-        return sendIntervalInMilliseconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -203,7 +213,7 @@ public class ServerConfiguration {
      * @return the maximum duration of a session in milliseconds.
      */
     public int getMaxSessionDurationInMilliseconds() {
-        return maxSessionDurationInMilliseconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -211,7 +221,7 @@ public class ServerConfiguration {
      * otherwise.
      */
     public boolean isSessionSplitBySessionDurationEnabled() {
-        return isSessionSplitBySessionDurationEnabled && maxSessionDurationInMilliseconds > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -220,7 +230,7 @@ public class ServerConfiguration {
      * @return the maximum number of top level actions per session.
      */
     public int getMaxEventsPerSession() {
-        return maxEventsPerSession;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -228,7 +238,7 @@ public class ServerConfiguration {
      * otherwise.
      */
     public boolean isSessionSplitByEventsEnabled() {
-        return isSessionSplitByEventsEnabled && maxEventsPerSession > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -237,14 +247,14 @@ public class ServerConfiguration {
      * @return the idle timeout of a session.
      */
     public int getSessionTimeoutInMilliseconds() {
-        return sessionTimeoutInMilliseconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns {@code true} if session splitting by exceeding the idle timeout is enabled, {@code false} otherwise.
      */
     public boolean isSessionSplitByIdleTimeoutEnabled() {
-        return isSessionSplitByIdleTimeoutEnabled && sessionTimeoutInMilliseconds > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -253,7 +263,7 @@ public class ServerConfiguration {
      * @return version of the visit store.
      */
     public int getVisitStoreVersion() {
-        return visitStoreVersion;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -262,7 +272,7 @@ public class ServerConfiguration {
      * @return percentage of sessions to be captured.
      */
     public int getTrafficControlPercentage() {
-        return trafficControlPercentage;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -280,7 +290,7 @@ public class ServerConfiguration {
      * @return {@code true} if data sending is allowed, {@code false} otherwise.
      */
     public boolean isSendingDataAllowed() {
-        return isCaptureEnabled() && getMultiplicity() > 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -295,7 +305,7 @@ public class ServerConfiguration {
      * @return {@code true} if sending crashes is allowed, {@code false} otherwise.
      */
     public boolean isSendingCrashesAllowed() {
-        return isSendingDataAllowed() && isCrashReportingEnabled();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -310,7 +320,7 @@ public class ServerConfiguration {
      * @return {@code true} if sending errors is allowed, {@code false} otherwise.
      */
     public boolean isSendingErrorsAllowed() {
-        return isSendingDataAllowed() && isErrorReportingEnabled();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -333,41 +343,42 @@ public class ServerConfiguration {
      * @return New {@link ServerConfiguration} instance with merged values.
      */
     public ServerConfiguration merge(ServerConfiguration other) {
-        Builder builder = new Builder(other);
-
-        // settings from this
-        builder.withMultiplicity(this.getMultiplicity())
-               .withServerID(this.getServerID())
-               .withMaxSessionDurationInMilliseconds(this.getMaxSessionDurationInMilliseconds())
-               .withMaxEventsPerSession(this.getMaxEventsPerSession())
-               .withSessionTimeoutInMilliseconds(this.getSessionTimeoutInMilliseconds())
-               .withVisitStoreVersion(this.getVisitStoreVersion())
-               .withTrafficControlPercentage(this.getTrafficControlPercentage());
-        builder.isSessionSplitByEventsEnabled = this.isSessionSplitByEventsEnabled();
-        builder.isSessionSplitBySessionDurationEnabled = this.isSessionSplitBySessionDurationEnabled;
-        builder.isSessionSplitByIdleTimeoutEnabled = this.isSessionSplitByIdleTimeoutEnabled;
-
-        return builder.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Builder class for creating a custom instance of {@link ServerConfiguration}.
      */
     public static final class Builder {
+
         private boolean isCaptureEnabled;
+
         private boolean isCrashReportingEnabled;
+
         private boolean isErrorReportingEnabled;
+
         private int serverID;
+
         private int beaconSizeInBytes;
+
         private int multiplicity;
+
         private int sendIntervalInMilliseconds;
+
         private int maxSessionDurationInMilliseconds;
+
         private boolean isSessionSplitBySessionDurationEnabled;
+
         private int maxEventsPerSession;
+
         private boolean isSessionSplitByEventsEnabled;
+
         private int sessionTimeoutInMilliseconds;
+
         private boolean isSessionSplitByIdleTimeoutEnabled;
+
         private int visitStoreVersion;
+
         private int trafficControlPercentage;
 
         /**
@@ -420,8 +431,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withCapture(boolean captureState) {
-            this.isCaptureEnabled = captureState;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -430,8 +440,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withCrashReporting(boolean crashReportingState) {
-            isCrashReportingEnabled = crashReportingState;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -440,8 +449,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withErrorReporting(boolean errorReportingState) {
-            isErrorReportingEnabled = errorReportingState;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -451,8 +459,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withServerID(int serverID) {
-            this.serverID = serverID;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -462,8 +469,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withBeaconSizeInBytes(int beaconSizeInBytes) {
-            this.beaconSizeInBytes = beaconSizeInBytes;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -473,8 +479,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withMultiplicity(int multiplicity) {
-            this.multiplicity = multiplicity;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -484,8 +489,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withSendIntervalInMilliseconds(int sendIntervalInMilliseconds) {
-            this.sendIntervalInMilliseconds = sendIntervalInMilliseconds;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -495,8 +499,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withMaxSessionDurationInMilliseconds(int maxSessionDurationInMillis) {
-            this.maxSessionDurationInMilliseconds = maxSessionDurationInMillis;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -506,8 +509,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withMaxEventsPerSession(int maxEventsPerSession) {
-            this.maxEventsPerSession = maxEventsPerSession;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -517,8 +519,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withSessionTimeoutInMilliseconds(int sessionTimeoutInMilliseconds) {
-            this.sessionTimeoutInMilliseconds = sessionTimeoutInMilliseconds;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -528,8 +529,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withVisitStoreVersion(int visitStoreVersion) {
-            this.visitStoreVersion = visitStoreVersion;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -543,8 +543,7 @@ public class ServerConfiguration {
          * @return {@code this}
          */
         public Builder withTrafficControlPercentage(int trafficControlPercentage) {
-            this.trafficControlPercentage = trafficControlPercentage;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -553,7 +552,7 @@ public class ServerConfiguration {
          * @return Newly created {@link ServerConfiguration} instance.
          */
         public ServerConfiguration build() {
-            return new ServerConfiguration(this);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

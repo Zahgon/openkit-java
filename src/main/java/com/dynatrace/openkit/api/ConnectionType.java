@@ -13,28 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.api;
 
 /**
  * Specifies the type of a network connection.
  */
 public enum ConnectionType {
+
     /**
      * Mobile connection type
      */
     Mobile("m"),
-
     /**
      * Wireless connection type
      */
     Wifi("w"),
-
     /**
      * Offline
      */
     Offline("o"),
-
     /**
      * Connection via local area network
      */
@@ -42,11 +39,11 @@ public enum ConnectionType {
 
     private final String value;
 
-    ConnectionType(String value){
+    ConnectionType(String value) {
         this.value = value;
     }
 
     public String getValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

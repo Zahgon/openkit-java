@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.configuration;
 
 import com.dynatrace.openkit.api.SSLTrustManager;
@@ -26,11 +25,17 @@ import com.dynatrace.openkit.api.http.HttpResponseInterceptor;
 public class HTTPClientConfiguration {
 
     private final String baseURL;
+
     private final int serverID;
+
     private final String applicationID;
+
     private final SSLTrustManager sslTrustManager;
+
     private final HttpRequestInterceptor httpRequestInterceptor;
+
     private final HttpResponseInterceptor httpResponseInterceptor;
+
     private final long deviceID;
 
     private HTTPClientConfiguration(Builder builder) {
@@ -51,7 +56,7 @@ public class HTTPClientConfiguration {
      * @return a new {@link HTTPClientConfiguration} instance initialized from the given configuration.
      */
     public static HTTPClientConfiguration from(OpenKitConfiguration openKitConfig) {
-        return modifyWith(openKitConfig).build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -61,14 +66,7 @@ public class HTTPClientConfiguration {
      * @return a pre initialized builder instance for creating a new {@link HTTPClientConfiguration}
      */
     public static Builder modifyWith(OpenKitConfiguration openKitConfig) {
-        return new Builder()
-                .withBaseURL(openKitConfig.getEndpointURL())
-                .withApplicationID(openKitConfig.getApplicationID())
-                .withSSLTrustManager(openKitConfig.getSSLTrustManager())
-                .withServerID(openKitConfig.getDefaultServerID())
-                .withHttpRequestInterceptor(openKitConfig.getHttpRequestInterceptor())
-                .withHttpResponseInterceptor(openKitConfig.getHttpResponseInterceptor())
-                .withDeviceID(openKitConfig.getDeviceID());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,14 +76,7 @@ public class HTTPClientConfiguration {
      * @return a pre initialized builder instance for creating a new {@link HTTPClientConfiguration}
      */
     public static Builder modifyWith(HTTPClientConfiguration httpClientConfig) {
-        return new Builder()
-                .withBaseURL(httpClientConfig.getBaseURL())
-                .withApplicationID(httpClientConfig.getApplicationID())
-                .withSSLTrustManager(httpClientConfig.getSSLTrustManager())
-                .withServerID(httpClientConfig.getServerID())
-                .withHttpRequestInterceptor(httpClientConfig.getHttpRequestInterceptor())
-                .withHttpResponseInterceptor(httpClientConfig.getHttpResponseInterceptor())
-                .withDeviceID(httpClientConfig.getDeviceID());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -94,7 +85,7 @@ public class HTTPClientConfiguration {
      * @return the base url
      */
     public String getBaseURL() {
-        return baseURL;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -103,7 +94,7 @@ public class HTTPClientConfiguration {
      * @return the server id
      */
     public int getServerID() {
-        return serverID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -112,34 +103,36 @@ public class HTTPClientConfiguration {
      * @return the application id
      */
     public String getApplicationID() {
-        return applicationID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns an interface used for X509 certificate authentication and hostname verification.
      */
     public SSLTrustManager getSSLTrustManager() {
-        return sslTrustManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns an interface used to intercept HTTP requests, before they are sent to the Dynatrace backend.
      */
     public HttpRequestInterceptor getHttpRequestInterceptor() {
-        return httpRequestInterceptor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns an interface used to intercept HTTP responses received from Dynatrace backend.
      */
     public HttpResponseInterceptor getHttpResponseInterceptor() {
-        return httpResponseInterceptor;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the unique device identifier
      */
-    public long getDeviceID() { return deviceID; }
+    public long getDeviceID() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     /**
      * Builder class for building {@link HTTPClientConfiguration}.
@@ -147,51 +140,49 @@ public class HTTPClientConfiguration {
     public static final class Builder {
 
         private String baseURL = null;
+
         private int serverID = -1;
+
         private String applicationID = null;
+
         private SSLTrustManager sslTrustManager = null;
+
         private HttpRequestInterceptor httpRequestInterceptor = null;
+
         private HttpResponseInterceptor httpResponseInterceptor = null;
+
         private long deviceID;
 
-
         public Builder withBaseURL(String baseURL) {
-            this.baseURL = baseURL;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder withServerID(int serverID) {
-            this.serverID = serverID;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder withApplicationID(String applicationID) {
-            this.applicationID = applicationID;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder withSSLTrustManager(SSLTrustManager sslTrustManager) {
-            this.sslTrustManager = sslTrustManager;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder withHttpRequestInterceptor(HttpRequestInterceptor httpRequestInterceptor) {
-            this.httpRequestInterceptor = httpRequestInterceptor;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder withHttpResponseInterceptor(HttpResponseInterceptor httpResponseInterceptor) {
-            this.httpResponseInterceptor = httpResponseInterceptor;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public Builder withDeviceID(long deviceID) {
-            this.deviceID = deviceID;
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public HTTPClientConfiguration build() {
-            return new HTTPClientConfiguration(this);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

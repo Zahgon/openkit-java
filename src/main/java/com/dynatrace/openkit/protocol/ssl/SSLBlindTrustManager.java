@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.protocol.ssl;
 
 import com.dynatrace.openkit.api.SSLTrustManager;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
@@ -40,6 +38,7 @@ import java.security.cert.X509Certificate;
 public class SSLBlindTrustManager implements SSLTrustManager {
 
     private final X509TrustManager blindX509TrustManager = new BlindX509TrustManager();
+
     private final HostnameVerifier blindHostnameVerifier = new BlindHostnameVerifier();
 
     public SSLBlindTrustManager() {
@@ -51,12 +50,12 @@ public class SSLBlindTrustManager implements SSLTrustManager {
 
     @Override
     public X509TrustManager getX509TrustManager() {
-        return blindX509TrustManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public HostnameVerifier getHostnameVerifier() {
-        return blindHostnameVerifier;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -66,17 +65,17 @@ public class SSLBlindTrustManager implements SSLTrustManager {
 
         @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType) {
-            // intentionally left empty to trust everything
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType) {
-            // intentionally left empty to trust everything
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public X509Certificate[] getAcceptedIssuers() {
-            return null;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 
@@ -87,7 +86,7 @@ public class SSLBlindTrustManager implements SSLTrustManager {
 
         @Override
         public boolean verify(String hostname, SSLSession session) {
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
 }

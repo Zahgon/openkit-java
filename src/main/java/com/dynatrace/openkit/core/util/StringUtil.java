@@ -12,9 +12,7 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
-
 package com.dynatrace.openkit.core.util;
 
 public class StringUtil {
@@ -29,15 +27,6 @@ public class StringUtil {
      * @return the 64 bit hash of the given string ({@code 0} in case the given string is {@code null}) or empty.
      */
     public static long to64BitHash(String stringValue) {
-        if(stringValue == null) {
-            return 0;
-        }
-
-        long hash = 0;
-
-        for (int i = 0; i < stringValue.length(); i++) {
-            hash = 31 * hash + stringValue.charAt(i);
-        }
-        return hash;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

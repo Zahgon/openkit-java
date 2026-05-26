@@ -18,7 +18,6 @@ package com.dynatrace.openkit.core;
 import com.dynatrace.openkit.api.Logger;
 import com.dynatrace.openkit.core.objects.SessionImpl;
 import com.dynatrace.openkit.core.objects.SessionProxyImpl;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class SessionWatchdog {
 
     private static final String THREAD_NAME = SessionWatchdog.class.getSimpleName();
+
     private static final long SHUTDOWN_TIMEOUT = TimeUnit.SECONDS.toMillis(2);
 
     /**
@@ -44,6 +44,7 @@ public class SessionWatchdog {
      * The thread checking split open sessions and sessions which are to be split after idle/max timeout.
      */
     private Thread sessionWatchdogThread;
+
     /**
      * Context holding the split not closed sessions and sessions for splitting after idle/max timeout
      */
@@ -55,49 +56,11 @@ public class SessionWatchdog {
     }
 
     public synchronized void initialize() {
-        final String className = getClass().getSimpleName();
-        // start the watchdog thread
-        sessionWatchdogThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(className + " initialize() - session watchdog thread started");
-                }
-                // keep running until shutdown was requested
-                while (!context.isShutdownRequested()) {
-                    context.execute();
-                }
-            }
-        });
-        sessionWatchdogThread.setDaemon(true);
-        sessionWatchdogThread.setName(THREAD_NAME);
-        sessionWatchdogThread.start();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public synchronized void shutdown() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName() + " shutdown() - session watchdog thread request shutdown");
-        }
-        context.requestShutdown();
-
-        if (sessionWatchdogThread == null) {
-            return;
-        }
-
-        sessionWatchdogThread.interrupt();
-        try {
-            sessionWatchdogThread.join(SHUTDOWN_TIMEOUT);
-            if (logger.isDebugEnabled()) {
-                logger.debug(getClass().getSimpleName() + " shutdown() - session watchdog thread stopped");
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            if (logger.isDebugEnabled()) {
-                logger.debug(getClass().getSimpleName() + " shutdown() - Thread interrupted while waiting for session watchdog thread to end");
-            }
-        }
-
-        sessionWatchdogThread = null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -107,15 +70,15 @@ public class SessionWatchdog {
      * @param closeGracePeriodInMillis the grace period after which the session is to be closed for good.
      */
     public void closeOrEnqueueForClosing(SessionImpl session, int closeGracePeriodInMillis) {
-        context.closeOrEnqueueForClosing(session, closeGracePeriodInMillis);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-     /**
+    /**
      * Removes the given session for auto-closing from this watchdog
      * @param session the session to be removed.
      */
     public void dequeueFromClosing(SessionImpl session) {
-        context.dequeueFromClosing(session);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -125,7 +88,7 @@ public class SessionWatchdog {
      * @param sessionProxy the session proxy to be added.
      */
     public void addToSplitByTimeout(SessionProxyImpl sessionProxy) {
-        context.addToSplitByTimeout(sessionProxy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -134,6 +97,6 @@ public class SessionWatchdog {
      * @param sessionProxy the session proxy to be removed.
      */
     public void removeFromSplitByTimeout(SessionProxyImpl sessionProxy) {
-        context.removeFromSplitByTimeout(sessionProxy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

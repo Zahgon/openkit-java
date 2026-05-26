@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.util;
 
 import java.io.UnsupportedEncodingException;
@@ -34,7 +33,9 @@ import java.util.BitSet;
  */
 public class PercentEncoder {
 
-    private static final int UNRESERVED_CHARACTERS_BITS = 128; // US-ASCII range
+    // US-ASCII range
+    private static final int UNRESERVED_CHARACTERS_BITS = 128;
+
     private static final BitSet UNRESERVED_CHARACTERS = new BitSet(UNRESERVED_CHARACTERS_BITS);
 
     static {
@@ -72,7 +73,7 @@ public class PercentEncoder {
      * @return Percent encoded string.
      */
     public static String encode(String input, String encoding) {
-        return encode(input, encoding, null);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -85,41 +86,7 @@ public class PercentEncoder {
      * @return Percent encoded string.
      */
     public static String encode(String input, String encoding, char[] additionalReservedChars) {
-
-        BitSet unreservedSet = buildUnreservedCharacters(additionalReservedChars);
-        StringBuilder resultBuilder = new StringBuilder(input.length());
-
-        int index = 0;
-        while (index < input.length()) {
-            int c = input.charAt(index);
-            if (unreservedSet.get(c)) {
-                // unreserved character, which does need to be percent encoded
-                resultBuilder.append((char)c);
-                index++;
-            } else {
-                // reserved character, but encoding needs to be applied first
-                StringBuilder sb = new StringBuilder().append((char)c);
-                index++;
-                while (index < input.length() && !unreservedSet.get(input.charAt(index))) {
-                    sb.append(input.charAt(index));
-                    index++;
-                }
-
-                // encode temp string using given encoding; & percent encoding
-                try {
-                    byte[] encoded = sb.toString().getBytes(encoding);
-                    // now perform percent encoding
-                    for (byte b : encoded) {
-                        resultBuilder.append(hexEncode(b));
-                    }
-                } catch (UnsupportedEncodingException e) {
-                    // should not be reached
-                    return null;
-                }
-            }
-        }
-
-        return resultBuilder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static char[] hexEncode(byte b) {
@@ -135,7 +102,6 @@ public class PercentEncoder {
             c = Character.toUpperCase(c);
         }
         result[2] = c;
-
         return result;
     }
 
@@ -151,7 +117,6 @@ public class PercentEncoder {
                 }
             }
         }
-
         return unreservedSet;
     }
 }

@@ -23,21 +23,17 @@ import com.dynatrace.openkit.util.json.parser.ParserException;
 public class ResponseParser {
 
     private static final String KEY_VALUE_RESPONSE_TYPE_MOBILE = "type=m";
+
     private static final String KEY_VALUE_RESPONSE_TYPE_MOBILE_WITH_SEPARATOR = "type=m&";
 
     private ResponseParser() {
     }
 
     public static ResponseAttributes parseResponse(String responseString) throws ParserException {
-        if (isKeyValuePairResponse(responseString)) {
-            return KeyValueResponseParser.parse(responseString);
-        }
-
-        return JsonResponseParser.parse(responseString);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static boolean isKeyValuePairResponse(String responseString) {
-        return responseString.equals(KEY_VALUE_RESPONSE_TYPE_MOBILE)
-                || responseString.startsWith(KEY_VALUE_RESPONSE_TYPE_MOBILE_WITH_SEPARATOR);
+        return responseString.equals(KEY_VALUE_RESPONSE_TYPE_MOBILE) || responseString.startsWith(KEY_VALUE_RESPONSE_TYPE_MOBILE_WITH_SEPARATOR);
     }
 }

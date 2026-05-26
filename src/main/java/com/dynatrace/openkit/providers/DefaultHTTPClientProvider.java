@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.providers;
 
 import com.dynatrace.openkit.api.Logger;
@@ -33,7 +32,6 @@ public class DefaultHTTPClientProvider implements HTTPClientProvider {
 
     @Override
     public HTTPClient createClient(HTTPClientConfiguration configuration) {
-        return new HTTPClient(logger, configuration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

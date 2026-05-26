@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.caching;
 
 import java.util.Collections;
@@ -52,10 +51,12 @@ class BeaconCacheEntry {
      * List storing all event data being sent.
      */
     private LinkedList<BeaconCacheRecord> eventDataBeingSent;
+
     /**
      * List storing all action data being sent.
      */
     private LinkedList<BeaconCacheRecord> actionDataBeingSent;
+
     /**
      * Total number of bytes consumed by this entry.
      */
@@ -69,7 +70,7 @@ class BeaconCacheEntry {
      * </p>
      */
     void lock() {
-        lock.lock();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -80,7 +81,7 @@ class BeaconCacheEntry {
      * </p>
      */
     void unlock() {
-        lock.unlock();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -89,8 +90,7 @@ class BeaconCacheEntry {
      * @param record The new record to add.
      */
     void addEventData(BeaconCacheRecord record) {
-        eventData.add(record);
-        totalNumBytes += record.getDataSizeInBytes();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -99,8 +99,7 @@ class BeaconCacheEntry {
      * @param record The new record to add.
      */
     void addActionData(BeaconCacheRecord record) {
-        actionData.add(record);
-        totalNumBytes += record.getDataSizeInBytes();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -109,18 +108,14 @@ class BeaconCacheEntry {
      * @return {@code true} if data must be copied, {@code false} otherwise.
      */
     boolean needsDataCopyBeforeSending() {
-        return !hasDataToSend();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Copy data for sending.
      */
     void copyDataForSending() {
-        actionDataBeingSent = actionData;
-        eventDataBeingSent = eventData;
-        actionData = new LinkedList<>();
-        eventData = new LinkedList<>();
-        totalNumBytes = 0; // data which is being sent is not counted
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -137,11 +132,7 @@ class BeaconCacheEntry {
      * @return The string to send or an empty string if there is no more data to send.
      */
     String getChunk(String chunkPrefix, int maxSize, char delimiter) {
-
-        if (!hasDataToSend()) {
-            return "";
-        }
-        return getNextChunk(chunkPrefix, maxSize, delimiter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -150,8 +141,7 @@ class BeaconCacheEntry {
      * @return {@code true} if there is more data, {@code false} otherwise.
      */
     boolean hasDataToSend() {
-        return (eventDataBeingSent != null && !eventDataBeingSent.isEmpty())
-            || (actionDataBeingSent != null && !actionDataBeingSent.isEmpty());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -164,30 +154,23 @@ class BeaconCacheEntry {
      * @return The string to send or an empty string if there is no more data to send.
      */
     private String getNextChunk(String chunkPrefix, int maxSize, char delimiter) {
-
         // create the string builder
         StringBuilder beaconBuilder = new StringBuilder(maxSize);
-
         // append the chunk prefix
         beaconBuilder.append(chunkPrefix);
-
         // append data from both lists
         // note the order is currently important -> event data goes first, then action data
         chunkifyDataList(beaconBuilder, eventDataBeingSent, maxSize, delimiter);
         chunkifyDataList(beaconBuilder, actionDataBeingSent, maxSize, delimiter);
-
         return beaconBuilder.toString();
     }
 
     private static void chunkifyDataList(StringBuilder chunkBuilder, LinkedList<BeaconCacheRecord> dataBeingSent, int maxSize, char delimiter) {
-
         Iterator<BeaconCacheRecord> iterator = dataBeingSent.iterator();
         while (iterator.hasNext() && chunkBuilder.length() <= maxSize) {
-
             // mark the record for sending
             BeaconCacheRecord record = iterator.next();
             record.markForSending();
-
             // append delimiter & data
             chunkBuilder.append(delimiter).append(record.getData());
         }
@@ -197,59 +180,15 @@ class BeaconCacheEntry {
      * Remove data that was previously marked for sending when {@link #getNextChunk(String, int, char)} was called.
      */
     void removeDataMarkedForSending() {
-
-        if (!hasDataToSend()) {
-            // data has not been copied yet - avoid NPE
-            return;
-        }
-
-        Iterator<BeaconCacheRecord> iterator = eventDataBeingSent.iterator();
-        while (iterator.hasNext() && iterator.next().isMarkedForSending()) {
-            iterator.remove();
-        }
-
-        if (!iterator.hasNext()) {
-            // only check action data, if all event data has been traversed, otherwise it's just waste of cpu time
-            iterator = actionDataBeingSent.iterator();
-            while (iterator.hasNext() && iterator.next().isMarkedForSending()) {
-                iterator.remove();
-            }
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * This method removes the marked for sending and prepends the copied data back to the data.
      */
     void resetDataMarkedForSending() {
-
-        if (!hasDataToSend()) {
-            // data has not been copied yet - avoid NPE
-            return;
-        }
-
-        // reset the "sending marks" and in the same traversal count the bytes which are added back
-        long numBytes = 0;
-        for (BeaconCacheRecord record : eventDataBeingSent) {
-            record.unsetSending();
-            numBytes += record.getDataSizeInBytes();
-        }
-
-        for (BeaconCacheRecord record : actionDataBeingSent) {
-            record.unsetSending();
-            numBytes += record.getDataSizeInBytes();
-        }
-
-        // merge data
-        eventDataBeingSent.addAll(eventData);
-        actionDataBeingSent.addAll(actionData);
-        eventData = eventDataBeingSent;
-        actionData = actionDataBeingSent;
-        eventDataBeingSent = null;
-        actionDataBeingSent = null;
-
-        totalNumBytes += numBytes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Get total number of bytes used.
@@ -263,8 +202,7 @@ class BeaconCacheEntry {
      * @return Sum of data size in bytes for each {@link BeaconCacheRecord}.
      */
     long getTotalNumberOfBytes() {
-
-        return totalNumBytes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -280,12 +218,7 @@ class BeaconCacheEntry {
      * @return The total number of removed records.
      */
     int removeRecordsOlderThan(long minTimestamp) {
-
-
-        int numRecordsRemoved = removeRecordsOlderThan(eventData, minTimestamp);
-        numRecordsRemoved += removeRecordsOlderThan(actionData, minTimestamp);
-
-        return numRecordsRemoved;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -296,9 +229,7 @@ class BeaconCacheEntry {
      * @return The number of records removed from {@code records}.
      */
     private static int removeRecordsOlderThan(List<BeaconCacheRecord> records, long minTimestamp) {
-
         int numRecordsRemoved = 0;
-
         Iterator<BeaconCacheRecord> iterator = records.iterator();
         while (iterator.hasNext()) {
             BeaconCacheRecord record = iterator.next();
@@ -307,7 +238,6 @@ class BeaconCacheEntry {
                 numRecordsRemoved++;
             }
         }
-
         return numRecordsRemoved;
     }
 
@@ -325,37 +255,7 @@ class BeaconCacheEntry {
      * @return Number of actually removed records.
      */
     int removeOldestRecords(int numRecords) {
-
-        int numRecordsRemoved = 0;
-
-        Iterator<BeaconCacheRecord> eventsIterator = eventData.iterator();
-        Iterator<BeaconCacheRecord> actionsIterator = actionData.iterator();
-        BeaconCacheRecord currentEvent = eventsIterator.hasNext() ? eventsIterator.next() : null;
-        BeaconCacheRecord currentAction = actionsIterator.hasNext() ? actionsIterator.next() : null;
-
-        while (numRecordsRemoved < numRecords && (currentEvent != null || currentAction != null)) {
-
-            if (currentEvent == null) {
-                // actions is not null -> remove action
-                currentAction = removeAndAdvanceIterator(actionsIterator);
-            } else if (currentAction == null) {
-                // events is not null -> remove event
-                currentEvent = removeAndAdvanceIterator(eventsIterator);
-            } else {
-                // both are not null -> compare by timestamp and take the older one
-                if (currentAction.getTimestamp() < currentEvent.getTimestamp()) {
-                    // first action is older than first event
-                    currentAction = removeAndAdvanceIterator(actionsIterator);
-                } else {
-                    // first event is older than first action
-                    currentEvent = removeAndAdvanceIterator(eventsIterator);
-                }
-            }
-
-            numRecordsRemoved++;
-        }
-
-        return numRecordsRemoved;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static <E> E removeAndAdvanceIterator(Iterator<E> iterator) {
@@ -371,7 +271,7 @@ class BeaconCacheEntry {
      * </p>
      */
     List<BeaconCacheRecord> getEventData() {
-        return new LinkedList<>(eventData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -382,7 +282,7 @@ class BeaconCacheEntry {
      * </p>
      */
     List<BeaconCacheRecord> getActionData() {
-        return new LinkedList<>(actionData);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -393,7 +293,7 @@ class BeaconCacheEntry {
      * </p>
      */
     List<BeaconCacheRecord> getEventDataBeingSent() {
-        return eventDataBeingSent == null ? null : Collections.unmodifiableList(eventDataBeingSent);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -404,6 +304,6 @@ class BeaconCacheEntry {
      * </p>
      */
     List<BeaconCacheRecord> getActionDataBeingSent() {
-        return actionDataBeingSent == null ? null : Collections.unmodifiableList(actionDataBeingSent);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

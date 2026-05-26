@@ -34,25 +34,33 @@ public class SessionCreatorImpl implements SessionCreator, BeaconInitializer {
 
     // log message reporter
     private final Logger logger;
+
     // OpenKit related configuration
     private final OpenKitConfiguration openKitConfiguration;
+
     // privacy related configuration
     private final PrivacyConfiguration privacyConfiguration;
+
     // provider to obtain the ID of the current thread
     private final ThreadIDProvider threadIdProvider;
+
     // provider to obtain the current time
     private final TimingProvider timingProvider;
+
     // cache for storing beacon data until it gets send
     private final BeaconCache beaconCache;
 
     private final String clientIpAddress;
+
     private final int serverId;
 
     private final SessionIDProvider continuousSessionIdProvider;
+
     private final RandomNumberGenerator continuousRandomGenerator;
 
     // provider which will always return the same session number
     private SessionIDProvider fixedSessionIdProvider;
+
     // provider which will always the same random number
     private RandomNumberGenerator fixedRandomNumberGenerator;
 
@@ -68,13 +76,10 @@ public class SessionCreatorImpl implements SessionCreator, BeaconInitializer {
         this.threadIdProvider = input.getThreadIdProvider();
         this.timingProvider = input.getTimingProvider();
         this.clientIpAddress = clientIpAddress;
-
         this.serverId = input.getCurrentServerId();
         this.continuousSessionIdProvider = input.getSessionIdProvider();
         this.continuousRandomGenerator = new DefaultRandomNumberGenerator();
         this.supplementaryBasicData = new SupplementaryBasicDataImpl();
-
-
         initializeFixedNumberProviders();
     }
 
@@ -85,72 +90,59 @@ public class SessionCreatorImpl implements SessionCreator, BeaconInitializer {
 
     @Override
     public SessionImpl createSession(OpenKitComposite parent) {
-        BeaconConfiguration configuration = BeaconConfiguration.from(
-                openKitConfiguration,
-                privacyConfiguration,
-                serverId
-        );
-
-        Beacon beacon = new Beacon(this, configuration);
-        SessionImpl session = new SessionImpl(logger, parent, beacon, supplementaryBasicData);
-
-        sessionSequenceNumber++;
-
-        return session;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void reset() {
-        sessionSequenceNumber = 0;
-        initializeFixedNumberProviders();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// BeaconInitializer implementation
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
     public Logger getLogger() {
-        return logger;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public BeaconCache getBeaconCache() {
-        return beaconCache;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getClientIpAddress() {
-        return clientIpAddress;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public SessionIDProvider getSessionIdProvider() {
-        return fixedSessionIdProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getSessionSequenceNumber() {
-        return sessionSequenceNumber;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ThreadIDProvider getThreadIdProvider() {
-        return threadIdProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public TimingProvider getTimingProvider() {
-        return timingProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public RandomNumberGenerator getRandomNumberGenerator() {
-        return fixedRandomNumberGenerator;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public SupplementaryBasicData getSupplementaryBasicData() {
-        return supplementaryBasicData;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

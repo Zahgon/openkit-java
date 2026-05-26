@@ -12,13 +12,10 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
-
 package com.dynatrace.openkit.protocol.http;
 
 import com.dynatrace.openkit.api.http.HttpRequest;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashSet;
@@ -32,7 +29,8 @@ import java.util.Set;
 public class HttpRequestHttpURLConnectionAdapter implements HttpRequest {
 
     private static final Set<String> RESTRICTED_REQUEST_HEADERS = new HashSet<>();
-    static  {
+
+    static {
         // put all restricted header names in lower case, as HTTP headers are case insensitive
         // header names have been taken from sun.net.www.protocol.http.HttpURLConnection
         RESTRICTED_REQUEST_HEADERS.add("access-control-request-headers");
@@ -64,38 +62,33 @@ public class HttpRequestHttpURLConnectionAdapter implements HttpRequest {
 
     @Override
     public URL getUrl() {
-        return httpURLConnection.getURL();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getMethod() {
-        return httpURLConnection.getRequestMethod();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Map<String, List<String>> getHeaders() {
-        return httpURLConnection.getRequestProperties();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getHeader(String name) {
-        return httpURLConnection.getRequestProperty(name);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void setHeader(String name, String value) {
-        if (isInvalidRequestHeaderName(name)) {
-            return;
-        }
-
-        httpURLConnection.setRequestProperty(name, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isInvalidRequestHeaderName(String name) {
         if (name == null) {
             return true;
         }
-
         return RESTRICTED_REQUEST_HEADERS.contains(name.toLowerCase());
     }
 }

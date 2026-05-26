@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 import com.dynatrace.openkit.protocol.StatusResponse;
@@ -35,28 +34,6 @@ class BeaconSendingRequestUtil {
      * @return A status response or {@code null} if shutdown was requested or number of retries was reached.
      */
     static StatusResponse sendStatusRequest(BeaconSendingContext context, int numRetries, long initialRetryDelayInMillis) throws InterruptedException {
-
-        StatusResponse statusResponse;
-        long sleepTimeInMillis = initialRetryDelayInMillis;
-        int retry = 0;
-
-        while (true) {
-            statusResponse = context.getHTTPClient().sendStatusRequest(context);
-            if (BeaconSendingResponseUtil.isSuccessfulResponse(statusResponse)
-                || BeaconSendingResponseUtil.isTooManyRequestsResponse(statusResponse) // is handled by the states
-                || retry >= numRetries
-                || context.isShutdownRequested()) {
-                break;
-            }
-
-            // if no (valid) status response was received -> sleep and double the delay for each retry
-            context.sleep(sleepTimeInMillis);
-            sleepTimeInMillis *= 2;
-            retry++;
-        }
-
-        return statusResponse;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
-
 }

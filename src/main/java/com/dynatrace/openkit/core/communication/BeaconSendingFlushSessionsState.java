@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 import com.dynatrace.openkit.core.objects.SessionImpl;
 import com.dynatrace.openkit.protocol.StatusResponse;
-
 import java.util.List;
 
 /**
@@ -38,46 +36,16 @@ class BeaconSendingFlushSessionsState extends AbstractBeaconSendingState {
 
     @Override
     void doExecute(BeaconSendingContext context) {
-
-        // first get all sessions that were not yet configured
-        List<SessionImpl> notConfiguredSessions = context.getAllNotConfiguredSessions();
-        for (SessionImpl newSession : notConfiguredSessions) {
-            // just turn on the capturing and send all remaining data
-            newSession.enableCapture();
-        }
-
-        // end open sessions -> will be flushed afterwards
-        List<SessionImpl> openSessions = context.getAllOpenAndConfiguredSessions();
-        for (SessionImpl openSession : openSessions) {
-            openSession.end(false);
-        }
-
-        // flush already finished (and previously ended) sessions
-        boolean tooManyRequestsReceived = false;
-        List<SessionImpl> finishedSessions = context.getAllFinishedAndConfiguredSessions();
-        for (SessionImpl finishedSession : finishedSessions) {
-            if (!tooManyRequestsReceived && finishedSession.isDataSendingAllowed()) {
-                StatusResponse response = finishedSession.sendBeacon(context.getHTTPClientProvider(), context);
-                if (BeaconSendingResponseUtil.isTooManyRequestsResponse(response)) {
-                    tooManyRequestsReceived = true;
-                }
-            }
-            finishedSession.clearCapturedData();
-            finishedSession.close(); // The session is already closed/ended at this point. This call avoids a static code warning.
-            context.removeSession(finishedSession);
-        }
-
-        // make last state transition to terminal state
-        context.setNextState(new BeaconSendingTerminalState());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     AbstractBeaconSendingState getShutdownState() {
-        return new BeaconSendingTerminalState();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "FlushSessions";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

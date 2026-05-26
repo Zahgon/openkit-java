@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.protocol.ssl;
 
 import com.dynatrace.openkit.api.SSLTrustManager;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.TrustManager;
@@ -36,29 +34,19 @@ import java.security.NoSuchAlgorithmException;
 public class SSLStrictTrustManager implements SSLTrustManager {
 
     private X509TrustManager cachedTrustManager = null;
+
     private String defaultAlgorithm = null;
 
     @Override
     public X509TrustManager getX509TrustManager() {
-
-        String tmfDefaultAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-        if (defaultAlgorithm == null || !defaultAlgorithm.equals(tmfDefaultAlgorithm)) {
-            // not initialized yet or default algorithm was changed
-            // the default algorithm may be changed during runtime by calling
-            // Security.setProperty with property name "ssl.TrustManagerFactory.algorithm".
-            cachedTrustManager = getX509TrustManager(tmfDefaultAlgorithm);
-            defaultAlgorithm = tmfDefaultAlgorithm;
-        }
-
-        return cachedTrustManager;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static X509TrustManager getX509TrustManager(String algorithm) {
-
         try {
             TrustManagerFactory factory = TrustManagerFactory.getInstance(algorithm);
-            factory.init((KeyStore) null); // default keystore
-
+            // default keystore
+            factory.init((KeyStore) null);
             // get the first X509TrustManager instance
             for (TrustManager trustManager : factory.getTrustManagers()) {
                 if (trustManager instanceof X509TrustManager) {
@@ -68,14 +56,11 @@ public class SSLStrictTrustManager implements SSLTrustManager {
         } catch (NoSuchAlgorithmException | KeyStoreException e) {
             // intentionally left empty
         }
-
         return null;
     }
 
     @Override
     public HostnameVerifier getHostnameVerifier() {
-        // get the default hostname verifier
-        // note this might be altered using HttpsURLConnection.setDefaultHostnameVerifier
-        return HttpsURLConnection.getDefaultHostnameVerifier();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

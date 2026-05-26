@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.api;
 
 public enum LogLevel {
-    DEBUG(0),
-    INFO(10),
-    WARN(20),
-    ERROR(30);
+
+    DEBUG(0), INFO(10), WARN(20), ERROR(30);
 
     private final int priority;
 
@@ -29,10 +26,10 @@ public enum LogLevel {
     }
 
     public int getPriority() {
-        return priority;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean hasSameOrGreaterPriorityThan(LogLevel other) {
-        return getPriority() >= other.getPriority();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

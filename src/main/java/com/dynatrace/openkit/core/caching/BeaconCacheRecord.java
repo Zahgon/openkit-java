@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.caching;
 
 import java.util.Arrays;
@@ -34,7 +33,9 @@ class BeaconCacheRecord {
     private static final long CHAR_SIZE_BYTES = 2L;
 
     private final long timestamp;
+
     private final String data;
+
     private boolean markedForSending = false;
 
     /**
@@ -52,14 +53,14 @@ class BeaconCacheRecord {
      * Get timestamp.
      */
     long getTimestamp() {
-        return timestamp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get data.
      */
     String getData() {
-        return data;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -75,10 +76,7 @@ class BeaconCacheRecord {
      * @return Data size in bytes.
      */
     long getDataSizeInBytes() {
-        if (getData() == null) {
-            return 0;
-        }
-        return getData().length() * CHAR_SIZE_BYTES;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -87,40 +85,30 @@ class BeaconCacheRecord {
      * @return {@code true} if this record was previously marked for sending, {@code false} otherwise.
      */
     boolean isMarkedForSending() {
-        return markedForSending;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Mark this record for sending ({@link #isMarkedForSending()}).
      */
     void markForSending() {
-        markedForSending = true;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Reset marked for sending flag ({@link #isMarkedForSending()}).
      */
     void unsetSending() {
-        markedForSending = false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        BeaconCacheRecord record = (BeaconCacheRecord) o;
-        return getTimestamp() == record.getTimestamp() && isMarkedForSending() == record.isMarkedForSending() && getData()
-            .equals(record.getData());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-
-        return Arrays.hashCode(new Object[]{getTimestamp(), getData(), isMarkedForSending()});
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

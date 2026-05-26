@@ -18,7 +18,6 @@ package com.dynatrace.openkit.core;
 import com.dynatrace.openkit.core.objects.SessionImpl;
 import com.dynatrace.openkit.core.objects.SessionProxyImpl;
 import com.dynatrace.openkit.providers.TimingProvider;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,10 +36,13 @@ public class SessionWatchdogContext {
 
     //  Indicator whether shutdown was requested or not.
     private final AtomicBoolean shutdown = new AtomicBoolean(false);
+
     // timing provider for suspending the current thread for a certain amount of time
     private final TimingProvider timingProvider;
+
     // holds all sessions which are to be closed after a certain grace period
     private final LinkedBlockingQueue<SessionImpl> sessionsToClose = new LinkedBlockingQueue<>();
+
     // holds all session proxies which are to be split after expiration of either session duration or idle timeout.
     private final LinkedBlockingQueue<SessionProxyImpl> sessionsToSplitByTimeout = new LinkedBlockingQueue<>();
 
@@ -49,16 +51,7 @@ public class SessionWatchdogContext {
     }
 
     public void execute() {
-        long durationToNextCloseInMillis = closeExpiredSessions();
-        long durationToNextSplitInMillis = splitTimedOutSessions();
-
-        try {
-            long sleepTime = Math.min(durationToNextCloseInMillis, durationToNextSplitInMillis);
-            timingProvider.sleep(sleepTime);
-        } catch (InterruptedException e) {
-            requestShutdown();
-            Thread.currentThread().interrupt();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private long splitTimedOutSessions() {
@@ -66,22 +59,18 @@ public class SessionWatchdogContext {
         Iterator<SessionProxyImpl> sessionProxyIterator = sessionsToSplitByTimeout.iterator();
         while (sessionProxyIterator.hasNext()) {
             SessionProxyImpl sessionProxy = sessionProxyIterator.next();
-
             long nextSessionSplitTimeInMillis = sessionProxy.splitSessionByTime();
             if (nextSessionSplitTimeInMillis < 0) {
                 sessionProxyIterator.remove();
                 continue;
             }
-
             long nowInMillis = timingProvider.provideTimestampInMilliseconds();
             long durationToNextSplit = nextSessionSplitTimeInMillis - nowInMillis;
             if (durationToNextSplit < 0) {
                 continue;
             }
-
             sleepTimeInMillis = Math.min(sleepTimeInMillis, durationToNextSplit);
         }
-
         return sleepTimeInMillis;
     }
 
@@ -99,15 +88,12 @@ public class SessionWatchdogContext {
                 sessionsToEnd.add(session);
                 continue;
             }
-
             long sleepTimeToGracePeriodEndInMillis = gracePeriodEndTimeInMillis - nowInMillis;
             sleepTimeInMillis = Math.min(sleepTimeInMillis, sleepTimeToGracePeriodEndInMillis);
         }
-
         for (SessionImpl session : sessionsToEnd) {
             session.end(false);
         }
-
         return sleepTimeInMillis;
     }
 
@@ -115,14 +101,14 @@ public class SessionWatchdogContext {
      * Requests shutdown
      */
     public void requestShutdown() {
-        shutdown.set(true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * indicates whether shutdown was requested before or not.
      */
     public boolean isShutdownRequested() {
-        return shutdown.get();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -134,12 +120,7 @@ public class SessionWatchdogContext {
      * @param closeGracePeriodInMillis the grace period after which the session is closed for good.
      */
     public void closeOrEnqueueForClosing(SessionImpl session, long closeGracePeriodInMillis) {
-        if (session.tryEnd()) {
-            return;
-        }
-        long closeTime = timingProvider.provideTimestampInMilliseconds() + closeGracePeriodInMillis;
-        session.setSplitByEventsGracePeriodEndTimeInMillis(closeTime);
-        sessionsToClose.add(session);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -147,11 +128,11 @@ public class SessionWatchdogContext {
      * @param session the session to be removed.
      */
     public void dequeueFromClosing(SessionImpl session) {
-        sessionsToClose.remove(session);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     LinkedBlockingQueue<SessionImpl> getSessionsToClose() {
-        return sessionsToClose;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -161,10 +142,7 @@ public class SessionWatchdogContext {
      * @param sessionProxy the session proxy to be added.
      */
     public void addToSplitByTimeout(SessionProxyImpl sessionProxy) {
-        if (sessionProxy.isFinished()) {
-            return;
-        }
-        sessionsToSplitByTimeout.add(sessionProxy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -173,10 +151,10 @@ public class SessionWatchdogContext {
      * @param sessionProxy the session proxy to be removed.
      */
     public void removeFromSplitByTimeout(SessionProxyImpl sessionProxy) {
-        sessionsToSplitByTimeout.remove(sessionProxy);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     LinkedBlockingQueue<SessionProxyImpl> getSessionsToSplitByTimeout() {
-        return sessionsToSplitByTimeout;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

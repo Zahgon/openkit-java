@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 import com.dynatrace.openkit.api.Logger;
@@ -29,7 +28,6 @@ import com.dynatrace.openkit.protocol.ResponseAttributesImpl;
 import com.dynatrace.openkit.protocol.StatusResponse;
 import com.dynatrace.openkit.providers.HTTPClientProvider;
 import com.dynatrace.openkit.providers.TimingProvider;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,7 +54,9 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
 
     private final Logger logger;
 
-    /** synchronization object for updating and reading server configuration and last response attributes */
+    /**
+     * synchronization object for updating and reading server configuration and last response attributes
+     */
     private final Object lockObject = new Object();
 
     /**
@@ -79,7 +79,9 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * Configuration storing last valid HTTP client configuration, independent of a session.
      */
     private HTTPClientConfiguration httpClientConfiguration;
+
     private final HTTPClientProvider httpClientProvider;
+
     private final TimingProvider timingProvider;
 
     /**
@@ -91,26 +93,32 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * boolean indicating whether shutdown was requested or not
      */
     private final AtomicBoolean shutdown = new AtomicBoolean(false);
+
     /**
      * countdown latch updated when init was done - which can either be success or failure
      */
     private final CountDownLatch initCountDownLatch = new CountDownLatch(1);
+
     /**
      * current state of beacon sender
      */
     private AbstractBeaconSendingState currentState;
+
     /**
      * state following after current state, nextState is usually set by doExecute of the current state
      */
     private AbstractBeaconSendingState nextState;
+
     /**
      * timestamp when open sessions were last sent
      */
     private long lastOpenSessionBeaconSendTime;
+
     /**
      * timestamp when last status check was done
      */
     private long lastStatusCheckTime;
+
     /**
      * boolean indicating whether init was successful or not
      */
@@ -123,10 +131,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * The state is initialized to {@link BeaconSendingInitState},
      * </p>
      */
-    public BeaconSendingContext(Logger logger,
-                                HTTPClientConfiguration httpClientConfiguration,
-                                HTTPClientProvider httpClientProvider,
-                                TimingProvider timingProvider) {
+    public BeaconSendingContext(Logger logger, HTTPClientConfiguration httpClientConfiguration, HTTPClientProvider httpClientProvider, TimingProvider timingProvider) {
         this(logger, httpClientConfiguration, httpClientProvider, timingProvider, new BeaconSendingInitState());
     }
 
@@ -137,18 +142,13 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * The initial state is provided. This constructor is intended for unit testing.
      * </p>
      */
-    BeaconSendingContext(Logger logger,
-                         HTTPClientConfiguration httpClientConfiguration,
-                         HTTPClientProvider httpClientProvider,
-                         TimingProvider timingProvider,
-                         AbstractBeaconSendingState initialState) {
+    BeaconSendingContext(Logger logger, HTTPClientConfiguration httpClientConfiguration, HTTPClientProvider httpClientProvider, TimingProvider timingProvider, AbstractBeaconSendingState initialState) {
         this.logger = logger;
         this.httpClientConfiguration = httpClientConfiguration;
         this.serverConfiguration = ServerConfiguration.DEFAULT;
         this.httpClientProvider = httpClientProvider;
         this.timingProvider = timingProvider;
         this.lastResponseAttributes = ResponseAttributesImpl.withUndefinedDefaults().build();
-
         currentState = initialState;
     }
 
@@ -160,29 +160,21 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * </p>
      */
     public void executeCurrentState() {
-        nextState = null;
-        currentState.execute(this);
-
-        if (nextState != null && nextState != currentState) { // currentState.execute(...) can trigger state changes
-            if (logger.isInfoEnabled()) {
-                logger.info(getClass().getSimpleName() + " executeCurrentState() - State change from '" + currentState + "' to '" + nextState + "'");
-            }
-            currentState = nextState;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Requests a shutdown.
      */
     public void requestShutdown() {
-        shutdown.set(true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Gets a boolean flag indicating whether shutdown was requested before or not.
      */
     public boolean isShutdownRequested() {
-        return shutdown.get();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -195,13 +187,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return {@code true} OpenKit is fully initialized, {@code false} OpenKit init got interrupted.
      */
     public boolean waitForInit() {
-        try {
-            initCountDownLatch.await();
-        } catch (InterruptedException e) {
-            requestShutdown();
-            Thread.currentThread().interrupt();
-        }
-        return initSucceeded;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -215,16 +201,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return {@code true} if OpenKit is fully initialized, {@code false} if OpenKit init got interrupted or time to wait expired.
      */
     public boolean waitForInit(long timeoutMillis) {
-        try {
-            if (!initCountDownLatch.await(timeoutMillis, TimeUnit.MILLISECONDS)) {
-                return false; // timeout expired
-            }
-        } catch (InterruptedException e) {
-            requestShutdown();
-            Thread.currentThread().interrupt();
-        }
-
-        return initSucceeded;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -233,7 +210,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return {@code true} if OpenKit is initialized, {@code false} otherwise.
      */
     public boolean isInitialized() {
-        return initSucceeded;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -246,7 +223,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return {@code true} if the current state is a terminal state, {@code false} otherwise.
      */
     public boolean isInTerminalState() {
-        return currentState.isTerminalState();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -255,9 +232,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return {@code true} if capturing is turned on, {@code false} otherwise.
      */
     boolean isCaptureOn() {
-        synchronized (lockObject) {
-            return serverConfiguration.isCaptureEnabled();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -266,7 +241,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return current state.
      */
     AbstractBeaconSendingState getCurrentState() {
-        return currentState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -275,7 +250,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @param nextState Next state when state transition is performed.
      */
     void setNextState(AbstractBeaconSendingState nextState) {
-        this.nextState = nextState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -284,7 +259,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return the nextState
      */
     AbstractBeaconSendingState getNextState() {
-        return nextState;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -297,8 +272,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @param success {@code true} if OpenKit was successfully initialized, {@code false} if it was interrupted.
      */
     void initCompleted(boolean success) {
-        initSucceeded = success;
-        initCountDownLatch.countDown();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -307,7 +281,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return A class responsible for retrieving an instance of {@link HTTPClient}.
      */
     HTTPClientProvider getHTTPClientProvider() {
-        return httpClientProvider;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -320,7 +294,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return HTTP client received from {@link HTTPClientProvider}.
      */
     HTTPClient getHTTPClient() {
-        return getHTTPClient(httpClientConfiguration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -329,7 +303,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return HTTP client received from {@link HTTPClientProvider}.
      */
     HTTPClient getHTTPClient(HTTPClientConfiguration httpClientConfiguration) {
-        return httpClientProvider.createClient(httpClientConfiguration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -338,7 +312,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return current timestamp as milliseconds elapsed since epoch (1970-01-01T00:00:00.000)
      */
     long getCurrentTimestamp() {
-        return timingProvider.provideTimestampInMilliseconds();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -347,7 +321,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @throws InterruptedException When sleeping thread got interrupted.
      */
     void sleep() throws InterruptedException {
-        sleep(DEFAULT_SLEEP_TIME_MILLISECONDS);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -357,71 +331,63 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @throws InterruptedException When sleeping thread got interrupted.
      */
     void sleep(long millis) throws InterruptedException {
-        timingProvider.sleep(millis);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get timestamp when open sessions were sent last.
      */
     long getLastOpenSessionBeaconSendTime() {
-        return lastOpenSessionBeaconSendTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Set timestamp when open sessions were sent last.
      */
     void setLastOpenSessionBeaconSendTime(long timestamp) {
-        lastOpenSessionBeaconSendTime = timestamp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get timestamp when last status check was performed.
      */
     long getLastStatusCheckTime() {
-        return lastStatusCheckTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Set timestamp when last status check was performed.
      */
     void setLastStatusCheckTime(long timestamp) {
-        lastStatusCheckTime = timestamp;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get the send interval for open sessions.
      */
     int getSendInterval() {
-        synchronized (lockObject) {
-            return lastResponseAttributes.getSendIntervalInMilliseconds();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the last {@link ResponseAttributes} received from the server.
      */
     ResponseAttributes getLastResponseAttributes() {
-        synchronized (lockObject) {
-            return lastResponseAttributes;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the last known {@link ServerConfiguration}.
      */
     public ServerConfiguration getLastServerConfiguration() {
-        synchronized (lockObject) {
-            return serverConfiguration;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Disable data capturing and clears all session data. Finished sessions are removed from the beacon.
      */
     void disableCaptureAndClear() {
-        // first disable in configuration, so no further data will get collected
-        disableCapture();
-        clearAllSessionData();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -429,9 +395,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      */
     private void disableCapture() {
         synchronized (lockObject) {
-            serverConfiguration = new ServerConfiguration.Builder(serverConfiguration)
-                    .withCapture(false)
-                    .build();
+            serverConfiguration = new ServerConfiguration.Builder(serverConfiguration).withCapture(false).build();
         }
     }
 
@@ -439,17 +403,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * Handle the status response received from the server.
      */
     void handleStatusResponse(StatusResponse receivedResponse) {
-        if (receivedResponse == null || receivedResponse.isErroneousResponse()) {
-            disableCaptureAndClear();
-            return;
-        }
-
-        updateFrom(receivedResponse);
-
-        if (!isCaptureOn()) {
-            // capturing was turned off
-            clearAllSessionData();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -462,27 +416,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * the current response attributes are returned.
      */
     ResponseAttributes updateFrom(StatusResponse statusResponse) {
-        synchronized (lockObject) {
-            if (!BeaconSendingResponseUtil.isSuccessfulResponse(statusResponse)) {
-                return lastResponseAttributes;
-            }
-
-            lastResponseAttributes = lastResponseAttributes.merge(statusResponse.getResponseAttributes());
-
-            ServerConfiguration.Builder builder = new ServerConfiguration.Builder(lastResponseAttributes);
-            if (isApplicationIdMismatch(lastResponseAttributes)) {
-                builder.withCapture(false);
-            }
-
-            serverConfiguration = builder.build();
-
-            int serverId = serverConfiguration.getServerID();
-            if (serverId != httpClientConfiguration.getServerID()) {
-                httpClientConfiguration = createHttpClientConfigurationWith(serverId);
-            }
-
-            return lastResponseAttributes;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -497,17 +431,11 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return {@code false} if application id is matching, {@code true} if a mismatch occurred.
      */
     boolean isApplicationIdMismatch(ResponseAttributes lastResponseAttributes) {
-        if (lastResponseAttributes.isAttributeSet(ResponseAttribute.APPLICATION_ID)) {
-            return !httpClientConfiguration.getApplicationID().equals(lastResponseAttributes.getApplicationId());
-        }
-
-        // if it's not set it's either the old response format, or an older Dynatrace version
-        // in this case no mismatch is happening and everything is fine
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     HTTPClientConfiguration createHttpClientConfigurationWith(int serverId) {
-        return HTTPClientConfiguration.modifyWith(httpClientConfiguration).withServerID(serverId).build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -542,65 +470,35 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @return A list of new sessions.
      */
     List<SessionImpl> getAllNotConfiguredSessions() {
-
-        List<SessionImpl> notConfiguredSessions = new LinkedList<>();
-
-        for (SessionImpl session : sessions) {
-            SessionState state = session.getState();
-            if (!state.isConfigured()) {
-                notConfiguredSessions.add(session);
-            }
-        }
-
-        return notConfiguredSessions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get a list of all sessions that have been configured and are currently open.
      */
     List<SessionImpl> getAllOpenAndConfiguredSessions() {
-
-        List<SessionImpl> openSessions = new LinkedList<>();
-
-        for (SessionImpl session : sessions) {
-            SessionState state = session.getState();
-            if (state.isConfiguredAndOpen()) {
-                openSessions.add(session);
-            }
-        }
-
-        return openSessions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Get a list of all sessions that have been configured and are currently finished.
      */
     List<SessionImpl> getAllFinishedAndConfiguredSessions() {
-
-        List<SessionImpl> finishedSessions = new LinkedList<>();
-
-        for (SessionImpl session : sessions) {
-            SessionState state = session.getState();
-            if (state.isConfiguredAndFinished()) {
-                finishedSessions.add(session);
-            }
-        }
-
-        return finishedSessions;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the number of sessions currently known to this context
      */
     int getSessionCount() {
-        return sessions.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the current server ID to be used for creating new sessions
      */
     public int getCurrentServerId() {
-        return httpClientConfiguration.getServerID();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -609,7 +507,7 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @param session The new session to add.
      */
     public void addSession(SessionImpl session) {
-        sessions.add(session);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -618,17 +516,14 @@ public class BeaconSendingContext implements AdditionalQueryParameters {
      * @param session the session to be removed.
      */
     boolean removeSession(SessionImpl session) {
-        return sessions.remove(session);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// AdditionalQueryParameters
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
     public long getConfigurationTimestamp() {
-        synchronized (lockObject) {
-            return lastResponseAttributes.getTimestampInMilliseconds();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

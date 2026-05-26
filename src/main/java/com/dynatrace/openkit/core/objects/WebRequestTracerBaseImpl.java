@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Logger;
@@ -29,41 +28,76 @@ import com.dynatrace.openkit.protocol.Beacon;
  */
 public abstract class WebRequestTracerBaseImpl implements WebRequestTracer, CancelableOpenKitObject {
 
-    static final String UNKNOWN_URL =  "<unknown>";
+    static final String UNKNOWN_URL = "<unknown>";
 
-    /** {@link Logger} for tracing log message */
+    /**
+     * {@link Logger} for tracing log message
+     */
     private final Logger logger;
 
-    /** Parent object of this web request tracer */
+    /**
+     * Parent object of this web request tracer
+     */
     private OpenKitComposite parent;
 
-    /** object for synchronization */
+    /**
+     * object for synchronization
+     */
     private final Object lockObject = new Object();
 
-    /** Dynatrace tag that has to be used for tracing the web request */
+    /**
+     * Dynatrace tag that has to be used for tracing the web request
+     */
     private final String tag;
 
-    /** Beacon for sending data */
+    /**
+     * Beacon for sending data
+     */
     private final Beacon beacon;
-    /** The parent action id */
+
+    /**
+     * The parent action id
+     */
     private final int parentActionID;
 
-    /** URL to trace (excluding query args) */
+    /**
+     * URL to trace (excluding query args)
+     */
     private final String url;
-    /** The response code received from the request */
+
+    /**
+     * The response code received from the request
+     */
     private int responseCode = -1;
-    /** The number of bytes sent */
+
+    /**
+     * The number of bytes sent
+     */
     private long bytesSent = -1;
-    /** The number of bytes received */
+
+    /**
+     * The number of bytes received
+     */
     private long bytesReceived = -1;
 
-    /** Start time of the web request, set in {@link #start()} */
+    /**
+     * Start time of the web request, set in {@link #start()}
+     */
     private long startTime;
-    /** End time of the web request, set in {@link #stop(int)} */
-    private long endTime = - 1;
-    /** starting sequence number */
+
+    /**
+     * End time of the web request, set in {@link #stop(int)}
+     */
+    private long endTime = -1;
+
+    /**
+     * starting sequence number
+     */
     private final int startSequenceNo;
-    /** ending sequence number */
+
+    /**
+     * ending sequence number
+     */
     private int endSequenceNo = -1;
 
     /**
@@ -74,83 +108,52 @@ public abstract class WebRequestTracerBaseImpl implements WebRequestTracer, Canc
      * @param url The URL to trace
      * @param beacon {@link Beacon} for data sending and tag creation
      */
-    WebRequestTracerBaseImpl(Logger logger,
-                             OpenKitComposite parent,
-                             String url,
-                             Beacon beacon) {
+    WebRequestTracerBaseImpl(Logger logger, OpenKitComposite parent, String url, Beacon beacon) {
         this.logger = logger;
         this.parent = parent;
         this.url = url;
         this.beacon = beacon;
         parentActionID = parent.getActionID();
-
         // creating start sequence number has to be done here, because it's needed for the creation of the tag
         startSequenceNo = beacon.createSequenceNumber();
-
         tag = beacon.createTag(parentActionID, startSequenceNo);
-
         // if start is not called before using the setters the start time (e.g. load time) is not in 1970
         startTime = beacon.getCurrentTimestamp();
     }
 
     @Override
     public String getTag() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "getTag() returning '" + tag + "'");
-        }
-        return tag;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer setBytesSent(int bytesSent) {
-        return setBytesSent((long) bytesSent);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer setBytesSent(long bytesSent) {
-        synchronized (lockObject) {
-            if (!isStopped()) {
-                this.bytesSent = bytesSent;
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer setBytesReceived(int bytesReceived) {
-        return setBytesReceived((long) bytesReceived);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer setBytesReceived(long bytesReceived) {
-        synchronized (lockObject) {
-            if (!isStopped()) {
-                this.bytesReceived = bytesReceived;
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer start() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "start()");
-        }
-        synchronized (lockObject) {
-            if (!isStopped()) {
-                startTime = beacon.getCurrentTimestamp();
-            }
-        }
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void stop(int responseCode) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "stop(rc='" + responseCode + "')");
-        }
-
-        doStop(responseCode, false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void doStop(int responseCode, boolean discardData) {
@@ -163,12 +166,10 @@ public abstract class WebRequestTracerBaseImpl implements WebRequestTracer, Canc
             endSequenceNo = beacon.createSequenceNumber();
             endTime = beacon.getCurrentTimestamp();
         }
-
         // add web request to beacon
         if (!discardData) {
             beacon.addWebRequest(parentActionID, this);
         }
-
         // last but not least notify the parent & detach from parent
         parent.onChildClosed(this);
         parent = null;
@@ -176,59 +177,56 @@ public abstract class WebRequestTracerBaseImpl implements WebRequestTracer, Canc
 
     @Override
     public void cancel() {
-        if (logger.isDebugEnabled()) {
-            logger.debug(this + "cancel()");
-        }
-
-        doStop(responseCode, true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        stop(responseCode);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getURL() {
-        return url;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getResponseCode() {
-        return responseCode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getStartTime() {
-        return startTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
+
     public long getEndTime() {
-        return endTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getStartSequenceNo() {
-        return startSequenceNo;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int getEndSequenceNo() {
-        return endSequenceNo;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getBytesSent() {
-        return bytesSent;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getBytesReceived() {
-        return bytesReceived;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     boolean isStopped() {
-        return getEndTime() != -1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     OpenKitComposite getParent() {
-        return parent;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [sn=" + beacon.getSessionNumber() + ", id=" + parentActionID + ", url='" + url + "'] ";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

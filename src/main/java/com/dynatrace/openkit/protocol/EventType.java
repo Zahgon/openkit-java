@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.protocol;
 
 /**
  * Event types used in the beacon protocol.
  */
 public enum EventType implements SerializableBeaconValue {
+
     /**
      * Action event
      */
@@ -80,11 +80,11 @@ public enum EventType implements SerializableBeaconValue {
     }
 
     public int protocolValue() {
-        return value;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String asBeaconValue() {
-        return String.valueOf(value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

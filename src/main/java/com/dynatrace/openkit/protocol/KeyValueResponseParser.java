@@ -24,39 +24,30 @@ public class KeyValueResponseParser {
 
     // status response constants
     static final String RESPONSE_KEY_MAX_BEACON_SIZE_IN_KB = "bl";
+
     static final String RESPONSE_KEY_SEND_INTERVAL_IN_SEC = "si";
 
     static final String RESPONSE_KEY_CAPTURE = "cp";
+
     static final String RESPONSE_KEY_REPORT_CRASHES = "cr";
+
     static final String RESPONSE_KEY_REPORT_ERRORS = "er";
+
     static final String RESPONSE_KEY_TRAFFIC_CONTROL_PERCENTAGE = "tc";
 
     static final String RESPONSE_KEY_SERVER_ID = "id";
+
     static final String RESPONSE_KEY_MULTIPLICITY = "mp";
 
     private KeyValueResponseParser() {
     }
 
     public static ResponseAttributes parse(String keyValuePairResponse) {
-        Map<String, String> keyValuePairs = parseKeyValuePairs(keyValuePairResponse);
-
-        ResponseAttributesImpl.Builder builder = ResponseAttributesImpl.withKeyValueDefaults();
-
-        applyBeaconSizeInKb(builder, keyValuePairs);
-        applySendIntervalInSec(builder, keyValuePairs);
-        applyCapture(builder, keyValuePairs);
-        applyReportCrashes(builder, keyValuePairs);
-        applyReportErrors(builder, keyValuePairs);
-        applyTrafficControlPercentage(builder, keyValuePairs);
-        applyServerId(builder, keyValuePairs);
-        applyMultiplicity(builder, keyValuePairs);
-
-        return builder.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Map<String, String> parseKeyValuePairs(String response) {
         Map<String, String> resultMap = new HashMap<>();
-
         StringTokenizer tokenizer = new StringTokenizer(response, "&");
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
@@ -66,23 +57,19 @@ public class KeyValueResponseParser {
             }
             String key = token.substring(0, keyValueSeparatorIndex);
             String value = token.substring(keyValueSeparatorIndex + 1);
-
             resultMap.put(key, value);
         }
-
         return resultMap;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// extract attributes
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     private static void applyBeaconSizeInKb(ResponseAttributesImpl.Builder builder, Map<String, String> keyValuePairs) {
         String value = keyValuePairs.get(RESPONSE_KEY_MAX_BEACON_SIZE_IN_KB);
         if (value == null) {
             return;
         }
-
         int beaconSizeInKb = Integer.parseInt(value);
         builder.withMaxBeaconSizeInBytes(beaconSizeInKb * 1024);
     }
@@ -92,7 +79,6 @@ public class KeyValueResponseParser {
         if (value == null) {
             return;
         }
-
         int sendIntervalInSec = Integer.parseInt(value);
         builder.withSendIntervalInMilliseconds((int) TimeUnit.SECONDS.toMillis(sendIntervalInSec));
     }
@@ -102,7 +88,6 @@ public class KeyValueResponseParser {
         if (value == null) {
             return;
         }
-
         int capture = Integer.parseInt(value);
         builder.withCapture(capture == 1);
     }
@@ -112,7 +97,6 @@ public class KeyValueResponseParser {
         if (value == null) {
             return;
         }
-
         int reportCrashes = Integer.parseInt(value);
         builder.withCaptureCrashes(reportCrashes != 0);
     }
@@ -122,7 +106,6 @@ public class KeyValueResponseParser {
         if (value == null) {
             return;
         }
-
         int reportErrors = Integer.parseInt(value);
         builder.withCaptureErrors(reportErrors != 0);
     }
@@ -132,7 +115,6 @@ public class KeyValueResponseParser {
         if (value == null) {
             return;
         }
-
         int trafficControlPercentage = Integer.parseInt(value);
         builder.withTrafficControlPercentage(trafficControlPercentage);
     }
@@ -142,7 +124,6 @@ public class KeyValueResponseParser {
         if (value == null) {
             return;
         }
-
         int serverId = Integer.parseInt(value);
         builder.withServerId(serverId);
     }
@@ -152,7 +133,6 @@ public class KeyValueResponseParser {
         if (value == null) {
             return;
         }
-
         int multiplicity = Integer.parseInt(value);
         builder.withMultiplicity(multiplicity);
     }

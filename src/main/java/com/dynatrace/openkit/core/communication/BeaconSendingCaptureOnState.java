@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 import com.dynatrace.openkit.core.configuration.ServerConfiguration;
 import com.dynatrace.openkit.core.objects.SessionImpl;
 import com.dynatrace.openkit.protocol.ResponseAttributes;
 import com.dynatrace.openkit.protocol.StatusResponse;
-
 import java.util.List;
 
 /**
@@ -42,48 +40,12 @@ class BeaconSendingCaptureOnState extends AbstractBeaconSendingState {
 
     @Override
     void doExecute(BeaconSendingContext context) throws InterruptedException {
-
-        context.sleep();
-
-        // send new session request for all sessions that are new
-        StatusResponse newSessionsResponse = sendNewSessionRequests(context);
-        if (BeaconSendingResponseUtil.isTooManyRequestsResponse(newSessionsResponse)) {
-            // server is currently overloaded, temporarily switch to capture off
-            context.setNextState(new BeaconSendingCaptureOffState(newSessionsResponse.getRetryAfterInMilliseconds()));
-            return;
-        }
-
-        // send all finished sessions
-        StatusResponse finishedSessionsResponse = sendFinishedSessions(context);
-        if (BeaconSendingResponseUtil.isTooManyRequestsResponse(finishedSessionsResponse)) {
-            // server is currently overloaded, temporarily switch to capture off
-            context.setNextState(new BeaconSendingCaptureOffState(finishedSessionsResponse.getRetryAfterInMilliseconds()));
-            return;
-        }
-
-        // check if we need to send open sessions & do it if necessary
-        StatusResponse openSessionsResponse = sendOpenSessions(context);
-        if (BeaconSendingResponseUtil.isTooManyRequestsResponse(openSessionsResponse)) {
-            // server is currently overloaded, temporarily switch to capture off
-            context.setNextState(new BeaconSendingCaptureOffState(openSessionsResponse.getRetryAfterInMilliseconds()));
-            return;
-        }
-
-        // collect the last status response
-        StatusResponse lastStatusResponse = newSessionsResponse;
-        if (openSessionsResponse != null) {
-            lastStatusResponse = openSessionsResponse;
-        } else if (finishedSessionsResponse != null) {
-            lastStatusResponse = finishedSessionsResponse;
-        }
-
-        // handle the last statusResponse received (or null if none was received) from the server
-        handleStatusResponse(context, lastStatusResponse);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     AbstractBeaconSendingState getShutdownState() {
-        return new BeaconSendingFlushSessionsState();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -93,17 +55,14 @@ class BeaconSendingCaptureOnState extends AbstractBeaconSendingState {
      * @return The last status response received.
      */
     private StatusResponse sendNewSessionRequests(BeaconSendingContext context) {
-
         StatusResponse statusResponse = null;
         List<SessionImpl> notConfiguredSessions = context.getAllNotConfiguredSessions();
-
         for (SessionImpl session : notConfiguredSessions) {
             if (!session.canSendNewSessionRequest()) {
                 // already exceeded the maximum number of session requests, disable any further data collecting
                 session.disableCapture();
                 continue;
             }
-
             statusResponse = context.getHTTPClient().sendNewSessionRequest(context);
             if (BeaconSendingResponseUtil.isSuccessfulResponse(statusResponse)) {
                 ResponseAttributes updatedAttributes = context.updateFrom(statusResponse);
@@ -117,7 +76,6 @@ class BeaconSendingCaptureOnState extends AbstractBeaconSendingState {
                 session.decreaseNumRemainingSessionRequests();
             }
         }
-
         return statusResponse;
     }
 
@@ -128,28 +86,27 @@ class BeaconSendingCaptureOnState extends AbstractBeaconSendingState {
      * @return The last status response received.
      */
     private StatusResponse sendFinishedSessions(BeaconSendingContext context) {
-
         StatusResponse statusResponse = null;
         // check if there's finished Sessions to be sent -> immediately send beacon(s) of finished Sessions
         List<SessionImpl> finishedSessions = context.getAllFinishedAndConfiguredSessions();
-
         for (SessionImpl finishedSession : finishedSessions) {
             if (finishedSession.isDataSendingAllowed()) {
                 statusResponse = finishedSession.sendBeacon(context.getHTTPClientProvider(), context);
                 if (!BeaconSendingResponseUtil.isSuccessfulResponse(statusResponse)) {
                     // something went wrong,
                     if (BeaconSendingResponseUtil.isTooManyRequestsResponse(statusResponse) || !finishedSession.isEmpty()) {
-                        break; //  sending did not work, break out for now and retry it later
+                        //  sending did not work, break out for now and retry it later
+                        break;
                     }
                 }
             }
-
             // session was sent/is not allowed to be sent - so remove it from beacon cache
-            context.removeSession(finishedSession); // remove the finished session from the cache
+            // remove the finished session from the cache
+            context.removeSession(finishedSession);
             finishedSession.clearCapturedData();
-            finishedSession.close(); // The session is already closed/ended at this point. This call avoids a static code warning.
+            // The session is already closed/ended at this point. This call avoids a static code warning.
+            finishedSession.close();
         }
-
         return statusResponse;
     }
 
@@ -160,14 +117,11 @@ class BeaconSendingCaptureOnState extends AbstractBeaconSendingState {
      * @return The last status response received.
      */
     private StatusResponse sendOpenSessions(BeaconSendingContext context) {
-
         StatusResponse statusResponse = null;
-
         long currentTimestamp = context.getCurrentTimestamp();
         if (currentTimestamp <= context.getLastOpenSessionBeaconSendTime() + context.getSendInterval()) {
             return null;
         }
-
         List<SessionImpl> openSessions = context.getAllOpenAndConfiguredSessions();
         for (SessionImpl session : openSessions) {
             if (session.isDataSendingAllowed()) {
@@ -180,18 +134,15 @@ class BeaconSendingCaptureOnState extends AbstractBeaconSendingState {
                 session.clearCapturedData();
             }
         }
-
         context.setLastOpenSessionBeaconSendTime(currentTimestamp);
-
         return statusResponse;
     }
 
     private static void handleStatusResponse(BeaconSendingContext context, StatusResponse statusResponse) {
-
         if (statusResponse == null) {
-            return; // nothing to handle
+            // nothing to handle
+            return;
         }
-
         context.handleStatusResponse(statusResponse);
         if (!context.isCaptureOn()) {
             // capturing is turned off -> make state transition
@@ -201,6 +152,6 @@ class BeaconSendingCaptureOnState extends AbstractBeaconSendingState {
 
     @Override
     public String toString() {
-        return "CaptureOn";
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

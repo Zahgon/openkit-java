@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.protocol;
 
 import com.dynatrace.openkit.api.Logger;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -65,12 +63,12 @@ public class StatusResponse {
     private final Logger logger;
 
     private final int responseCode;
+
     private final Map<String, List<String>> headers;
 
     private final ResponseAttributes responseAttributes;
 
     // *** constructors ***
-
     private StatusResponse(Logger logger, ResponseAttributes responseAttributes, int responseCode, Map<String, List<String>> headers) {
         this.logger = logger;
         this.responseAttributes = responseAttributes;
@@ -85,29 +83,23 @@ public class StatusResponse {
                 result.put(entry.getKey().toLowerCase(), entry.getValue());
             }
         }
-
         return Collections.unmodifiableMap(result);
     }
 
-    public static StatusResponse createSuccessResponse(
-            Logger logger,
-            ResponseAttributes responseAttributes,
-            int responseCode,
-            Map<String, List<String>> headers) {
-        return new StatusResponse(logger, responseAttributes, responseCode, headers);
+    public static StatusResponse createSuccessResponse(Logger logger, ResponseAttributes responseAttributes, int responseCode, Map<String, List<String>> headers) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static StatusResponse createErrorResponse(Logger logger, int responseCode) {
-        return createErrorResponse(logger, responseCode, new HashMap<String, List<String>>());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static StatusResponse createErrorResponse(Logger logger, int responseCode, Map<String, List<String>> headers) {
-        ResponseAttributes responseAttributes = ResponseAttributesImpl.withUndefinedDefaults().build();
-        return new StatusResponse(logger, responseAttributes, responseCode, headers);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isErroneousResponse() {
-        return getResponseCode() >= HTTP_BAD_REQUEST || isStatusSetToError();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private boolean isStatusSetToError() {
@@ -115,54 +107,25 @@ public class StatusResponse {
             // no status sent - therefore no error
             return false;
         }
-
         return RESPONSE_STATUS_ERROR.equals(responseAttributes.getStatus());
     }
 
     public int getResponseCode() {
-        return responseCode;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the attributes received as response from the server.
      */
     public ResponseAttributes getResponseAttributes() {
-        return responseAttributes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public long getRetryAfterInMilliseconds() {
-
-        List<String> values = getHeaders().get(RESPONSE_KEY_RETRY_AFTER);
-        if (values == null) {
-            // the Retry-After response header is missing
-            logger.warning(RESPONSE_KEY_RETRY_AFTER + " is not available - using default value " + DEFAULT_RETRY_AFTER_IN_MILLISECONDS);
-            return DEFAULT_RETRY_AFTER_IN_MILLISECONDS;
-        }
-
-        if (values.size() != 1) {
-            // the Retry-After response header has multiple values, but only one is expected
-            logger.warning(RESPONSE_KEY_RETRY_AFTER + " has unexpected number of values - using default value " + DEFAULT_RETRY_AFTER_IN_MILLISECONDS);
-            return DEFAULT_RETRY_AFTER_IN_MILLISECONDS;
-        }
-
-        // according to RFC 7231 Section 7.1.3 (https://tools.ietf.org/html/rfc7231#section-7.1.3)
-        // Retry-After value can either be a delay seconds value, which is a non-negative decimal integer
-        // or it is an HTTP date.
-        // Our implementation assumes only delay seconds value here
-        int delaySeconds;
-        try {
-            delaySeconds = Integer.parseInt(values.get(0));
-        } catch (NumberFormatException e) {
-            logger.error("Failed to parse " + RESPONSE_KEY_RETRY_AFTER + " value \"" + values.get(0)
-                    + "\" - using default value " + DEFAULT_RETRY_AFTER_IN_MILLISECONDS);
-            return DEFAULT_RETRY_AFTER_IN_MILLISECONDS;
-        }
-
-        // convert delay seconds to milliseconds
-        return delaySeconds * 1000L;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     Map<String, List<String>> getHeaders() {
-        return headers;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

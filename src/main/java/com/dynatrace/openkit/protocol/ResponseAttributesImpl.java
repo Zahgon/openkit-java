@@ -28,148 +28,137 @@ public class ResponseAttributesImpl implements ResponseAttributes {
     private final EnumSet<ResponseAttribute> setAttributes;
 
     private final int maxBeaconSizeInBytes;
+
     private final int maxSessionDurationInMilliseconds;
+
     private final int maxEventsPerSession;
+
     private final int sessionTimeoutInMilliseconds;
+
     private final int sendIntervalInMilliseconds;
+
     private final int visitStoreVersion;
 
     private final boolean isCapture;
+
     private final boolean isCaptureCrashes;
+
     private final boolean isCaptureErrors;
+
     private final int trafficControlPercentage;
+
     private final String applicationId;
 
     private final int multiplicity;
+
     private final int serverId;
+
     private final String status;
 
     private final long timestampInMilliseconds;
 
     private ResponseAttributesImpl(Builder builder) {
         setAttributes = EnumSet.copyOf(builder.setAttributes);
-
         maxBeaconSizeInBytes = builder.maxBeaconSizeInBytes;
         maxSessionDurationInMilliseconds = builder.maxSessionDurationInMilliseconds;
         maxEventsPerSession = builder.maxEventsPerSession;
         sessionTimeoutInMilliseconds = builder.sessionTimeoutInMilliseconds;
         sendIntervalInMilliseconds = builder.sendIntervalInMilliseconds;
         visitStoreVersion = builder.visitStoreVersion;
-
         isCapture = builder.isCapture;
         isCaptureCrashes = builder.isCaptureCrashes;
         isCaptureErrors = builder.isCaptureErrors;
         trafficControlPercentage = builder.trafficControlPercentage;
         applicationId = builder.applicationId;
-
         multiplicity = builder.multiplicity;
         serverId = builder.serverId;
         status = builder.status;
-
         timestampInMilliseconds = builder.timestampInMilliseconds;
     }
 
     @Override
     public int getMaxBeaconSizeInBytes() {
-        return maxBeaconSizeInBytes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getMaxSessionDurationInMilliseconds() {
-        return maxSessionDurationInMilliseconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getMaxEventsPerSession() {
-        return maxEventsPerSession;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getSessionTimeoutInMilliseconds() {
-        return sessionTimeoutInMilliseconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getSendIntervalInMilliseconds() {
-        return sendIntervalInMilliseconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getVisitStoreVersion() {
-        return visitStoreVersion;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isCapture() {
-        return isCapture;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isCaptureCrashes() {
-        return isCaptureCrashes;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isCaptureErrors() {
-        return isCaptureErrors;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getTrafficControlPercentage() {
-        return trafficControlPercentage;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getApplicationId() {
-        return applicationId;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getMultiplicity() {
-        return multiplicity;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int getServerId() {
-        return serverId;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getStatus() {
-        return status;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long getTimestampInMilliseconds() {
-        return timestampInMilliseconds;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean isAttributeSet(ResponseAttribute attribute) {
-        return setAttributes.contains(attribute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public ResponseAttributes merge(ResponseAttributes responseAttributes) {
-        Builder builder = new Builder(this);
-
-        applyBeaconSize(builder, responseAttributes);
-        applySessionDuration(builder, responseAttributes);
-        applyEventsPerSession(builder, responseAttributes);
-        applySessionTimeout(builder, responseAttributes);
-        applySendInterval(builder, responseAttributes);
-        applyVisitStoreVersion(builder, responseAttributes);
-        applyCapture(builder, responseAttributes);
-        applyCaptureCrashes(builder, responseAttributes);
-        applyCaptureErrors(builder, responseAttributes);
-        applyTrafficControlPercentage(builder, responseAttributes);
-        applyApplicationId(builder, responseAttributes);
-        applyMultiplicity(builder, responseAttributes);
-        applyServerId(builder, responseAttributes);
-        applyStatus(builder, responseAttributes);
-        applyTimestamp(builder, responseAttributes);
-
-        return builder.build();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void applyBeaconSize(Builder builder, ResponseAttributes responseAttributes) {
@@ -281,41 +270,53 @@ public class ResponseAttributesImpl implements ResponseAttributes {
      * Creates a new builder initialized with the defaults value for {@link KeyValueResponseParser key-value parsing}.
      */
     public static Builder withKeyValueDefaults() {
-        return new Builder(ResponseAttributesDefaults.KEY_VALUE_RESPONSE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Creates a new builder initialized with the default values for {@link JsonResponseParser JSON parsing}.
      */
     public static Builder withJsonDefaults() {
-        return new Builder(ResponseAttributesDefaults.JSON_RESPONSE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Creates a new builder instance with undefined default values.
      */
     public static Builder withUndefinedDefaults() {
-        return new Builder(ResponseAttributesDefaults.UNDEFINED);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static class Builder {
+
         private final EnumSet<ResponseAttribute> setAttributes = EnumSet.noneOf(ResponseAttribute.class);
 
         private int maxBeaconSizeInBytes;
+
         private int maxSessionDurationInMilliseconds;
+
         private int maxEventsPerSession;
+
         private int sessionTimeoutInMilliseconds;
+
         private int sendIntervalInMilliseconds;
+
         private int visitStoreVersion;
 
         private boolean isCapture;
+
         private boolean isCaptureCrashes;
+
         private boolean isCaptureErrors;
+
         private int trafficControlPercentage;
+
         private String applicationId;
 
         private int multiplicity;
+
         private int serverId;
+
         private String status;
 
         private long timestampInMilliseconds;
@@ -327,19 +328,15 @@ public class ResponseAttributesImpl implements ResponseAttributes {
             sessionTimeoutInMilliseconds = defaults.getSessionTimeoutInMilliseconds();
             sendIntervalInMilliseconds = defaults.getSendIntervalInMilliseconds();
             visitStoreVersion = defaults.getVisitStoreVersion();
-
             isCapture = defaults.isCapture();
             isCaptureCrashes = defaults.isCaptureCrashes();
             isCaptureErrors = defaults.isCaptureErrors();
             trafficControlPercentage = defaults.getTrafficControlPercentage();
             applicationId = defaults.getApplicationId();
-
             multiplicity = defaults.getMultiplicity();
             serverId = defaults.getServerId();
             status = defaults.getStatus();
-
             timestampInMilliseconds = defaults.getTimestampInMilliseconds();
-
             for (ResponseAttribute attribute : ResponseAttribute.values()) {
                 if (defaults.isAttributeSet(attribute)) {
                     setAttribute(attribute);
@@ -354,10 +351,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withMaxBeaconSizeInBytes(int maxBeaconSizeInBytes) {
-            this.maxBeaconSizeInBytes = maxBeaconSizeInBytes;
-            setAttribute(ResponseAttribute.MAX_BEACON_SIZE);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -367,10 +361,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withMaxSessionDurationInMilliseconds(int maxSessionDurationInMilliseconds) {
-            this.maxSessionDurationInMilliseconds = maxSessionDurationInMilliseconds;
-            setAttribute(ResponseAttribute.MAX_SESSION_DURATION);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -380,10 +371,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withMaxEventsPerSession(int maxEventsPerSession) {
-            this.maxEventsPerSession = maxEventsPerSession;
-            setAttribute(ResponseAttribute.MAX_EVENTS_PER_SESSION);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -393,10 +381,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withSessionTimeoutInMilliseconds(int sessionTimeoutInMilliseconds) {
-            this.sessionTimeoutInMilliseconds = sessionTimeoutInMilliseconds;
-            setAttribute(ResponseAttribute.SESSION_TIMEOUT);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -406,10 +391,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withSendIntervalInMilliseconds(int sendIntervalInMilliseconds) {
-            this.sendIntervalInMilliseconds = sendIntervalInMilliseconds;
-            setAttribute(ResponseAttribute.SEND_INTERVAL);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -419,10 +401,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withVisitStoreVersion(int visitStoreVersion) {
-            this.visitStoreVersion = visitStoreVersion;
-            setAttribute(ResponseAttribute.VISIT_STORE_VERSION);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -432,10 +411,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withCapture(boolean isCapture) {
-            this.isCapture = isCapture;
-            setAttribute(ResponseAttribute.IS_CAPTURE);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -445,10 +421,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withCaptureCrashes(boolean isCaptureCrashes) {
-            this.isCaptureCrashes = isCaptureCrashes;
-            setAttribute(ResponseAttribute.IS_CAPTURE_CRASHES);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -458,10 +431,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withCaptureErrors(boolean isCaptureErrors) {
-            this.isCaptureErrors = isCaptureErrors;
-            setAttribute(ResponseAttribute.IS_CAPTURE_ERRORS);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -471,10 +441,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withTrafficControlPercentage(int trafficControlPercentage) {
-            this.trafficControlPercentage = trafficControlPercentage;
-            setAttribute(ResponseAttribute.TRAFFIC_CONTROL_PERCENTAGE);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -484,10 +451,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withApplicationId(String applicationId) {
-            this.applicationId = applicationId;
-            setAttribute(ResponseAttribute.APPLICATION_ID);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -497,10 +461,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withMultiplicity(int multiplicity) {
-            this.multiplicity = multiplicity;
-            setAttribute(ResponseAttribute.MULTIPLICITY);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -510,10 +471,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withServerId(int serverId) {
-            this.serverId = serverId;
-            setAttribute(ResponseAttribute.SERVER_ID);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -523,10 +481,7 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withStatus(String status) {
-            this.status = status;
-            setAttribute(ResponseAttribute.STATUS);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
@@ -536,17 +491,14 @@ public class ResponseAttributesImpl implements ResponseAttributes {
          * @return {@code this}
          */
         public Builder withTimestampInMilliseconds(long timestampInMilliseconds) {
-            this.timestampInMilliseconds = timestampInMilliseconds;
-            setAttribute(ResponseAttribute.TIMESTAMP);
-
-            return this;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         /**
          * Creates a new {@link ResponseAttributes} instance with all the attributes set in this builder.
          */
         public ResponseAttributes build() {
-            return new ResponseAttributesImpl(this);
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         private void setAttribute(ResponseAttribute attribute) {

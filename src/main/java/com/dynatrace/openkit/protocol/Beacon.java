@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.protocol;
 
 import static com.dynatrace.openkit.core.objects.EventPayloadAttributes.EVENT_KIND_BIZ;
 import static com.dynatrace.openkit.core.objects.EventPayloadAttributes.EVENT_KIND_RUM;
-
 import com.dynatrace.openkit.api.Logger;
 import com.dynatrace.openkit.core.caching.BeaconCache;
 import com.dynatrace.openkit.core.caching.BeaconKey;
@@ -44,7 +42,6 @@ import com.dynatrace.openkit.util.json.objects.JSONBooleanValue;
 import com.dynatrace.openkit.util.json.objects.JSONNumberValue;
 import com.dynatrace.openkit.util.json.objects.JSONStringValue;
 import com.dynatrace.openkit.util.json.objects.JSONValue;
-
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -57,87 +54,130 @@ public class Beacon {
 
     // basic data constants
     private static final String BEACON_KEY_PROTOCOL_VERSION = "vv";
+
     private static final String BEACON_KEY_OPENKIT_VERSION = "va";
+
     private static final String BEACON_KEY_APPLICATION_ID = "ap";
+
     private static final String BEACON_KEY_APPLICATION_VERSION = "vn";
+
     private static final String BEACON_KEY_PLATFORM_TYPE = "pt";
+
     private static final String BEACON_KEY_AGENT_TECHNOLOGY_TYPE = "tt";
+
     private static final String BEACON_KEY_VISITOR_ID = "vi";
+
     private static final String BEACON_KEY_SESSION_NUMBER = "sn";
+
     private static final String BEACON_KEY_SESSION_SEQUENCE = "ss";
+
     private static final String BEACON_KEY_CLIENT_IP_ADDRESS = "ip";
+
     private static final String BEACON_KEY_MULTIPLICITY = "mp";
+
     private static final String BEACON_KEY_DATA_COLLECTION_LEVEL = "dl";
+
     private static final String BEACON_KEY_CRASH_REPORTING_LEVEL = "cl";
+
     private static final String BEACON_KEY_VISIT_STORE_VERSION = "vs";
 
     // device data constants
     private static final String BEACON_KEY_DEVICE_OS = "os";
+
     private static final String BEACON_KEY_DEVICE_MANUFACTURER = "mf";
+
     private static final String BEACON_KEY_DEVICE_MODEL = "md";
 
     // additional metadata
     private static final String BEACON_KEY_CONNECTION_TYPE = "ct";
+
     private static final String BEACON_KEY_NETWORK_TECHNOLOGY = "np";
+
     private static final String BEACON_KEY_CARRIER = "cr";
 
     // timestamp constants
     private static final String BEACON_KEY_SESSION_START_TIME = "tv";
+
     private static final String BEACON_KEY_TRANSMISSION_TIME = "tx";
 
     // Action related constants
     private static final String BEACON_KEY_EVENT_TYPE = "et";
+
     private static final String BEACON_KEY_NAME = "na";
+
     private static final String BEACON_KEY_THREAD_ID = "it";
+
     private static final String BEACON_KEY_ACTION_ID = "ca";
+
     private static final String BEACON_KEY_PARENT_ACTION_ID = "pa";
+
     private static final String BEACON_KEY_START_SEQUENCE_NUMBER = "s0";
+
     private static final String BEACON_KEY_TIME_0 = "t0";
+
     private static final String BEACON_KEY_END_SEQUENCE_NUMBER = "s1";
+
     private static final String BEACON_KEY_TIME_1 = "t1";
 
     // data, error & crash capture constants
     private static final String BEACON_KEY_VALUE = "vl";
-    private static final String BEACON_KEY_ERROR_VALUE = "ev"; // can be an integer code or string (Exception class name)
+
+    // can be an integer code or string (Exception class name)
+    private static final String BEACON_KEY_ERROR_VALUE = "ev";
+
     private static final String BEACON_KEY_ERROR_REASON = "rs";
+
     private static final String BEACON_KEY_ERROR_STACKTRACE = "st";
+
     private static final String BEACON_KEY_ERROR_TECHNOLOGY_TYPE = "tt";
 
     // web request constants
     private static final String BEACON_KEY_WEBREQUEST_RESPONSECODE = "rc";
+
     private static final String BEACON_KEY_WEBREQUEST_BYTES_SENT = "bs";
+
     private static final String BEACON_KEY_WEBREQUEST_BYTES_RECEIVED = "br";
 
     // events api
     private static final String BEACON_KEY_EVENT_PAYLOAD = "pl";
+
     private static final int EVENT_PAYLOAD_BYTES_LENGTH = 16 * 1024;
+
     private static final String EVENT_PAYLOAD_APPLICATION_ID = "dt.rum.application.id";
+
     private static final String EVENT_PAYLOAD_INSTANCE_ID = "dt.rum.instance.id";
+
     private static final String EVENT_PAYLOAD_SESSION_ID = "dt.rum.sid";
 
     static final String CHARSET = StandardCharsets.UTF_8.name();
 
     // max name length
     private static final int MAX_NAME_LEN = 250;
+
     private static final int MAX_STACKTRACE_LEN = 128 * 1000;
+
     private static final int MAX_REASON_LEN = 1000;
 
     // web request tag prefix constant
     private static final String TAG_PREFIX = "MT";
 
     // web request tag reserved characters
-    static final char[] RESERVED_CHARACTERS = {'_'};
+    static final char[] RESERVED_CHARACTERS = { '_' };
 
     private static final char BEACON_DATA_DELIMITER = '&';
 
     // next ID and sequence number
     private final AtomicInteger nextID = new AtomicInteger(0);
+
     private final AtomicInteger nextSequenceNumber = new AtomicInteger(0);
 
     // session number & start time
     private final BeaconKey beaconKey;
+
     private final TimingProvider timingProvider;
+
     private final ThreadIDProvider threadIDProvider;
+
     private final long sessionStartTime;
 
     // unique device identifier
@@ -168,22 +208,17 @@ public class Beacon {
      * @param configuration OpenKit related configuration.
      */
     public Beacon(BeaconInitializer initializer, BeaconConfiguration configuration) {
-
         this.logger = initializer.getLogger();
         this.beaconCache = initializer.getBeaconCache();
         int sessionNumber = initializer.getSessionIdProvider().getNextSessionID();
         int sessionSequenceNumber = initializer.getSessionSequenceNumber();
         this.beaconKey = new BeaconKey(sessionNumber, sessionSequenceNumber);
         this.timingProvider = initializer.getTimingProvider();
-
         this.configuration = configuration;
         this.threadIDProvider = initializer.getThreadIdProvider();
         this.sessionStartTime = timingProvider.provideTimestampInMilliseconds();
-
         this.deviceID = createDeviceID(initializer.getRandomNumberGenerator(), configuration);
-
         this.trafficControlValue = initializer.getRandomNumberGenerator().nextPercentageValue();
-
         String ipAddress = initializer.getClientIpAddress();
         if (ipAddress == null) {
             // A client IP address, which is a null, is valid.
@@ -195,11 +230,10 @@ public class Beacon {
             if (logger.isWarnEnabled()) {
                 logger.warning(getClass().getSimpleName() + ": Client IP address validation failed: " + ipAddress);
             }
-            this.clientIPAddress = null; // determined on server side, based on remote IP address
+            // determined on server side, based on remote IP address
+            this.clientIPAddress = null;
         }
-
         this.supplementaryBasicData = initializer.getSupplementaryBasicData();
-
         immutableBasicBeaconData = createImmutableBasicBeaconData();
     }
 
@@ -212,12 +246,10 @@ public class Beacon {
      * @return A device ID, which might either be the one set when building OpenKit or a randomly generated one.
      */
     private static long createDeviceID(RandomNumberGenerator random, BeaconConfiguration configuration) {
-
         if (configuration.getPrivacyConfiguration().isDeviceIDSendingAllowed()) {
             // configuration is valid and user allows data tracking
             return configuration.getOpenKitConfiguration().getDeviceID();
         }
-
         // no user tracking allowed
         return random.nextPositiveLong();
     }
@@ -233,7 +265,7 @@ public class Beacon {
      * @return A unique identifier.
      */
     public int createID() {
-        return nextID.incrementAndGet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -242,7 +274,7 @@ public class Beacon {
      * @return Current timestamp in milliseconds.
      */
     public long getCurrentTimestamp() {
-        return timingProvider.provideTimestampInMilliseconds();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -256,14 +288,14 @@ public class Beacon {
      * @return A unique sequence number.
      */
     public int createSequenceNumber() {
-        return nextSequenceNumber.incrementAndGet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the time when the session was started (in milliseconds).
      */
     public long getSessionStartTime() {
-        return sessionStartTime;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -281,25 +313,7 @@ public class Beacon {
      * @return A web request tracer tag.
      */
     public String createTag(int parentActionID, int tracerSeqNo) {
-        if (!configuration.getPrivacyConfiguration().isWebRequestTracingAllowed()) {
-            return "";
-        }
-
-        int serverId = configuration.getHTTPClientConfiguration().getServerID();
-        StringBuilder builder = new StringBuilder(TAG_PREFIX);
-        builder.append("_").append(ProtocolConstants.PROTOCOL_VERSION);
-        builder.append("_").append(serverId);
-        builder.append("_").append(getDeviceID());
-        builder.append("_").append(getSessionNumber());
-        if (getVisitStoreVersion() > 1) {
-            builder.append("-").append(getSessionSequenceNumber());
-        }
-        builder.append("_").append(configuration.getOpenKitConfiguration().getPercentEncodedApplicationID());
-        builder.append("_").append(parentActionID);
-        builder.append("_").append(threadIDProvider.getThreadID());
-        builder.append("_").append(tracerSeqNo);
-
-        return builder.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -312,31 +326,7 @@ public class Beacon {
      * @param action The action to add.
      */
     public void addAction(BaseActionImpl action) {
-
-        if (action == null || action.getName() == null || action.getName().length() == 0) {
-            throw new IllegalArgumentException("action is null or action.getName() is null or empty");
-        }
-
-        if (!configuration.getPrivacyConfiguration().isActionReportingAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder actionBuilder = new StringBuilder();
-
-        buildBasicEventData(actionBuilder, EventType.ACTION, action.getName());
-
-        addKeyValuePair(actionBuilder, BEACON_KEY_ACTION_ID, action.getID());
-        addKeyValuePair(actionBuilder, BEACON_KEY_PARENT_ACTION_ID, action.getParentID());
-        addKeyValuePair(actionBuilder, BEACON_KEY_START_SEQUENCE_NUMBER, action.getStartSequenceNo());
-        addKeyValuePair(actionBuilder, BEACON_KEY_TIME_0, getTimeSinceSessionStartTime(action.getStartTime()));
-        addKeyValuePair(actionBuilder, BEACON_KEY_END_SEQUENCE_NUMBER, action.getEndSequenceNo());
-        addKeyValuePair(actionBuilder, BEACON_KEY_TIME_1, action.getEndTime() - action.getStartTime());
-
-        addActionData(action.getStartTime(), actionBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -347,20 +337,7 @@ public class Beacon {
      * </p>
      */
     public void startSession() {
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        buildBasicEventDataWithoutName(eventBuilder, EventType.SESSION_START);
-
-        addKeyValuePair(eventBuilder, BEACON_KEY_PARENT_ACTION_ID, 0);
-        addKeyValuePair(eventBuilder, BEACON_KEY_START_SEQUENCE_NUMBER, createSequenceNumber());
-        addKeyValuePair(eventBuilder, BEACON_KEY_TIME_0, 0L);
-
-        addEventData(sessionStartTime, eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -371,25 +348,7 @@ public class Beacon {
      * </p>
      */
     public void endSession() {
-
-        if (!configuration.getPrivacyConfiguration().isSessionReportingAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        buildBasicEventDataWithoutName(eventBuilder, EventType.SESSION_END);
-
-        long sessionEndTime = getCurrentTimestamp();
-        addKeyValuePair(eventBuilder, BEACON_KEY_PARENT_ACTION_ID, 0);
-        addKeyValuePair(eventBuilder, BEACON_KEY_START_SEQUENCE_NUMBER, createSequenceNumber());
-        addKeyValuePair(eventBuilder, BEACON_KEY_TIME_0, getTimeSinceSessionStartTime(sessionEndTime));
-
-        addEventData(sessionEndTime, eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -404,7 +363,7 @@ public class Beacon {
      * @param value Actual value to report.
      */
     public void reportValue(int parentActionID, String valueName, int value) {
-        reportValue(parentActionID, valueName, (long) value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -419,24 +378,7 @@ public class Beacon {
      * @param value Actual value to report.
      */
     public void reportValue(int parentActionID, String valueName, long value) {
-        if (valueName == null || valueName.length() == 0) {
-            throw new IllegalArgumentException("valueName is null or empty");
-        }
-
-        if (!configuration.getPrivacyConfiguration().isValueReportingAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        long eventTimestamp = buildEvent(eventBuilder, EventType.VALUE_INT, valueName, parentActionID);
-        addKeyValuePair(eventBuilder, BEACON_KEY_VALUE, value);
-
-        addEventData(eventTimestamp, eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -451,25 +393,7 @@ public class Beacon {
      * @param value Actual value to report.
      */
     public void reportValue(int parentActionID, String valueName, double value) {
-
-        if (valueName == null || valueName.length() == 0) {
-            throw new IllegalArgumentException("valueName is null or empty");
-        }
-
-        if (!configuration.getPrivacyConfiguration().isValueReportingAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        long eventTimestamp = buildEvent(eventBuilder, EventType.VALUE_DOUBLE, valueName, parentActionID);
-        addKeyValuePair(eventBuilder, BEACON_KEY_VALUE, value);
-
-        addEventData(eventTimestamp, eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -484,27 +408,7 @@ public class Beacon {
      * @param value Actual value to report.
      */
     public void reportValue(int parentActionID, String valueName, String value) {
-
-        if (valueName == null || valueName.length() == 0) {
-            throw new IllegalArgumentException("valueName is null or empty");
-        }
-
-        if (!configuration.getPrivacyConfiguration().isValueReportingAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        long eventTimestamp = buildEvent(eventBuilder, EventType.VALUE_STRING, valueName, parentActionID);
-        if (value != null) {
-            addKeyValuePair(eventBuilder, BEACON_KEY_VALUE, truncate(value));
-        }
-
-        addEventData(eventTimestamp, eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -518,24 +422,7 @@ public class Beacon {
      * @param eventName Event's name.
      */
     public void reportEvent(int parentActionID, String eventName) {
-
-        if (eventName == null || eventName.length() == 0) {
-            throw new IllegalArgumentException("eventName is null or empty");
-        }
-
-        if (!configuration.getPrivacyConfiguration().isEventReportingAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        long eventTimestamp = buildEvent(eventBuilder, EventType.NAMED_EVENT, eventName, parentActionID);
-
-        addEventData(eventTimestamp, eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -550,87 +437,37 @@ public class Beacon {
      * @param errorCode Some error code.
      */
     public void reportError(int parentActionID, String errorName, int errorCode) {
-
-        if (errorName == null || errorName.length() == 0) {
-            throw new IllegalArgumentException("errorName is null or empty");
-        }
-
-        if (!configuration.getPrivacyConfiguration().isErrorReportingAllowed()) {
-            return;
-        }
-
-        if (!isErrorCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        buildBasicEventData(eventBuilder, EventType.ERROR, errorName);
-
-        long timestamp = timingProvider.provideTimestampInMilliseconds();
-        addKeyValuePair(eventBuilder, BEACON_KEY_PARENT_ACTION_ID, parentActionID);
-        addKeyValuePair(eventBuilder, BEACON_KEY_START_SEQUENCE_NUMBER, createSequenceNumber());
-        addKeyValuePair(eventBuilder, BEACON_KEY_TIME_0, getTimeSinceSessionStartTime(timestamp));
-        addKeyValuePair(eventBuilder, BEACON_KEY_ERROR_VALUE, errorCode);
-        addKeyValuePair(eventBuilder, BEACON_KEY_ERROR_TECHNOLOGY_TYPE, ProtocolConstants.ERROR_TECHNOLOGY_TYPE);
-
-        addEventData(timestamp, eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void reportError(int parentActionID, String errorName, String causeName, String causeDescription, String causeStackTrace) {
-        reportError(parentActionID, errorName, causeName, causeDescription, causeStackTrace, ProtocolConstants.ERROR_TECHNOLOGY_TYPE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void reportError(int parentActionID, String errorName, Throwable throwable) {
-        String causeName = null;
-        String causeDescription = null;
-        String causeStackTrace = null;
-
-        if (throwable != null) {
-            CrashFormatter crashFormatter = new CrashFormatter(throwable);
-            causeName = crashFormatter.getName();
-            causeDescription = crashFormatter.getReason();
-            causeStackTrace = crashFormatter.getStackTrace();
-        }
-
-        reportError(parentActionID,
-            errorName,
-            causeName,
-            causeDescription,
-            causeStackTrace,
-            ProtocolConstants.ERROR_TECHNOLOGY_TYPE); // TODO stefan.eberl - report better crash technology type
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void reportError(int parentActionID, String errorName, String causeName, String causeDescription, String causeStackTrace, String errorTechnologyType) {
-
         if (errorName == null || errorName.length() == 0) {
             throw new IllegalArgumentException("errorName is null or empty");
         }
-
         if (!configuration.getPrivacyConfiguration().isErrorReportingAllowed()) {
             return;
         }
-
         if (!isErrorCapturingEnabled()) {
             return;
         }
-
         int maxStackTraceLength = MAX_STACKTRACE_LEN;
-
         // Truncating stacktrace at last line break
-        if (causeStackTrace != null && causeStackTrace.length() > MAX_STACKTRACE_LEN)
-        {
+        if (causeStackTrace != null && causeStackTrace.length() > MAX_STACKTRACE_LEN) {
             int lastLineBreakIndex = causeStackTrace.lastIndexOf('\n', MAX_STACKTRACE_LEN);
-            if (lastLineBreakIndex != -1)
-            {
+            if (lastLineBreakIndex != -1) {
                 maxStackTraceLength = lastLineBreakIndex;
             }
         }
-
         StringBuilder eventBuilder = new StringBuilder();
-
         buildBasicEventData(eventBuilder, EventType.EXCEPTION, errorName);
-
         long timestamp = timingProvider.provideTimestampInMilliseconds();
         addKeyValuePair(eventBuilder, BEACON_KEY_PARENT_ACTION_ID, parentActionID);
         addKeyValuePair(eventBuilder, BEACON_KEY_START_SEQUENCE_NUMBER, createSequenceNumber());
@@ -639,7 +476,6 @@ public class Beacon {
         addKeyValuePairIfNotNull(eventBuilder, BEACON_KEY_ERROR_REASON, truncateNullSafe(causeDescription, MAX_REASON_LEN));
         addKeyValuePairIfNotNull(eventBuilder, BEACON_KEY_ERROR_STACKTRACE, truncateNullSafe(causeStackTrace, maxStackTraceLength));
         addKeyValuePair(eventBuilder, BEACON_KEY_ERROR_TECHNOLOGY_TYPE, errorTechnologyType);
-
         addEventData(timestamp, eventBuilder);
     }
 
@@ -655,7 +491,7 @@ public class Beacon {
      * @param stacktrace Crash stacktrace.
      */
     public void reportCrash(String errorName, String reason, String stacktrace) {
-        reportCrash(errorName, reason, stacktrace, ProtocolConstants.ERROR_TECHNOLOGY_TYPE);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -668,55 +504,37 @@ public class Beacon {
      * @param throwable {@link Throwable} to report.
      */
     public void reportCrash(Throwable throwable) {
-        if (throwable == null) {
-            throw new IllegalArgumentException("throwable is null");
-        }
-
-        CrashFormatter crashFormatter = new CrashFormatter(throwable);
-        reportCrash(crashFormatter.getName(),
-            crashFormatter.getReason(),
-            crashFormatter.getStackTrace(),
-            ProtocolConstants.ERROR_TECHNOLOGY_TYPE); // TODO stefan.eberl - report better crash technology type
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void reportCrash(String errorName, String reason, String stacktrace, String crashTechnologyType) {
-
         if (errorName == null || errorName.length() == 0) {
             throw new IllegalArgumentException("errorName is null or empty");
         }
-
         if (!configuration.getPrivacyConfiguration().isCrashReportingAllowed()) {
             return;
         }
-
         if (!isCrashCapturingEnabled()) {
             return;
         }
-
         int maxStackTraceLength = MAX_STACKTRACE_LEN;
-
         // Truncating stacktrace at last line break
-        if (stacktrace != null && stacktrace.length() > MAX_STACKTRACE_LEN)
-        {
+        if (stacktrace != null && stacktrace.length() > MAX_STACKTRACE_LEN) {
             int lastLineBreakIndex = stacktrace.lastIndexOf('\n', MAX_STACKTRACE_LEN);
-            if (lastLineBreakIndex != -1)
-            {
+            if (lastLineBreakIndex != -1) {
                 maxStackTraceLength = lastLineBreakIndex;
             }
         }
-
         StringBuilder eventBuilder = new StringBuilder();
-
         buildBasicEventData(eventBuilder, EventType.CRASH, errorName);
-
         long timestamp = timingProvider.provideTimestampInMilliseconds();
-        addKeyValuePair(eventBuilder, BEACON_KEY_PARENT_ACTION_ID, 0);                                  // no parent action
+        // no parent action
+        addKeyValuePair(eventBuilder, BEACON_KEY_PARENT_ACTION_ID, 0);
         addKeyValuePair(eventBuilder, BEACON_KEY_START_SEQUENCE_NUMBER, createSequenceNumber());
         addKeyValuePair(eventBuilder, BEACON_KEY_TIME_0, getTimeSinceSessionStartTime(timestamp));
         addKeyValuePairIfNotNull(eventBuilder, BEACON_KEY_ERROR_REASON, truncateNullSafe(reason, MAX_REASON_LEN));
         addKeyValuePairIfNotNull(eventBuilder, BEACON_KEY_ERROR_STACKTRACE, truncateNullSafe(stacktrace, maxStackTraceLength));
         addKeyValuePair(eventBuilder, BEACON_KEY_ERROR_TECHNOLOGY_TYPE, crashTechnologyType);
-
         addEventData(timestamp, eventBuilder);
     }
 
@@ -731,34 +549,7 @@ public class Beacon {
      * @param webRequestTracer Web request tracer to serialize.
      */
     public void addWebRequest(int parentActionID, WebRequestTracerBaseImpl webRequestTracer) {
-
-        if (webRequestTracer == null || webRequestTracer.getURL() == null || webRequestTracer.getURL().length() == 0) {
-            throw new IllegalArgumentException("webRequestTracer is null or webRequestTracer.getURL() is null or empty");
-        }
-
-        if (!configuration.getPrivacyConfiguration().isWebRequestTracingAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        buildBasicEventData(eventBuilder, EventType.WEB_REQUEST, webRequestTracer.getURL());
-
-        addKeyValuePair(eventBuilder, BEACON_KEY_PARENT_ACTION_ID, parentActionID);
-        addKeyValuePair(eventBuilder, BEACON_KEY_START_SEQUENCE_NUMBER, webRequestTracer.getStartSequenceNo());
-        addKeyValuePair(eventBuilder, BEACON_KEY_TIME_0, getTimeSinceSessionStartTime(webRequestTracer.getStartTime()));
-        addKeyValuePair(eventBuilder, BEACON_KEY_END_SEQUENCE_NUMBER, webRequestTracer.getEndSequenceNo());
-        addKeyValuePair(eventBuilder, BEACON_KEY_TIME_1, webRequestTracer.getEndTime() - webRequestTracer.getStartTime());
-
-        addKeyValuePairIfNotNegative(eventBuilder, BEACON_KEY_WEBREQUEST_BYTES_SENT, webRequestTracer.getBytesSent());
-        addKeyValuePairIfNotNegative(eventBuilder, BEACON_KEY_WEBREQUEST_BYTES_RECEIVED, webRequestTracer.getBytesReceived());
-        addKeyValuePairIfNotNegative(eventBuilder, BEACON_KEY_WEBREQUEST_RESPONSECODE, webRequestTracer.getResponseCode());
-
-        addEventData(webRequestTracer.getStartTime(), eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -772,29 +563,7 @@ public class Beacon {
      *                The {@code userTag} is the only name-beacon data that can be null/empty.
      */
     public void identifyUser(String userTag) {
-
-        if (!configuration.getPrivacyConfiguration().isUserIdentificationAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        StringBuilder eventBuilder = new StringBuilder();
-
-        if (userTag != null) {
-            buildBasicEventData(eventBuilder, EventType.IDENTIFY_USER, userTag);
-        } else {
-            buildBasicEventDataWithoutName(eventBuilder, EventType.IDENTIFY_USER);
-        }
-
-        long timestamp = timingProvider.provideTimestampInMilliseconds();
-        addKeyValuePair(eventBuilder, BEACON_KEY_PARENT_ACTION_ID, 0);
-        addKeyValuePair(eventBuilder, BEACON_KEY_START_SEQUENCE_NUMBER, createSequenceNumber());
-        addKeyValuePair(eventBuilder, BEACON_KEY_TIME_0, getTimeSinceSessionStartTime(timestamp));
-
-        addEventData(timestamp, eventBuilder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -810,67 +579,15 @@ public class Beacon {
      * @return Returns the last status response retrieved from the server side, or {@code null} if an error occurred.
      */
     public StatusResponse send(HTTPClientProvider provider, AdditionalQueryParameters additionalParameters) {
-
-        HTTPClient httpClient = provider.createClient(configuration.getHTTPClientConfiguration());
-        StatusResponse response = null;
-
-        beaconCache.prepareDataForSending(beaconKey);
-        while (beaconCache.hasDataForSending(beaconKey)) {
-
-            // prefix for this chunk - must be built up newly, due to changing timestamps
-            String prefix = appendMutableBeaconData(immutableBasicBeaconData);
-            // subtract 1024 to ensure that the chunk does not exceed the send size configured on server side?
-            // i guess that was the original intention, but i'm not sure about this
-            // TODO stefan.eberl - This is a quite uncool algorithm and should be improved, avoid subtracting some "magic" number
-            String chunk = beaconCache.getNextBeaconChunk(beaconKey, prefix, configuration.getServerConfiguration()
-                    .getBeaconSizeInBytes() - 1024, BEACON_DATA_DELIMITER);
-            if (chunk == null || chunk.isEmpty()) {
-                // no data added so far or no data to send
-                return response;
-            }
-
-            byte[] encodedBeacon;
-            try {
-                encodedBeacon = encodeBeaconChunk(chunk);
-            } catch (UnsupportedEncodingException e) {
-                // must not happen, as UTF-8 should *really* be supported
-                logger.error(getClass().getSimpleName() + ": Required charset \"" + CHARSET + "\" is not supported.", e);
-                beaconCache.resetChunkedData(beaconKey);
-                return response;
-            }
-
-            // send the request
-            response = httpClient.sendBeaconRequest(clientIPAddress, encodedBeacon, additionalParameters, getSessionNumber());
-            if (response == null || response.isErroneousResponse()) {
-                // error happened - but don't know what exactly
-                // reset the previously retrieved chunk (restore it in internal cache) & retry another time
-                beaconCache.resetChunkedData(beaconKey);
-                break;
-            } else {
-                // worked -> remove previously retrieved chunk from cache
-                beaconCache.removeChunkedData(beaconKey);
-            }
-        }
-
-        return response;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void generateSendEventPayload(EventPayloadBuilder builder) {
-        builder.addOverridableAttribute(EventPayloadAttributes.TIMESTAMP, JSONNumberValue.fromLong(timingProvider.provideTimestampInNanoseconds()))
-                .addNonOverridableAttribute(EVENT_PAYLOAD_APPLICATION_ID, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getPercentEncodedApplicationID()))
-                .addNonOverridableAttribute(EVENT_PAYLOAD_INSTANCE_ID, JSONStringValue.fromString(String.valueOf(deviceID)))
-                .addNonOverridableAttribute(EVENT_PAYLOAD_SESSION_ID, JSONStringValue.fromString(String.valueOf(deviceID) + "_" + String.valueOf(getSessionNumber())))
-                .addNonOverridableAttribute("dt.rum.schema_version", JSONStringValue.fromString("1.3"))
-                .addOverridableAttribute(EventPayloadAttributes.APP_VERSION, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getApplicationVersion()))
-                .addOverridableAttribute(EventPayloadAttributes.OS_NAME, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getOperatingSystem()))
-                .addOverridableAttribute(EventPayloadAttributes.DEVICE_MANUFACTURER, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getManufacturer()))
-                .addOverridableAttribute(EventPayloadAttributes.DEVICE_MODEL_IDENTIFIER, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getModelID()))
-                .addOverridableAttribute(EventPayloadAttributes.EVENT_PROVIDER, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getPercentEncodedApplicationID()));
+        builder.addOverridableAttribute(EventPayloadAttributes.TIMESTAMP, JSONNumberValue.fromLong(timingProvider.provideTimestampInNanoseconds())).addNonOverridableAttribute(EVENT_PAYLOAD_APPLICATION_ID, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getPercentEncodedApplicationID())).addNonOverridableAttribute(EVENT_PAYLOAD_INSTANCE_ID, JSONStringValue.fromString(String.valueOf(deviceID))).addNonOverridableAttribute(EVENT_PAYLOAD_SESSION_ID, JSONStringValue.fromString(String.valueOf(deviceID) + "_" + String.valueOf(getSessionNumber()))).addNonOverridableAttribute("dt.rum.schema_version", JSONStringValue.fromString("1.3")).addOverridableAttribute(EventPayloadAttributes.APP_VERSION, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getApplicationVersion())).addOverridableAttribute(EventPayloadAttributes.OS_NAME, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getOperatingSystem())).addOverridableAttribute(EventPayloadAttributes.DEVICE_MANUFACTURER, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getManufacturer())).addOverridableAttribute(EventPayloadAttributes.DEVICE_MODEL_IDENTIFIER, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getModelID())).addOverridableAttribute(EventPayloadAttributes.EVENT_PROVIDER, JSONStringValue.fromString(configuration.getOpenKitConfiguration().getPercentEncodedApplicationID()));
     }
 
     private void sendEventPayload(EventPayloadBuilder builder) {
         String jsonPayload = builder.build();
-
         try {
             if (jsonPayload.getBytes("UTF-8").length > EVENT_PAYLOAD_BYTES_LENGTH) {
                 throw new IllegalArgumentException("Event payload is exceeding " + EVENT_PAYLOAD_BYTES_LENGTH + " bytes!");
@@ -878,66 +595,18 @@ public class Beacon {
         } catch (UnsupportedEncodingException e) {
             throw new IllegalArgumentException("Unable to calculate the length of used event payload!");
         }
-
         StringBuilder eventBuilder = new StringBuilder();
         addKeyValuePair(eventBuilder, BEACON_KEY_EVENT_TYPE, EventType.EVENT.protocolValue());
         addKeyValuePair(eventBuilder, BEACON_KEY_EVENT_PAYLOAD, jsonPayload);
-
         addEventData(timingProvider.provideTimestampInMilliseconds(), eventBuilder);
     }
 
     public void sendBizEvent(String type, Map<String, JSONValue> attributes) {
-        if (type == null || type.length() == 0) {
-            throw new IllegalArgumentException("type is null or empty");
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        EventPayloadBuilder builder = new EventPayloadBuilder(logger, attributes);
-        builder.addNonOverridableAttribute("event.type", JSONStringValue.fromString(type));
-        JSONNumberValue sizeAttribute = JSONNumberValue.fromLong(builder.build().getBytes(StandardCharsets.UTF_8).length);
-
-        builder.cleanReservedInternalAttributes()
-                .addNonOverridableAttribute("dt.rum.custom_attributes_size", sizeAttribute);
-
-        generateSendEventPayload(builder);
-
-        builder.addNonOverridableAttribute(EventPayloadAttributes.EVENT_KIND, JSONStringValue.fromString(EVENT_KIND_BIZ));
-
-        if(builder.isEventPayloadContainingNonFiniteValues()) {
-            builder.addNonOverridableAttribute("dt.rum.has_nfn_values", JSONBooleanValue.fromValue(true));
-        }
-
-        sendEventPayload(builder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void sendEvent(String name, Map<String, JSONValue> attributes) {
-        if (name == null || name.length() == 0) {
-            throw new IllegalArgumentException("name is null or empty");
-        }
-
-        if (!configuration.getPrivacyConfiguration().isEventReportingAllowed()) {
-            return;
-        }
-
-        if (!isDataCapturingEnabled()) {
-            return;
-        }
-
-        EventPayloadBuilder builder = new EventPayloadBuilder(logger, attributes);
-        builder.cleanReservedInternalAttributes();
-        generateSendEventPayload(builder);
-
-        builder.addNonOverridableAttribute("event.name", JSONStringValue.fromString(name))
-                .addOverridableAttribute(EventPayloadAttributes.EVENT_KIND, JSONStringValue.fromString(EVENT_KIND_RUM));
-
-        if(builder.isEventPayloadContainingNonFiniteValues()) {
-            builder.addNonOverridableAttribute("dt.rum.has_nfn_values", JSONBooleanValue.fromValue(true));
-        }
-
-        sendEventPayload(builder);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -952,7 +621,7 @@ public class Beacon {
      * @return the encoded beacon chunk
      */
     protected byte[] encodeBeaconChunk(String chunkToEncode) throws UnsupportedEncodingException {
-        return chunkToEncode.getBytes(CHARSET);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String appendMutableBeaconData(String immutableBasicBeaconData) {
@@ -961,25 +630,17 @@ public class Beacon {
         if (getVisitStoreVersion() > 1) {
             addKeyValuePair(mutableBeaconDataBuilder, BEACON_KEY_SESSION_SEQUENCE, getSessionSequenceNumber());
         }
-
         mutableBeaconDataBuilder.append(BEACON_DATA_DELIMITER);
-
         // append timestamp data
         mutableBeaconDataBuilder.append(createTimestampData());
-
         // append multiplicity
         mutableBeaconDataBuilder.append(BEACON_DATA_DELIMITER).append(createMultiplicityData());
-
         // append supplementary basic data
-        addKeyValuePairIfNotNull(mutableBeaconDataBuilder, BEACON_KEY_NETWORK_TECHNOLOGY,
-                supplementaryBasicData.getNetworkTechnology());
+        addKeyValuePairIfNotNull(mutableBeaconDataBuilder, BEACON_KEY_NETWORK_TECHNOLOGY, supplementaryBasicData.getNetworkTechnology());
         addKeyValuePairIfNotNull(mutableBeaconDataBuilder, BEACON_KEY_CARRIER, supplementaryBasicData.getCarrier());
-
         if (supplementaryBasicData.getConnectionType() != null) {
-            addKeyValuePairIfNotNull(mutableBeaconDataBuilder, BEACON_KEY_CONNECTION_TYPE,
-                    supplementaryBasicData.getConnectionType().getValue());
+            addKeyValuePairIfNotNull(mutableBeaconDataBuilder, BEACON_KEY_CONNECTION_TYPE, supplementaryBasicData.getConnectionType().getValue());
         }
-
         return mutableBeaconDataBuilder.toString();
     }
 
@@ -1015,8 +676,7 @@ public class Beacon {
      * </p>
      */
     public void clearData() {
-        // remove all cached data for this Beacon from the cache
-        beaconCache.deleteCacheEntry(beaconKey);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1031,13 +691,10 @@ public class Beacon {
      */
     private long buildEvent(StringBuilder builder, EventType eventType, String name, int parentActionID) {
         buildBasicEventData(builder, eventType, name);
-
         long eventTimestamp = timingProvider.provideTimestampInMilliseconds();
-
         addKeyValuePair(builder, BEACON_KEY_PARENT_ACTION_ID, parentActionID);
         addKeyValuePair(builder, BEACON_KEY_START_SEQUENCE_NUMBER, createSequenceNumber());
         addKeyValuePair(builder, BEACON_KEY_TIME_0, getTimeSinceSessionStartTime(eventTimestamp));
-
         return eventTimestamp;
     }
 
@@ -1072,7 +729,6 @@ public class Beacon {
     private String createImmutableBasicBeaconData() {
         OpenKitConfiguration openKitConfiguration = configuration.getOpenKitConfiguration();
         StringBuilder basicBeaconBuilder = new StringBuilder();
-
         // version and application information
         addKeyValuePair(basicBeaconBuilder, BEACON_KEY_PROTOCOL_VERSION, ProtocolConstants.PROTOCOL_VERSION);
         addKeyValuePair(basicBeaconBuilder, BEACON_KEY_OPENKIT_VERSION, ProtocolConstants.OPENKIT_VERSION);
@@ -1080,21 +736,17 @@ public class Beacon {
         addKeyValuePairIfNotNull(basicBeaconBuilder, BEACON_KEY_APPLICATION_VERSION, openKitConfiguration.getApplicationVersion());
         addKeyValuePair(basicBeaconBuilder, BEACON_KEY_PLATFORM_TYPE, ProtocolConstants.PLATFORM_TYPE_OPENKIT);
         addKeyValuePair(basicBeaconBuilder, BEACON_KEY_AGENT_TECHNOLOGY_TYPE, ProtocolConstants.AGENT_TECHNOLOGY_TYPE);
-
         // device/visitor ID, session number and IP address
         addKeyValuePair(basicBeaconBuilder, BEACON_KEY_VISITOR_ID, getDeviceID());
         addKeyValuePair(basicBeaconBuilder, BEACON_KEY_SESSION_NUMBER, getSessionNumber());
         addKeyValuePairIfNotNull(basicBeaconBuilder, BEACON_KEY_CLIENT_IP_ADDRESS, clientIPAddress);
-
         // platform information
         addKeyValuePairIfNotNull(basicBeaconBuilder, BEACON_KEY_DEVICE_OS, openKitConfiguration.getOperatingSystem());
         addKeyValuePairIfNotNull(basicBeaconBuilder, BEACON_KEY_DEVICE_MANUFACTURER, openKitConfiguration.getManufacturer());
         addKeyValuePairIfNotNull(basicBeaconBuilder, BEACON_KEY_DEVICE_MODEL, openKitConfiguration.getModelID());
-
         PrivacyConfiguration privacyConfiguration = configuration.getPrivacyConfiguration();
         addKeyValuePair(basicBeaconBuilder, BEACON_KEY_DATA_COLLECTION_LEVEL, privacyConfiguration.getDataCollectionLevel());
         addKeyValuePair(basicBeaconBuilder, BEACON_KEY_CRASH_REPORTING_LEVEL, privacyConfiguration.getCrashReportingLevel());
-
         return basicBeaconBuilder.toString();
     }
 
@@ -1107,7 +759,7 @@ public class Beacon {
      * @return The device identifier, which is truncated to 250 characters if level 2 (USER_BEHAVIOR) is used.
      */
     public long getDeviceID() {
-        return deviceID;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1121,11 +773,7 @@ public class Beacon {
      * @return Pre calculated session number or {@code 1} if session number reporting is not allowed.
      */
     public int getSessionNumber() {
-        PrivacyConfiguration privacyConfiguration = configuration.getPrivacyConfiguration();
-        if (privacyConfiguration.isSessionNumberReportingAllowed()) {
-            return beaconKey.beaconId;
-        }
-        return 1; //the visitor/device id is already random, it is fine to use 1 here
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1138,7 +786,7 @@ public class Beacon {
      * </p>
      */
     public int getSessionSequenceNumber() {
-        return beaconKey.beaconSeqNo;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1155,11 +803,9 @@ public class Beacon {
      */
     private String createTimestampData() {
         StringBuilder timestampBuilder = new StringBuilder();
-
         // timestamp information
         addKeyValuePair(timestampBuilder, BEACON_KEY_TRANSMISSION_TIME, timingProvider.provideTimestampInMilliseconds());
         addKeyValuePair(timestampBuilder, BEACON_KEY_SESSION_START_TIME, sessionStartTime);
-
         return timestampBuilder.toString();
     }
 
@@ -1169,12 +815,9 @@ public class Beacon {
      * @return Serialized data.
      */
     private String createMultiplicityData() {
-
         StringBuilder multiplicityBuilder = new StringBuilder();
-
         int multiplicity = configuration.getServerConfiguration().getMultiplicity();
         addKeyValuePair(multiplicityBuilder, BEACON_KEY_MULTIPLICITY, multiplicity);
-
         return multiplicityBuilder.toString();
     }
 
@@ -1192,7 +835,6 @@ public class Beacon {
             logger.error(getClass().getSimpleName() + ": Skipped encoding of Key/Value: " + key + "/" + stringValue);
             return;
         }
-
         appendKey(builder, key);
         builder.append(encodedValue);
     }
@@ -1330,13 +972,11 @@ public class Beacon {
      * helper method for truncating null safe
      */
     private static String truncateNullSafe(String name, int length) {
-        if(name == null){
+        if (name == null) {
             return null;
         }
-
         return truncate(name, length);
     }
-
 
     /**
      * Get a timestamp relative to the time this session (aka. beacon) was created.
@@ -1359,7 +999,7 @@ public class Beacon {
      * @return {@code true} if the beacon is empty, {@code false} otherwise.
      */
     public boolean isEmpty() {
-        return beaconCache.isEmpty(beaconKey);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1368,7 +1008,7 @@ public class Beacon {
      * @param serverConfiguration the server configuration which will be used for initialization.
      */
     public void initializeServerConfiguration(ServerConfiguration serverConfiguration) {
-        configuration.initializeServerConfiguration(serverConfiguration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1377,14 +1017,14 @@ public class Beacon {
      * @param serverConfiguration the server configuration which will be used to update this beacon.
      */
     public void updateServerConfiguration(ServerConfiguration serverConfiguration) {
-        configuration.updateServerConfiguration(serverConfiguration);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Indicates whether a server configuration is set on this beacon's configuration or not.
      */
     public boolean isServerConfigurationSet() {
-        return configuration.isServerConfigurationSet();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1393,37 +1033,28 @@ public class Beacon {
      * @param callback the callback to be notified when the server configuration is updated.
      */
     public void setServerConfigurationUpdateCallback(ServerConfigurationUpdateCallback callback) {
-        configuration.setServerConfigurationUpdateCallback(callback);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Indicates whether data capturing for this beacon is currently enabled or not.
      */
     public boolean isDataCapturingEnabled() {
-        ServerConfiguration serverConfiguration = configuration.getServerConfiguration();
-
-        return serverConfiguration.isSendingDataAllowed()
-                && trafficControlValue < serverConfiguration.getTrafficControlPercentage();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Indicates whether error capturing for this beacon is currently enabled or not.
      */
     public boolean isErrorCapturingEnabled() {
-        ServerConfiguration serverConfiguration = configuration.getServerConfiguration();
-
-        return serverConfiguration.isSendingErrorsAllowed()
-                && trafficControlValue < serverConfiguration.getTrafficControlPercentage();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Indicates whether crash capturing for this beacon is currently enabled or not.
      */
     public boolean isCrashCapturingEnabled() {
-        ServerConfiguration serverConfiguration = configuration.getServerConfiguration();
-
-        return serverConfiguration.isSendingCrashesAllowed()
-                && trafficControlValue < serverConfiguration.getTrafficControlPercentage();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1434,7 +1065,7 @@ public class Beacon {
      * </p>
      */
     public void enableCapture() {
-        configuration.enableCapture();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1445,7 +1076,7 @@ public class Beacon {
      * </p>
      */
     public void disableCapture() {
-        configuration.disableCapture();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -1454,6 +1085,6 @@ public class Beacon {
      * @return {@code true} if action reporting is enabled by privacy configuration, {@code false} otherwise.
      */
     public boolean isActionReportingAllowedByPrivacySettings() {
-        return configuration.getPrivacyConfiguration().isActionReportingAllowed();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

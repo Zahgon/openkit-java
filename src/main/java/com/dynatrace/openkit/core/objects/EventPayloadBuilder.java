@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Logger;
 import com.dynatrace.openkit.util.json.objects.JSONObjectValue;
 import com.dynatrace.openkit.util.json.objects.JSONValue;
-
 import java.util.*;
-
 import static com.dynatrace.openkit.core.util.EventPayloadBuilderUtil.isItemContainingNonFiniteNumericValues;
 
 public class EventPayloadBuilder {
 
-    /** {@link Logger} for tracing log message */
+    /**
+     * {@link Logger} for tracing log message
+     */
     private final Logger logger;
 
-    /** Map containing attributes for sendEvent API */
+    /**
+     * Map containing attributes for sendEvent API
+     */
     private final Map<String, JSONValue> attributes;
 
     public EventPayloadBuilder(Logger logger, Map<String, JSONValue> attributes) {
         this.logger = logger;
-
-        if(attributes == null) {
+        if (attributes == null) {
             this.attributes = new HashMap<>();
         } else {
             this.attributes = new HashMap<>(attributes);
@@ -43,55 +43,31 @@ public class EventPayloadBuilder {
     }
 
     public EventPayloadBuilder addOverridableAttribute(String key, JSONValue value) {
-        if (value != null) {
-            if (!attributes.containsKey(key)) {
-                attributes.put(key, value);
-            }
-        }
-
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public EventPayloadBuilder addNonOverridableAttribute(String key, JSONValue value) {
-        if (value != null) {
-            if (attributes.containsKey(key)) {
-                logger.warning("EventPayloadBuilder addNonOverrideableAttribute: " + key + " is reserved for internal values!");
-            }
-            attributes.put(key, value);
-        }
-
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String build() {
-        return JSONObjectValue.fromMap(attributes).toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Removes reservered internal attributes from the provided attributes
      */
     public EventPayloadBuilder cleanReservedInternalAttributes() {
-        Iterator<String> it = this.attributes.keySet().iterator();
-
-        while (it.hasNext()) {
-            String key = it.next();
-
-            if (isReservedForInternalAttributes(key)) {
-                logger.warning("EventPayloadBuilder cleanReservedInternalAttributes: " + key + " is reserved for internal values!");
-                it.remove();
-            }
-        }
-
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
-     * Checks if an attribute is actually reserved for internal purpose 
+     * Checks if an attribute is actually reserved for internal purpose
      * @param key Key to check
      * @return True means the key is in use for internal purpose
      */
     public static boolean isReservedForInternalAttributes(String key) {
-        return (key.equals("dt") || key.startsWith("dt."));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -99,12 +75,6 @@ public class EventPayloadBuilder {
      * @return True if non-finite values is within attributes
      */
     public boolean isEventPayloadContainingNonFiniteValues() {
-        for (JSONValue value : attributes.values()) {
-            if(isItemContainingNonFiniteNumericValues(value)) {
-                return true;
-            }
-        }
-
-        return false;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

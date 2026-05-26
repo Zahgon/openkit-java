@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.communication;
 
 import com.dynatrace.openkit.protocol.StatusResponse;
@@ -40,8 +39,7 @@ class BeaconSendingResponseUtil {
      * @return {@code true} if response is successful, {@code false} otherwise.
      */
     static boolean isSuccessfulResponse(StatusResponse response) {
-
-        return response != null && !response.isErroneousResponse();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -55,7 +53,6 @@ class BeaconSendingResponseUtil {
      * @return {@code true} if response indicates too many requests, {@code false} otherwise.
      */
     static boolean isTooManyRequestsResponse(StatusResponse response) {
-
-        return response != null && response.getResponseCode() == StatusResponse.HTTP_TOO_MANY_REQUESTS;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

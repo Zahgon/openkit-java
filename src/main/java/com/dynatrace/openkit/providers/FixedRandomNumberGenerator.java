@@ -12,13 +12,13 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 package com.dynatrace.openkit.providers;
 
 public class FixedRandomNumberGenerator implements RandomNumberGenerator {
 
     private final long randomNumber;
+
     private final int randomPercentage;
 
     public FixedRandomNumberGenerator(RandomNumberGenerator rng) {
@@ -28,11 +28,11 @@ public class FixedRandomNumberGenerator implements RandomNumberGenerator {
 
     @Override
     public long nextPositiveLong() {
-        return randomNumber;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int nextPercentageValue() {
-        return randomPercentage;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

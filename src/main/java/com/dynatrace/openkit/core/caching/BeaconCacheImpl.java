@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.caching;
 
 import com.dynatrace.openkit.api.Logger;
 import com.dynatrace.openkit.protocol.Beacon;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,8 +41,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class BeaconCacheImpl extends Observable implements BeaconCache {
 
     private final Logger logger;
+
     private final ReadWriteLock globalCacheLock;
+
     private final Map<BeaconKey, BeaconCacheEntry> beacons;
+
     private final AtomicLong cacheSizeInBytes;
 
     /**
@@ -59,166 +60,44 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
         cacheSizeInBytes = new AtomicLong(0L);
     }
 
-
     @Override
     public void addEventData(BeaconKey key, long timestamp, String data) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName()
-                    + " addEventData(sn=" + key.beaconId + ", seq=" + key.beaconSeqNo
-                    + ", timestamp=" + timestamp + ", data='" + data + "')");
-        }
-        // get a reference to the cache entry
-        BeaconCacheEntry entry = getCachedEntryOrInsert(key);
-
-        BeaconCacheRecord record = new BeaconCacheRecord(timestamp, data);
-
-        try {
-            // lock and add the data
-            entry.lock();
-            entry.addEventData(record);
-        } finally {
-            entry.unlock();
-        }
-
-        // update cache stats
-        cacheSizeInBytes.addAndGet(record.getDataSizeInBytes());
-
-        // notify observers
-        onDataAdded();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void addActionData(BeaconKey key, long timestamp, String data) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName()
-                    + " addActionData(sn=" + key.beaconId + ", seq=" + key.beaconSeqNo
-                    + ", timestamp=" + timestamp + ", data='" + data + "')");
-        }
-        BeaconCacheEntry entry = getCachedEntryOrInsert(key);
-
-        // add event data for that beacon
-        BeaconCacheRecord record = new BeaconCacheRecord(timestamp, data);
-
-        try {
-            // lock and add the data
-            entry.lock();
-            entry.addActionData(record);
-        } finally {
-            entry.unlock();
-        }
-
-        // update cache stats
-        cacheSizeInBytes.addAndGet(record.getDataSizeInBytes());
-
-        // notify observers
-        onDataAdded();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void deleteCacheEntry(BeaconKey key) {
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName()
-                    + " deleteCacheEntry(sn=" + key.beaconId + ", seq=" +key.beaconSeqNo+ ")");
-        }
-        BeaconCacheEntry entry;
-        try {
-            globalCacheLock.writeLock().lock();
-            entry = beacons.remove(key);
-
-        } finally {
-            globalCacheLock.writeLock().unlock();
-        }
-
-        if (entry != null) {
-            cacheSizeInBytes.addAndGet(-1L * entry.getTotalNumberOfBytes());
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void prepareDataForSending(BeaconKey key) {
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // a cache entry for the given key does not exist
-            return;
-        }
-
-        if (entry.needsDataCopyBeforeSending()) {
-            // both entries are null, prepare data for sending
-            long numBytes;
-            try {
-                entry.lock();
-                numBytes = entry.getTotalNumberOfBytes();
-                entry.copyDataForSending();
-
-            } finally {
-                entry.unlock();
-            }
-            // assumption: sending will work fine, and everything we copied will be removed quite soon
-            cacheSizeInBytes.addAndGet(-1L * numBytes);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean hasDataForSending(BeaconKey key) {
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // a cache entry for the given key does not exist
-            return false;
-        }
-
-        return entry.hasDataToSend();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String getNextBeaconChunk(BeaconKey key, String chunkPrefix, int maxSize, char delimiter) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // a cache entry for the given key does not exist
-            return null;
-        }
-
-        // data for chunking is available
-        return entry.getChunk(chunkPrefix, maxSize, delimiter);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void removeChunkedData(BeaconKey key) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // a cache entry for the given key does not exist
-            return;
-        }
-
-        entry.removeDataMarkedForSending();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     @Override
     public void resetChunkedData(BeaconKey key) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // a cache entry for the given key does not exist
-            return;
-        }
-
-        long numBytes;
-        try {
-            entry.lock();
-            long oldSize = entry.getTotalNumberOfBytes();
-            entry.resetDataMarkedForSending();
-            long newSize = entry.getTotalNumberOfBytes();
-            numBytes = newSize - oldSize;
-        } finally {
-            entry.unlock();
-        }
-
-        cacheSizeInBytes.addAndGet(numBytes);
-
-        // notify observers
-        onDataAdded();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -229,10 +108,8 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
      * @return The already cached entry or newly created one.
      */
     private BeaconCacheEntry getCachedEntryOrInsert(BeaconKey key) {
-
         // get the appropriate cache entry
         BeaconCacheEntry entry = getCachedEntry(key);
-
         if (entry == null) {
             try {
                 // does not exist, and needs to be inserted
@@ -248,7 +125,6 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
                 globalCacheLock.writeLock().unlock();
             }
         }
-
         return entry;
     }
 
@@ -264,19 +140,7 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
      * @return List of event data.
      */
     public String[] getEvents(BeaconKey key) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // entry not found
-            return new String[0];
-        }
-
-        try {
-            entry.lock();
-            return extractData(entry.getEventData());
-        } finally {
-            entry.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -291,9 +155,7 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
      * @return List of event data.
      */
     List<BeaconCacheRecord> getEventsBeingSent(BeaconKey key) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        return entry.getEventDataBeingSent();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -308,19 +170,7 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
      * @return List of event data.
      */
     public String[] getActions(BeaconKey key) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // entry not found
-            return new String[0];
-        }
-
-        try {
-            entry.lock();
-            return extractData(entry.getActionData());
-        } finally {
-            entry.unlock();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -335,9 +185,7 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
      * @return List of event data.
      */
     List<BeaconCacheRecord> getActionsBeingSent(BeaconKey key) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        return entry.getActionDataBeingSent();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static String[] extractData(List<BeaconCacheRecord> eventData) {
@@ -345,7 +193,6 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
         for (BeaconCacheRecord record : eventData) {
             result.add(record.getData());
         }
-
         return result.toArray(new String[0]);
     }
 
@@ -357,9 +204,7 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
      * @return The cached entry or {@code null}.
      */
     private BeaconCacheEntry getCachedEntry(BeaconKey key) {
-
         BeaconCacheEntry entry;
-
         // acquire read lock and get the entry
         try {
             globalCacheLock.readLock().lock();
@@ -367,79 +212,27 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
         } finally {
             globalCacheLock.readLock().unlock();
         }
-
         return entry;
     }
 
     @Override
     public Set<BeaconKey> getBeaconKeys() {
-
-        Set<BeaconKey> result;
-        try {
-            globalCacheLock.readLock().lock();
-            result = new HashSet<>(beacons.keySet());
-        } finally {
-            globalCacheLock.readLock().unlock();
-        }
-
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     @Override
     public int evictRecordsByAge(BeaconKey key, long minTimestamp) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // already removed
-            return 0;
-        }
-
-        int numRecordsRemoved;
-        try {
-            entry.lock();
-            numRecordsRemoved = entry.removeRecordsOlderThan(minTimestamp);
-        } finally {
-            entry.unlock();
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName()
-                    + " evictRecordsByAge(sn=" + key.beaconId + "seq=" + key.beaconSeqNo
-                    + ", minTimestamp=" + minTimestamp + ") has evicted " + numRecordsRemoved + " records");
-        }
-        return numRecordsRemoved;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     @Override
     public int evictRecordsByNumber(BeaconKey key, int numRecords) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // already removed
-            return 0;
-        }
-
-        int numRecordsRemoved;
-        try {
-            entry.lock();
-            numRecordsRemoved = entry.removeOldestRecords(numRecords);
-        } finally {
-            entry.unlock();
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug(getClass().getSimpleName()
-                    + " evictRecordsByNumber(sn=" + key.beaconId + ", seq=" + key.beaconSeqNo
-                    + ", numRecords=" + numRecords + ") has evicted " + numRecordsRemoved + " records");
-        }
-        return numRecordsRemoved;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long getNumBytesInCache() {
-        return cacheSizeInBytes.get();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -452,21 +245,6 @@ public class BeaconCacheImpl extends Observable implements BeaconCache {
 
     @Override
     public boolean isEmpty(BeaconKey key) {
-
-        BeaconCacheEntry entry = getCachedEntry(key);
-        if (entry == null) {
-            // already removed
-            return true;
-        }
-
-        boolean isEmpty;
-        try {
-            entry.lock();
-            isEmpty = entry.getTotalNumberOfBytes() == 0;
-        } finally {
-            entry.unlock();
-        }
-
-        return isEmpty;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

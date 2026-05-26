@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dynatrace.openkit.core.objects;
 
 import com.dynatrace.openkit.api.Action;
 import com.dynatrace.openkit.api.RootAction;
 import com.dynatrace.openkit.api.WebRequestTracer;
-
 import java.net.URLConnection;
 
 /**
@@ -40,71 +38,71 @@ class NullAction implements Action {
 
     @Override
     public Action reportEvent(String eventName) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportValue(String valueName, int value) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportValue(String valueName, long value) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportValue(String valueName, double value) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportValue(String valueName, String value) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportError(String errorName, int errorCode) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportError(String errorName, String causeName, String causeDescription, String causeStackTrace) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action reportError(String errorName, Throwable throwable) {
-        return this;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(URLConnection connection) {
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public WebRequestTracer traceWebRequest(String url) {
-        return NullWebRequestTracer.INSTANCE;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action leaveAction() {
-        return parentAction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Action cancelAction() {
-        return parentAction;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public long getDurationInMilliseconds() {
-        return 0;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void close() {
-        // nothing
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
